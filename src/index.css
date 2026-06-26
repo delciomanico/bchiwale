@@ -1,0 +1,245 @@
+/* Google Fonts — B-CHIWALE design system typography */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   BASE LAYER — global resets & root defaults
+   ============================================================ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #1A1A2E;
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: #1A1A2E;
+    margin: 0;
+  }
+
+  /* em in headings defaults to cyan; Hero overrides to yellow */
+  h1 em, h2 em, h3 em {
+    font-style: italic;
+    color: #00AEEF;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Visually hidden utility for screen readers */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ============================================================
+   COMPONENT LAYER — reusable component utilities
+   ============================================================ */
+@layer components {
+
+  /* Container */
+  .container {
+    @apply max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16;
+  }
+
+  /* Section padding */
+  .section-pad {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* Section padding — extra tall variant for narrative sections */
+  .section-tall {
+    @apply py-16 md:py-20 lg:py-28;
+  }
+
+  /* Section eyebrow label */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    @apply text-cyan text-xs font-medium tracking-widest2 uppercase mb-3;
+  }
+
+  /* Eyebrow variant — charcoal/muted for editorial use */
+  .eyebrow-muted {
+    font-family: 'JetBrains Mono', monospace;
+    @apply text-[11px] font-medium tracking-widest2 uppercase mb-3;
+    color: rgba(26, 26, 46, 0.4);
+  }
+
+  /* Section rule bar — yellow 3px bar */
+  .section-rule {
+    @apply w-12 h-[3px] bg-yellow mb-5;
+  }
+
+  /* Section title */
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-[2.625rem] font-heading font-bold text-charcoal leading-tight tracking-tight;
+  }
+
+  .section-title em {
+    color: #00AEEF;
+    font-style: italic;
+  }
+
+  /* Section title — large editorial variant */
+  .section-title-xl {
+    @apply font-heading font-extrabold text-charcoal leading-[1.08] tracking-[-0.025em];
+    font-size: clamp(1.75rem, 4vw, 3.25rem);
+  }
+
+  /* Section subtitle */
+  .section-subtitle {
+    @apply text-gray-text text-base mt-4 max-w-2xl;
+  }
+
+  /* Editorial hairline — 1px full-width separator */
+  .hairline {
+    @apply w-full h-px bg-charcoal/10;
+  }
+
+  /* Hero text link */
+  .hero-link {
+    font-family: 'Work Sans', sans-serif;
+    @apply font-medium text-charcoal border-b border-charcoal
+           hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px];
+  }
+
+  /* Services editorial row — 'group' applied in JSX, not here */
+  .service-row {
+    @apply relative flex items-center justify-between py-6 md:py-8
+           border-b border-gray-mid pl-6 cursor-pointer overflow-hidden
+           transition-colors duration-300;
+  }
+
+  .service-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #00AEEF;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+
+  .service-row:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-cyan text-white font-body font-semibold
+           text-sm uppercase tracking-widest3 px-8 py-3.5 border-2 border-cyan
+           transition-all duration-300 hover:bg-[#009ed8] hover:border-[#009ed8]
+           focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 bg-transparent text-white font-body font-semibold
+           text-sm uppercase tracking-widest3 px-8 py-3.5 border-2 border-white
+           transition-all duration-300 hover:bg-white hover:text-charcoal
+           focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-transparent text-cyan font-body font-semibold
+           text-sm uppercase tracking-widest3 px-8 py-3.5 border-2 border-cyan
+           transition-all duration-300 hover:bg-cyan hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2;
+  }
+
+  .btn-yellow {
+    @apply inline-flex items-center gap-2 bg-yellow text-charcoal font-body font-semibold
+           text-sm uppercase tracking-widest3 px-8 py-3.5 border-2 border-yellow
+           transition-all duration-300 hover:bg-[#e0b000]
+           focus:outline-none focus:ring-2 focus:ring-yellow focus:ring-offset-2;
+  }
+
+  .btn-link {
+    @apply inline-flex items-center gap-2 text-cyan font-body font-semibold
+           text-sm uppercase tracking-widest3 border-b-2 border-transparent
+           transition-all duration-300 hover:border-cyan pb-0.5;
+  }
+
+  /* Tags / Pills */
+  .tag-cyan {
+    @apply text-xs font-mono font-medium bg-[#E8F7FD] text-cyan border border-cyan px-3 py-1 rounded-sm;
+  }
+
+  .tag-yellow {
+    @apply text-xs font-mono font-medium bg-[#FFF8E1] text-[#B8860B] border border-yellow px-3 py-1 rounded-sm;
+  }
+
+  .tag-gray {
+    @apply text-xs font-mono font-medium bg-[#F0F0F0] text-gray-text border border-gray-mid px-3 py-1 rounded-sm;
+  }
+
+  /* Scroll reveal base state — JS will add .is-revealed */
+  .reveal {
+    @apply opacity-0 translate-y-6 transition-all duration-700 ease-out;
+  }
+
+  .reveal.is-revealed {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Prefers-reduced-motion override */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      @apply opacity-100 translate-y-0 transition-none;
+    }
+  }
+}
+
+/* ============================================================
+   UTILITIES LAYER — one-off helpers
+   ============================================================ */
+@layer utilities {
+  .font-heading {
+    font-family: 'Hanken Grotesk', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}

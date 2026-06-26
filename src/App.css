@@ -1,0 +1,13 @@
+/* App.css — B-CHIWALE React
+   All styling is handled by Tailwind in index.css.
+   This file is intentionally minimal — only for one-off overrides
+   that Tailwind utilities cannot express cleanly.
+*/
+
+/* Navbar top padding for fixed header height (72px) */
+main {
+  padding-top: 0;
+}
+
+/* Ensure the nav fixed positioning doesn't overlap hero content —
+   Hero component uses pt-24 to push content below the 72px nav */
