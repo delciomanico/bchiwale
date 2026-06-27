@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { TEAM, STATS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
+import html2canvas from 'html2canvas';
 
 // ── Internal hero ────────────────────────────────────────────────
 function PageHero() {
@@ -208,12 +209,34 @@ function OrgNode({ member, size = 'sm' }) {
 }
 
 function OrgModal({ onClose }) {
+  const contentRef = useRef(null);
+  const [downloading, setDownloading] = useState(false);
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     const onKey = (e) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
   }, [onClose]);
+
+  const handleDownload = useCallback(async () => {
+    if (!contentRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(contentRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      const link = document.createElement('a');
+      link.download = 'organograma-bchiwale.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } finally {
+      setDownloading(false);
+    }
+  }, [downloading]);
 
   const dg        = TEAM[0];
   const directors = TEAM.slice(1, 6);
@@ -226,19 +249,34 @@ function OrgModal({ onClose }) {
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
+        ref={contentRef}
         className="relative bg-white w-full max-w-5xl mx-4 my-10 pb-12 pt-10 px-10"
         role="dialog"
         aria-modal="true"
         aria-label="Organograma completo"
       >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-6 font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 hover:text-charcoal transition-colors"
-          aria-label="Fechar organigrama"
-        >
-          Fechar ×
-        </button>
+        {/* Actions row */}
+        <div className="absolute top-5 right-6 flex items-center gap-4">
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
+                       text-charcoal/40 hover:text-cyan transition-colors disabled:opacity-40"
+            aria-label="Baixar organigrama como imagem"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {downloading ? 'A guardar…' : 'Baixar PNG'}
+          </button>
+          <button
+            onClick={onClose}
+            className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 hover:text-charcoal transition-colors"
+            aria-label="Fechar organigrama"
+          >
+            Fechar ×
+          </button>
+        </div>
 
         <p className="eyebrow text-center mb-1">ESTRUTURA ORGANIZACIONAL</p>
         <h2 className="section-title text-center mb-12">Organograma <em>Completo</em></h2>
@@ -314,6 +352,27 @@ function OrgModal({ onClose }) {
 
 function OrgChart() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const sectionRef = useRef(null);
+
+  const handleDownload = useCallback(async () => {
+    if (!sectionRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(sectionRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      const link = document.createElement('a');
+      link.download = 'organograma-bchiwale.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } finally {
+      setDownloading(false);
+    }
+  }, [downloading]);
 
   const dg        = TEAM[0];
   const directors = TEAM.slice(1, 6);
@@ -321,7 +380,7 @@ function OrgChart() {
 
   return (
     <>
-      <section className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
+      <section ref={sectionRef} className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
         <div className="container">
           <header className="text-center mb-14">
             <p className="eyebrow">ESTRUTURA ORGANIZACIONAL</p>
@@ -374,8 +433,8 @@ function OrgChart() {
             ))}
           </div>
 
-          {/* Open full button */}
-          <div className="flex justify-center mt-12">
+          {/* Actions row */}
+          <div className="flex justify-center items-center gap-6 mt-12">
             <button
               onClick={() => setModalOpen(true)}
               className="flex items-center gap-2 font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40
@@ -385,6 +444,21 @@ function OrgChart() {
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 2h8v8M10 2 2 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
               </svg>
+            </button>
+
+            <span className="w-px h-4 bg-charcoal/15" aria-hidden="true" />
+
+            <button
+              onClick={handleDownload}
+              disabled={downloading}
+              className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
+                         text-charcoal/40 hover:text-cyan transition-colors duration-300 disabled:opacity-40"
+              aria-label="Baixar organigrama como imagem PNG"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {downloading ? 'A guardar…' : 'Baixar PNG'}
             </button>
           </div>
         </div>
