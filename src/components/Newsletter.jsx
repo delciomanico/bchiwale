@@ -27,7 +27,7 @@ export default function Newsletter() {
             </div>
             <h2
               id="newsletter-title"
-              className="font-heading font-extrabold text-white text-3xl md:text-4xl
+              className="font-heading font-semibold text-white text-3xl md:text-4xl
                          leading-tight tracking-tight mb-4"
             >
               Insights técnicos directos<br />no seu email.

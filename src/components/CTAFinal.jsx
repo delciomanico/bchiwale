@@ -11,7 +11,7 @@ export default function CTAFinal() {
 
           <h2
             id="cta-title"
-            className="font-heading font-extrabold text-white leading-[0.95] tracking-[-0.04em] mb-8 md:mb-10"
+            className="font-heading font-semibold text-white leading-[0.95] tracking-[-0.04em] mb-8 md:mb-10"
             style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
           >
             O seu projecto começa com uma{' '}

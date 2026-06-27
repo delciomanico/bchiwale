@@ -3,12 +3,16 @@ import { TEAM, STATS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 
-// ── Internal hero ───────────────────────────────────────────────
+// ── Internal hero ────────────────────────────────────────────────
 function PageHero() {
   return (
     <section
       className="min-h-[calc(44vh+72px)] flex items-end pb-16"
-      style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
+      style={{
+        background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
+        borderBottom: '1px solid rgba(0,174,239,0.2)',
+        paddingTop: '72px',
+      }}
     >
       <div className="container">
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -18,12 +22,11 @@ function PageHero() {
             <li className="text-white/60" aria-current="page">Sobre Nós</li>
           </ol>
         </nav>
-        <div className="section-rule" aria-hidden="true" />
-        <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+        <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
           Sobre a{' '}
           <em className="italic" style={{ color: '#00AEEF' }}>B-CHIWALE</em>
         </h1>
-        <p className="font-body text-white/60 text-lg mt-3 max-w-xl">
+        <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
           Oito anos a mapear o subsolo angolano com rigor técnico e compromisso com o progresso sustentável.
         </p>
       </div>
@@ -34,39 +37,42 @@ function PageHero() {
 // ── DG Message ──────────────────────────────────────────────────
 function DGMessage() {
   return (
-    <section className="section-pad" id="mensagem-dg" aria-labelledby="dg-title">
+    <section className="section-pad bg-white" id="mensagem-dg" aria-labelledby="dg-title">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* DG portrait placeholder */}
           <div
             className="relative flex flex-col items-center justify-center text-center p-12"
-            style={{ background: '#0d1829', borderTop: '4px solid #00AEEF', minHeight: '380px' }}
+            style={{ background: '#0d1829', borderTop: '1px solid rgba(0,174,239,0.25)', minHeight: '380px' }}
             aria-hidden="true"
           >
             <div className="absolute inset-0" style={{
-              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(0,174,239,0.04) 24px, rgba(0,174,239,0.04) 25px)'
+              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(0,174,239,0.03) 24px, rgba(0,174,239,0.03) 25px)'
             }} />
             <div
               className="relative z-10 w-28 h-28 rounded-full flex items-center justify-center mb-6"
-              style={{ backgroundColor: '#1A1A2E', boxShadow: '0 0 40px rgba(0,174,239,0.15)', border: '2px solid rgba(0,174,239,0.3)' }}
+              style={{ backgroundColor: '#1A1A2E', border: '1px solid rgba(0,174,239,0.2)' }}
             >
-              <span className="font-heading font-extrabold text-white text-3xl tracking-tight">SC</span>
+              <span className="font-heading font-semibold text-white text-3xl tracking-tight">SC</span>
             </div>
-            <div className="relative z-10 font-heading font-bold text-white text-lg mb-1">Severino Chiwale</div>
-            <div className="relative z-10 font-mono text-xs text-cyan tracking-widest3 uppercase">Director-Geral &amp; Fundador</div>
-            <div className="relative z-10 font-mono text-xs text-white/30 tracking-widest3 mt-3">B-CHIWALE · EST. 2017</div>
+            <div className="relative z-10 font-heading font-semibold text-white text-lg mb-1">Severino Chiwale</div>
+            <div className="relative z-10 font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mt-1">
+              Director-Geral &amp; Fundador
+            </div>
+            <div className="relative z-10 font-mono text-[10px] text-white/25 tracking-[0.15em] mt-3">
+              B-CHIWALE · EST. 2017
+            </div>
           </div>
 
           {/* Quote */}
           <div>
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">MENSAGEM DO DIRECTOR-GERAL</p>
             <h2 className="section-title mt-2 mb-6" id="dg-title">
               Angola merece <em>excelência.</em>
             </h2>
             <blockquote className="relative">
               <span
-                className="font-heading font-extrabold text-8xl text-cyan/15 leading-none absolute -top-4 -left-2 select-none"
+                className="font-heading font-semibold text-8xl text-cyan/10 leading-none absolute -top-4 -left-2 select-none"
                 aria-hidden="true"
               >"</span>
               <p className="font-body text-charcoal italic text-lg leading-relaxed pt-6 pl-4 mb-4">
@@ -79,7 +85,7 @@ function DGMessage() {
                 "A nossa riqueza mineral é imensa. Falta cartografá-la, quantificá-la e transformá-la em
                 progresso sustentável. É isso que a B-CHIWALE faz — todos os dias, em campo."
               </p>
-              <cite className="block pl-4 font-mono text-xs text-gray-text tracking-widest3 not-italic uppercase">
+              <cite className="block pl-4 font-mono text-[10px] text-charcoal/35 tracking-[0.15em] not-italic uppercase">
                 — Severino Chiwale, Director-Geral &amp; Fundador
               </cite>
             </blockquote>
@@ -98,22 +104,26 @@ function MVV() {
     { label: 'Valores', title: 'Princípios', text: 'Excelência técnica · Inovação contínua · Sustentabilidade · Integridade · Responsabilidade social', accent: '#1A1A2E' },
   ];
   return (
-    <section className="section-pad bg-gray-light" id="missao" aria-labelledby="mvv-title">
+    <section className="section-pad bg-white border-t border-charcoal/8" id="missao" aria-labelledby="mvv-title">
       <div className="container">
         <header className="text-center mb-12">
-          <div className="section-rule mx-auto" aria-hidden="true" />
           <p className="eyebrow">MISSÃO, VISÃO E VALORES</p>
           <h2 className="section-title" id="mvv-title">O que nos <em>define.</em></h2>
         </header>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {cards.map((card, i) => (
             <div
               key={card.label}
-              className="reveal bg-white p-8 border border-gray-mid border-l-4"
+              className="reveal bg-white p-8 border-l-2"
               style={{ borderLeftColor: card.accent, transitionDelay: `${i * 100}ms` }}
             >
-              <div className="font-mono text-xs tracking-widest2 uppercase mb-3" style={{ color: card.accent === '#F5C200' ? '#B8860B' : card.accent }}>{card.label}</div>
-              <h3 className="font-heading font-bold text-charcoal text-xl mb-4">{card.title}</h3>
+              <div
+                className="font-mono text-[10px] tracking-[0.18em] uppercase mb-3"
+                style={{ color: card.accent === '#F5C200' ? '#B8860B' : card.accent === '#1A1A2E' ? '#6B7280' : card.accent }}
+              >
+                {card.label}
+              </div>
+              <h3 className="font-heading font-semibold text-charcoal text-xl mb-4">{card.title}</h3>
               <p className="font-body text-gray-text text-sm leading-relaxed">{card.text}</p>
             </div>
           ))}
@@ -127,31 +137,40 @@ function MVV() {
 function StatItem({ value, suffix, label, detail, delay = 0 }) {
   const { count, ref } = useStatCounter(value);
   return (
-    <div ref={ref} className="reveal flex flex-col items-center text-center px-6 py-10" style={{ transitionDelay: `${delay}ms` }}>
-      <div className="relative mb-2">
-        <span className="font-heading font-extrabold text-5xl text-cyan tracking-tight">{count}{suffix}</span>
-        <span className="absolute -bottom-1 left-0 right-0 h-[3px] bg-yellow" aria-hidden="true" />
-      </div>
-      <span className="font-body font-semibold text-white text-sm mt-4 mb-1">{label}</span>
-      <span className="font-mono text-xs text-white/40 tracking-widest3">{detail}</span>
+    <div
+      ref={ref}
+      className="reveal flex flex-col items-center text-center px-6 py-10"
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      <span className="font-heading font-light text-cyan text-5xl tracking-tight leading-none mb-3">
+        {count}{suffix}
+      </span>
+      <span className="font-body text-white text-sm mt-2 mb-1">{label}</span>
+      <span className="font-mono text-[10px] text-white/35 tracking-[0.15em] uppercase">{detail}</span>
     </div>
   );
 }
 
 function Numbers() {
   return (
-    <section className="bg-charcoal" aria-label="Em números">
+    <section className="bg-charcoal border-t border-white/5" aria-label="Em números">
       <div className="container">
         <header className="text-center pt-16 pb-4">
-          <div className="section-rule mx-auto" aria-hidden="true" />
-          <p className="eyebrow text-cyan">EM NÚMEROS</p>
-          <h2 className="font-heading font-bold text-white text-3xl md:text-4xl tracking-tight mt-2">
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>EM NÚMEROS</p>
+          <h2 className="font-heading font-semibold text-white text-3xl md:text-4xl tracking-tight mt-2">
             Resultados que <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>falam.</em>
           </h2>
         </header>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-t border-white/10 mt-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-t border-white/8 mt-8">
           {STATS.map((stat, i) => (
-            <StatItem key={stat.label} value={stat.value} suffix={stat.suffix} label={stat.label} detail={stat.detail} delay={i * 100} />
+            <StatItem
+              key={stat.label}
+              value={stat.value}
+              suffix={stat.suffix}
+              label={stat.label}
+              detail={stat.detail}
+              delay={i * 100}
+            />
           ))}
         </div>
       </div>
@@ -183,38 +202,44 @@ function OrgChart() {
   ];
 
   return (
-    <section className="section-pad bg-gray-light" id="organograma" aria-labelledby="org-title">
+    <section className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
       <div className="container">
         <header className="text-center mb-14">
-          <div className="section-rule mx-auto" aria-hidden="true" />
           <p className="eyebrow">ESTRUTURA ORGANIZACIONAL</p>
           <h2 className="section-title" id="org-title">Organograma <em>Institucional</em></h2>
         </header>
         <div className="max-w-4xl mx-auto">
           {/* DG box */}
           <div className="flex justify-center mb-6">
-            <div className="reveal bg-charcoal text-white border-t-4 border-cyan px-8 py-5 text-center min-w-[220px]">
-              <div className="font-mono text-xs text-cyan tracking-widest2 uppercase mb-1">Director-Geral</div>
-              <div className="font-heading font-bold text-base">B. Chiwale</div>
+            <div className="reveal bg-charcoal text-white border-t border-cyan/30 px-8 py-5 text-center min-w-[220px]">
+              <div className="font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mb-1">Director-Geral</div>
+              <div className="font-heading font-semibold text-base">B. Chiwale</div>
             </div>
           </div>
-          {/* Connector line */}
-          <div className="flex justify-center mb-2" aria-hidden="true"><div className="w-px h-8 bg-gray-mid" /></div>
-          <div className="flex justify-center mb-6" aria-hidden="true"><div className="w-2/3 h-px bg-gray-mid" /></div>
+          {/* Connector */}
+          <div className="flex justify-center mb-2" aria-hidden="true">
+            <div className="w-px h-8 bg-charcoal/15" />
+          </div>
+          <div className="flex justify-center mb-6" aria-hidden="true">
+            <div className="w-2/3 h-px bg-charcoal/15" />
+          </div>
           {/* Branches */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {branches.map((branch, i) => (
               <div key={branch.title} className="reveal flex flex-col" style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="bg-white border border-gray-mid border-t-4 px-6 py-5 text-center" style={{ borderTopColor: branch.color }}>
-                  <div className="font-heading font-bold text-charcoal text-sm">{branch.title}</div>
-                  <div className="font-mono text-xs text-gray-text mt-1">{branch.sub}</div>
+                <div
+                  className="bg-white border-l-2 px-6 py-5 text-center"
+                  style={{ borderLeftColor: branch.color }}
+                >
+                  <div className="font-heading font-semibold text-charcoal text-sm">{branch.title}</div>
+                  <div className="font-mono text-[10px] text-charcoal/40 tracking-[0.12em] mt-1">{branch.sub}</div>
                 </div>
                 <ul className="mt-3 space-y-2">
                   {branch.items.map((item) => (
                     <li
                       key={item}
-                      className="bg-white border border-gray-mid px-5 py-3 font-body text-xs text-gray-text leading-snug border-l-2"
-                      style={{ borderLeftColor: branch.color }}
+                      className="bg-white px-5 py-3 font-body text-xs text-gray-text leading-snug border-l-2"
+                      style={{ borderLeftColor: `${branch.color}40` }}
                     >
                       {item}
                     </li>
@@ -232,41 +257,45 @@ function OrgChart() {
 // ── Team section ─────────────────────────────────────────────────
 function TeamSection() {
   return (
-    <section className="section-pad" id="equipa" aria-labelledby="team-sobre-title">
+    <section className="section-pad bg-white border-t border-charcoal/8" id="equipa" aria-labelledby="team-sobre-title">
       <div className="container">
         <header className="text-center mb-12">
-          <div className="section-rule mx-auto" aria-hidden="true" />
           <p className="eyebrow">AS PESSOAS POR DETRÁS DO RIGOR</p>
           <h2 className="section-title" id="team-sobre-title">A nossa <em>Equipa</em></h2>
         </header>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
           {TEAM.map((member, i) => (
             <article
               key={member.initials}
-              className="reveal bg-white border border-gray-mid overflow-hidden flex
-                         transition-all duration-300 hover:shadow-card-hover"
+              className="reveal bg-white flex overflow-hidden
+                         transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)]"
               style={{ transitionDelay: `${i * 80}ms` }}
               role="listitem"
             >
-              {/* Photo */}
+              {/* Photo / initials */}
               <div className="relative shrink-0 overflow-hidden" style={{ width: '38%' }}>
                 {member.photo ? (
                   <img src={member.photo} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
                   <div className="w-full h-full bg-charcoal flex items-center justify-center">
-                    <span className="font-heading font-extrabold text-cyan text-3xl">{member.initials}</span>
+                    <span className="font-heading font-semibold text-cyan text-3xl">{member.initials}</span>
                   </div>
                 )}
               </div>
               {/* Info */}
               <div className="flex flex-col flex-1 p-5">
                 <div className="flex items-baseline justify-between gap-2 mb-3">
-                  <h3 className="font-heading font-bold text-charcoal leading-tight" style={{ fontSize: '0.9rem' }}>{member.name}</h3>
-                  <span className="font-mono text-charcoal/35 shrink-0" style={{ fontSize: '10px' }}>{member.role}</span>
+                  <h3 className="font-heading font-semibold text-charcoal leading-tight" style={{ fontSize: '0.9rem' }}>
+                    {member.name}
+                  </h3>
+                  <span className="font-mono text-charcoal/30 shrink-0" style={{ fontSize: '10px' }}>{member.role}</span>
                 </div>
-                <p className="font-body text-charcoal/55 leading-relaxed flex-1" style={{ fontSize: '0.78rem' }}>{member.bio}</p>
-                <div className="mt-4 pt-3" style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>
-                  <a href={member.linkedin} className="font-body text-charcoal/40 hover:text-cyan transition-colors" style={{ fontSize: '11px' }}>
+                <p className="font-body text-charcoal/50 leading-relaxed flex-1" style={{ fontSize: '0.78rem' }}>{member.bio}</p>
+                <div className="mt-4 pt-3 border-t border-charcoal/8">
+                  <a
+                    href={member.linkedin}
+                    className="font-mono text-[11px] text-charcoal/35 hover:text-cyan transition-colors"
+                  >
                     Ver perfil →
                   </a>
                 </div>
@@ -290,24 +319,24 @@ function Certifications() {
   ];
 
   return (
-    <section className="section-pad bg-gray-light" id="certificacoes" aria-labelledby="cert-title">
+    <section className="section-pad bg-white border-t border-charcoal/8" id="certificacoes" aria-labelledby="cert-title">
       <div className="container">
         <header className="text-center mb-12">
-          <div className="section-rule mx-auto" aria-hidden="true" />
           <p className="eyebrow">QUALIDADE E CONFORMIDADE</p>
           <h2 className="section-title" id="cert-title">As nossas <em>Certificações</em></h2>
         </header>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {certs.map((cert, i) => (
             <div
               key={cert.code}
-              className="reveal bg-white border border-gray-mid border-t-4 border-t-cyan p-7"
+              className="reveal bg-white p-7 border-l-2 border-l-cyan/30
+                         hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div className="font-heading font-extrabold text-charcoal text-2xl tracking-tight mb-1">{cert.code}</div>
-              <div className="font-mono text-xs text-cyan tracking-widest3 uppercase mb-4">{cert.label}</div>
+              <div className="font-heading font-semibold text-charcoal text-2xl tracking-tight mb-1">{cert.code}</div>
+              <div className="font-mono text-[10px] text-[#00AEEF] tracking-[0.18em] uppercase mb-4">{cert.label}</div>
               <p className="font-body text-gray-text text-sm leading-relaxed mb-4">{cert.desc}</p>
-              <div className="font-mono text-xs text-gray-mid">Desde {cert.year}</div>
+              <div className="font-mono text-[10px] text-charcoal/30 tracking-[0.12em]">Desde {cert.year}</div>
             </div>
           ))}
         </div>
@@ -329,15 +358,26 @@ export default function SobreNosPage() {
       <TeamSection />
       <Certifications />
       {/* CTA */}
-      <section className="py-20 text-center" style={{ backgroundColor: '#1A1A2E', borderTop: '4px solid #00AEEF' }}>
+      <section className="py-20 text-center bg-charcoal border-t border-white/5">
         <div className="container">
-          <p className="eyebrow text-cyan">PRÓXIMO PASSO</p>
-          <h2 className="font-heading font-bold text-white text-3xl md:text-4xl tracking-tight mt-2 mb-6">
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>PRÓXIMO PASSO</p>
+          <h2 className="font-heading font-semibold text-white text-3xl md:text-4xl tracking-tight mt-2 mb-6">
             Conheça os nossos <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>serviços.</em>
           </h2>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/servicos" className="btn-primary">VER SERVIÇOS <span aria-hidden="true">→</span></Link>
-            <Link to="/contacto" className="btn-ghost">CONTACTAR-NOS</Link>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <Link
+              to="/servicos"
+              className="font-body font-medium text-white border-b border-white
+                         hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
+            >
+              Ver serviços <span aria-hidden="true">↗</span>
+            </Link>
+            <Link
+              to="/contacto"
+              className="font-mono text-[13px] text-white/40 hover:text-white transition-colors tracking-wide"
+            >
+              Contactar-nos
+            </Link>
           </div>
         </div>
       </section>

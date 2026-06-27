@@ -96,7 +96,7 @@ const ALL_POSTS = [
 
 const CATEGORIES = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Legislação', 'Sustentabilidade', 'Notícias'];
 
-const CAT_TAG_CLASSES = {
+const CAT_TAG_CLASS = {
   Geologia: 'tag-cyan',
   Geofísica: 'tag-cyan',
   Geotecnia: 'tag-cyan',
@@ -126,17 +126,18 @@ function PostBg({ id, cat }) {
           backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 24px, ${accent}18 24px, ${accent}18 25px)`,
         }}
       />
-      <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ backgroundColor: accent }} />
-      <div className="absolute top-3 right-3 font-mono text-xs opacity-20" style={{ color: accent }}>B-CHW</div>
+      <div className="absolute bottom-0 left-0 right-0 h-px" style={{ backgroundColor: accent, opacity: 0.35 }} />
+      <div className="absolute top-3 right-3 font-mono text-xs opacity-15" style={{ color: accent }}>B-CHW</div>
     </div>
   );
 }
 
+// Borderless post card
 function PostCard({ post, index }) {
   return (
     <article
-      className="reveal group bg-white border border-gray-mid flex flex-col transition-all duration-300
-                 hover:shadow-card-hover hover:-translate-y-0.5"
+      className="reveal group bg-white flex flex-col transition-all duration-300
+                 hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)] hover:-translate-y-0.5"
       style={{ transitionDelay: `${(index % 4) * 60}ms` }}
       aria-labelledby={`post-title-${post.id}`}
     >
@@ -144,25 +145,47 @@ function PostCard({ post, index }) {
         <PostBg id={post.id} cat={post.category} />
       </div>
       <div className="p-7 flex flex-col flex-1 gap-3">
-        <div className="flex items-center gap-3">
-          <span className={CAT_TAG_CLASSES[post.category] || 'tag-gray'}>{post.category}</span>
-          <span className="font-mono text-xs text-gray-text">{post.readTime} leitura</span>
+        <div className="flex items-center gap-4">
+          <span className={CAT_TAG_CLASS[post.category] || 'tag-gray'}>{post.category}</span>
+          <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">{post.readTime} leitura</span>
         </div>
         <h3
           id={`post-title-${post.id}`}
-          className="font-heading font-bold text-charcoal text-base leading-snug tracking-tight group-hover:text-cyan transition-colors"
+          className="font-heading font-semibold text-charcoal text-base leading-snug tracking-tight
+                     group-hover:text-cyan transition-colors"
         >
           {post.title}
         </h3>
         <p className="font-body text-gray-text text-xs leading-relaxed flex-1">{post.excerpt}</p>
-        <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-mid">
-          <time dateTime={post.dateTime} className="font-mono text-xs text-gray-text">{post.date}</time>
-          <Link to="/contacto" className="font-mono text-xs text-cyan hover:underline">
-            LER MAIS <span aria-hidden="true">→</span>
+        <div className="flex items-center justify-between mt-2 pt-3 border-t border-charcoal/8">
+          <time dateTime={post.dateTime} className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">
+            {post.date}
+          </time>
+          <Link
+            to="/contacto"
+            className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
+          >
+            Ler mais <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>
     </article>
+  );
+}
+
+// Underline-style filter button
+function FilterBtn({ label, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`font-mono text-[10px] tracking-[0.18em] uppercase pb-1 border-b transition-colors ${
+        active
+          ? 'border-charcoal text-charcoal'
+          : 'border-transparent text-charcoal/40 hover:text-charcoal hover:border-charcoal/30'
+      }`}
+    >
+      {label}
+    </button>
   );
 }
 
@@ -177,10 +200,14 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Page hero */}
       <section
         className="min-h-[calc(40vh+72px)] flex items-end pb-16"
-        style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
+        style={{
+          background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
+          borderBottom: '1px solid rgba(0,174,239,0.2)',
+          paddingTop: '72px',
+        }}
       >
         <div className="container">
           <nav aria-label="Breadcrumb" className="mb-6">
@@ -190,24 +217,24 @@ export default function BlogPage() {
               <li className="text-white/60" aria-current="page">Blog & Conhecimento</li>
             </ol>
           </nav>
-          <div className="section-rule" aria-hidden="true" />
-          <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+          <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
             Conhecimento <em className="italic" style={{ color: '#00AEEF' }}>Técnico</em>
           </h1>
-          <p className="font-body text-white/60 text-lg mt-3 max-w-xl">
+          <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
             Artigos técnicos, guias práticos e notícias do sector geociências e mineração em Angola.
           </p>
         </div>
       </section>
 
-      {/* Featured article */}
+      {/* Featured article — white background, editorial side-by-side */}
       {featuredPost && (
-        <section className="section-pad bg-gray-light" aria-labelledby="featured-post-title">
+        <section className="section-pad bg-white border-b border-charcoal/8" aria-labelledby="featured-post-title">
           <div className="container">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">ARTIGO EM DESTAQUE</p>
-            <article className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-0 border border-gray-mid bg-white group
-                                hover:shadow-card-hover transition-shadow duration-300">
+            <article
+              className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white
+                         hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)] transition-shadow duration-300 group"
+            >
               {/* Visual side */}
               <div className="min-h-[280px] relative overflow-hidden" style={{ backgroundColor: '#0d1829' }} aria-hidden="true">
                 <div
@@ -218,29 +245,39 @@ export default function BlogPage() {
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="font-mono font-bold text-8xl text-cyan opacity-[0.07] leading-none">JORC</div>
-                    <div className="font-mono text-xs text-white/20 tracking-widest mt-2">B-CHIWALE · GEOLOGIA</div>
+                    <div className="font-mono font-bold text-8xl text-cyan opacity-[0.06] leading-none">JORC</div>
+                    <div className="font-mono text-xs text-white/15 tracking-widest mt-2">B-CHIWALE · GEOLOGIA</div>
                   </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-cyan" />
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-cyan opacity-30" />
               </div>
               {/* Content side */}
               <div className="p-10 flex flex-col justify-center gap-4">
-                <div className="flex items-center gap-3">
-                  <span className={CAT_TAG_CLASSES[featuredPost.category] || 'tag-gray'}>{featuredPost.category}</span>
-                  <span className="font-mono text-xs text-gray-text">{featuredPost.readTime} leitura</span>
+                <div className="flex items-center gap-4">
+                  <span className={CAT_TAG_CLASS[featuredPost.category] || 'tag-gray'}>
+                    {featuredPost.category}
+                  </span>
+                  <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">
+                    {featuredPost.readTime} leitura
+                  </span>
                 </div>
                 <h2
                   id="featured-post-title"
-                  className="font-heading font-bold text-charcoal text-2xl leading-snug tracking-tight"
+                  className="font-heading font-semibold text-charcoal text-2xl leading-snug tracking-tight"
                 >
                   {featuredPost.title}
                 </h2>
                 <p className="font-body text-gray-text text-sm leading-relaxed">{featuredPost.excerpt}</p>
-                <div className="flex items-center justify-between mt-2 pt-4 border-t border-gray-mid">
-                  <time dateTime={featuredPost.dateTime} className="font-mono text-xs text-gray-text">{featuredPost.date}</time>
-                  <Link to="/contacto" className="btn-link text-sm">
-                    LER ARTIGO <span aria-hidden="true">→</span>
+                <div className="flex items-center justify-between mt-2 pt-4 border-t border-charcoal/8">
+                  <time dateTime={featuredPost.dateTime} className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">
+                    {featuredPost.date}
+                  </time>
+                  <Link
+                    to="/contacto"
+                    className="font-body font-medium text-charcoal border-b border-charcoal/25
+                               hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]"
+                  >
+                    Ler artigo <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
@@ -250,22 +287,17 @@ export default function BlogPage() {
       )}
 
       {/* Category filters + grid */}
-      <section className="section-pad" aria-label="Todos os artigos">
+      <section className="section-pad bg-white" aria-label="Todos os artigos">
         <div className="container">
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filtrar por categoria">
+          {/* Underline filter tabs */}
+          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por categoria">
             {CATEGORIES.map((cat) => (
-              <button
+              <FilterBtn
                 key={cat}
+                label={cat}
+                active={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`font-mono text-xs tracking-widest px-4 py-2 border transition-colors ${
-                  activeCategory === cat
-                    ? 'bg-cyan text-white border-cyan'
-                    : 'bg-white text-charcoal border-gray-mid hover:border-cyan hover:text-cyan'
-                }`}
-              >
-                {cat.toUpperCase()}
-              </button>
+              />
             ))}
           </div>
 
@@ -275,7 +307,7 @@ export default function BlogPage() {
               <p className="font-body text-gray-text">Nenhum artigo nesta categoria ainda.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filtered.map((post, i) => (
                 <PostCard key={post.id} post={post} index={i} />
               ))}
@@ -284,19 +316,23 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter signup strip */}
-      <section className="py-16" style={{ backgroundColor: '#1A1A2E', borderTop: '4px solid #00AEEF' }}>
+      {/* Newsletter / CTA strip */}
+      <section className="py-16 bg-charcoal border-t border-white/5">
         <div className="container text-center">
-          <div className="section-rule mx-auto" aria-hidden="true" />
-          <p className="eyebrow text-cyan">MANTENHA-SE ACTUALIZADO</p>
-          <h2 className="font-heading font-bold text-white text-2xl md:text-3xl tracking-tight mt-2 mb-3">
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>MANTENHA-SE ACTUALIZADO</p>
+          <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mt-2 mb-3">
             Novos artigos e <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>notícias do sector</em>
           </h2>
-          <p className="font-body text-white/50 text-sm mb-8 max-w-md mx-auto">
-            Subscreva para receber alertas sobre novos artigos técnicos, guias e actualizações regulatórias sobre mineração e geociências em Angola.
+          <p className="font-body text-white/45 text-sm mb-8 max-w-md mx-auto leading-relaxed">
+            Subscreva para receber alertas sobre novos artigos técnicos, guias e actualizações regulatórias
+            sobre mineração e geociências em Angola.
           </p>
-          <Link to="/contacto" className="btn-primary">
-            FALAR COM A NOSSA EQUIPA <span aria-hidden="true">→</span>
+          <Link
+            to="/contacto"
+            className="font-body font-medium text-white border-b border-white
+                       hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
+          >
+            Falar com a nossa equipa <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>

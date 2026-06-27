@@ -143,7 +143,6 @@ const SERVICES_OPTIONS = [
 ];
 
 export default function RecursosPage() {
-  // Calculator form state
   const [form, setForm] = useState({ nome: '', email: '', servico: '', area: '', descricao: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -158,10 +157,14 @@ export default function RecursosPage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Page hero */}
       <section
         className="min-h-[calc(40vh+72px)] flex items-end pb-16"
-        style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
+        style={{
+          background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
+          borderBottom: '1px solid rgba(0,174,239,0.2)',
+          paddingTop: '72px',
+        }}
       >
         <div className="container">
           <nav aria-label="Breadcrumb" className="mb-6">
@@ -171,20 +174,19 @@ export default function RecursosPage() {
               <li className="text-white/60" aria-current="page">Recursos</li>
             </ol>
           </nav>
-          <div className="section-rule" aria-hidden="true" />
-          <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+          <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
             Centro de <em className="italic" style={{ color: '#00AEEF' }}>Recursos</em>
           </h1>
-          <p className="font-body text-white/60 text-lg mt-3 max-w-xl">
+          <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
             Ferramentas, downloads, eventos e calculadora de orçamentos para projectos de geociências.
           </p>
         </div>
       </section>
 
-      {/* Quick links nav */}
-      <nav className="bg-gray-light border-b border-gray-mid py-4" aria-label="Secções desta página">
+      {/* Quick links nav — white, hairline border */}
+      <nav className="bg-white border-b border-charcoal/8 py-4" aria-label="Secções desta página">
         <div className="container">
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-6">
             {[
               ['#calculadora', 'Calculadora de Orçamentos'],
               ['#downloads', 'Centro de Downloads'],
@@ -194,10 +196,11 @@ export default function RecursosPage() {
               <a
                 key={href}
                 href={href}
-                className="font-mono text-xs text-charcoal border border-gray-mid px-4 py-2
-                           hover:border-cyan hover:text-cyan transition-colors"
+                className="font-mono text-[10px] text-charcoal/45 tracking-[0.18em] uppercase
+                           hover:text-charcoal transition-colors pb-0.5 border-b border-transparent
+                           hover:border-charcoal/30"
               >
-                {label.toUpperCase()}
+                {label}
               </a>
             ))}
           </div>
@@ -205,10 +208,9 @@ export default function RecursosPage() {
       </nav>
 
       {/* ── 1. Calculator ── */}
-      <section id="calculadora" className="section-pad" aria-labelledby="calc-title">
+      <section id="calculadora" className="section-pad bg-white" aria-labelledby="calc-title">
         <div className="container">
           <header className="mb-10">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">FERRAMENTA</p>
             <h2 className="section-title" id="calc-title">Calculadora de <em>Orçamentos</em></h2>
             <p className="section-subtitle mt-2">
@@ -217,11 +219,12 @@ export default function RecursosPage() {
           </header>
           <div className="max-w-2xl">
             {submitted ? (
-              <div className="bg-white border border-gray-mid border-l-4 border-l-cyan p-10 text-center">
-                <div className="font-mono text-4xl text-cyan mb-4" aria-hidden="true">✓</div>
-                <h3 className="font-heading font-bold text-charcoal text-xl mb-2">Pedido enviado com sucesso</h3>
-                <p className="font-body text-gray-text text-sm max-w-sm mx-auto">
-                  A nossa equipa técnica analisará as suas necessidades e entrará em contacto em 24–48 horas com uma proposta detalhada.
+              <div className="bg-white border-l-2 border-l-cyan/40 p-10 text-center">
+                <div className="font-mono text-3xl text-cyan mb-4" aria-hidden="true">✓</div>
+                <h3 className="font-heading font-semibold text-charcoal text-xl mb-2">Pedido enviado com sucesso</h3>
+                <p className="font-body text-gray-text text-sm max-w-sm mx-auto leading-relaxed">
+                  A nossa equipa técnica analisará as suas necessidades e entrará em contacto em 24–48 horas
+                  com uma proposta detalhada.
                 </p>
                 <button
                   className="btn-ghost mt-6"
@@ -231,14 +234,12 @@ export default function RecursosPage() {
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white border border-gray-mid p-8 space-y-5"
-                noValidate
-              >
+              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="rc-nome" className="font-mono text-xs text-charcoal tracking-widest">NOME *</label>
+                    <label htmlFor="rc-nome" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                      Nome *
+                    </label>
                     <input
                       id="rc-nome"
                       name="nome"
@@ -246,13 +247,15 @@ export default function RecursosPage() {
                       required
                       value={form.nome}
                       onChange={handleChange}
-                      className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
+                      className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                                  focus:outline-none focus:border-cyan transition-colors"
                       placeholder="O seu nome"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="rc-email" className="font-mono text-xs text-charcoal tracking-widest">EMAIL *</label>
+                    <label htmlFor="rc-email" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                      Email *
+                    </label>
                     <input
                       id="rc-email"
                       name="email"
@@ -260,21 +263,23 @@ export default function RecursosPage() {
                       required
                       value={form.email}
                       onChange={handleChange}
-                      className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
+                      className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                                  focus:outline-none focus:border-cyan transition-colors"
                       placeholder="email@empresa.ao"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-servico" className="font-mono text-xs text-charcoal tracking-widest">SERVIÇO PRETENDIDO *</label>
+                  <label htmlFor="rc-servico" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                    Serviço pretendido *
+                  </label>
                   <select
                     id="rc-servico"
                     name="servico"
                     required
                     value={form.servico}
                     onChange={handleChange}
-                    className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
+                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                                focus:outline-none focus:border-cyan transition-colors bg-white"
                   >
                     <option value="">Seleccione o serviço</option>
@@ -284,20 +289,24 @@ export default function RecursosPage() {
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-area" className="font-mono text-xs text-charcoal tracking-widest">ÁREA / EXTENSÃO DO PROJECTO</label>
+                  <label htmlFor="rc-area" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                    Área / extensão do projecto
+                  </label>
                   <input
                     id="rc-area"
                     name="area"
                     type="text"
                     value={form.area}
                     onChange={handleChange}
-                    className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
+                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                                focus:outline-none focus:border-cyan transition-colors"
                     placeholder="Ex: 500 ha, 20 km de corredor, 10 sondagens..."
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-descricao" className="font-mono text-xs text-charcoal tracking-widest">DESCRIÇÃO DO PROJECTO *</label>
+                  <label htmlFor="rc-descricao" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                    Descrição do projecto *
+                  </label>
                   <textarea
                     id="rc-descricao"
                     name="descricao"
@@ -305,8 +314,8 @@ export default function RecursosPage() {
                     required
                     value={form.descricao}
                     onChange={handleChange}
-                    className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal resize-none
-                               focus:outline-none focus:border-cyan transition-colors"
+                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
+                               resize-none focus:outline-none focus:border-cyan transition-colors"
                     placeholder="Descreva os objectivos, localização e especificações técnicas do projecto..."
                   />
                 </div>
@@ -323,69 +332,72 @@ export default function RecursosPage() {
       </section>
 
       {/* ── 2. Downloads ── */}
-      <section id="downloads" className="section-pad bg-gray-light" aria-labelledby="dl-title">
+      <section id="downloads" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="dl-title">
         <div className="container">
           <header className="mb-10">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">CENTRO DE DOWNLOADS</p>
             <h2 className="section-title" id="dl-title">Documentos <em>técnicos</em></h2>
-            <p className="section-subtitle mt-2">Guias, templates e documentação regulatória de utilidade para projectos de geociências.</p>
+            <p className="section-subtitle mt-2">
+              Guias, templates e documentação regulatória de utilidade para projectos de geociências.
+            </p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {DOWNLOADS.map((doc, i) => (
               <div
                 key={doc.id}
-                className="reveal bg-white border border-gray-mid p-6 flex flex-col gap-4
-                           hover:shadow-card-hover hover:border-t-2 hover:border-t-cyan transition-all duration-300"
+                className="reveal bg-white flex flex-col gap-4
+                           hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)] transition-all duration-300"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div
-                    className="font-mono font-bold text-xs px-2.5 py-1 border"
-                    style={{ color: doc.accentColor, borderColor: doc.accentColor, backgroundColor: `${doc.accentColor}10` }}
+                  {/* File type — plain mono, accent color */}
+                  <span
+                    className="font-mono font-medium text-[10px] tracking-[0.18em] uppercase"
+                    style={{ color: doc.accentColor }}
                   >
                     {doc.type}
-                  </div>
+                  </span>
                   <span className="tag-gray">{doc.cat}</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-heading font-bold text-charcoal text-sm leading-snug mb-1">{doc.title}</h3>
+                  <h3 className="font-heading font-semibold text-charcoal text-sm leading-snug mb-1">{doc.title}</h3>
                   <p className="font-body text-gray-text text-xs leading-relaxed">{doc.desc}</p>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-gray-mid">
-                  <span className="font-mono text-xs text-gray-text">{doc.size}</span>
+                <div className="flex items-center justify-between pt-3 border-t border-charcoal/8">
+                  <span className="font-mono text-[10px] text-charcoal/30 tracking-[0.12em]">{doc.size}</span>
                   <Link
                     to="/contacto"
-                    className="font-mono text-xs text-cyan hover:underline"
+                    className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
                     aria-label={`Solicitar ${doc.title}`}
                   >
-                    SOLICITAR <span aria-hidden="true">→</span>
+                    Solicitar <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
-          <p className="font-body text-gray-text text-xs mt-6 text-center">
+          <p className="font-body text-gray-text text-xs mt-8 text-center leading-relaxed">
             Para aceder aos documentos, contacte a nossa equipa. Alguns ficheiros requerem autenticação.
           </p>
         </div>
       </section>
 
       {/* ── 3. Events ── */}
-      <section id="eventos" className="section-pad" aria-labelledby="ev-title">
+      <section id="eventos" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="ev-title">
         <div className="container">
           <header className="mb-10">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">CALENDÁRIO</p>
             <h2 className="section-title" id="ev-title">Eventos e <em>Formações</em></h2>
-            <p className="section-subtitle mt-2">Webinars, workshops e conferências organizados ou apoiados pela B-CHIWALE.</p>
+            <p className="section-subtitle mt-2">
+              Webinars, workshops e conferências organizados ou apoiados pela B-CHIWALE.
+            </p>
           </header>
           <div className="space-y-4 max-w-3xl">
             {EVENTS.map((ev, i) => (
               <article
                 key={ev.id}
-                className="reveal bg-white border border-gray-mid flex items-stretch
-                           hover:shadow-card-hover transition-shadow duration-300 group"
+                className="reveal bg-white flex items-stretch
+                           hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300 group"
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 {/* Date block */}
@@ -393,28 +405,30 @@ export default function RecursosPage() {
                   className="flex flex-col items-center justify-center w-20 shrink-0 bg-charcoal text-white p-4 text-center"
                   aria-label={ev.date}
                 >
-                  <span className="font-mono font-bold text-cyan text-2xl leading-none">{ev.day}</span>
-                  <span className="font-mono text-xs text-white/40 tracking-widest mt-1">{ev.month}</span>
+                  <span className="font-heading font-light text-white text-2xl leading-none">{ev.day}</span>
+                  <span className="font-mono text-[9px] text-white/35 tracking-[0.18em] mt-1">{ev.month}</span>
                 </div>
                 {/* Content */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between flex-1 gap-3 p-5">
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-heading font-bold text-charcoal text-sm leading-snug tracking-tight">
+                    <h3 className="font-heading font-semibold text-charcoal text-sm leading-snug tracking-tight">
                       {ev.title}
                     </h3>
                     <div className="flex flex-wrap gap-3 mt-1">
-                      <span className="font-mono text-xs text-gray-text">{ev.type}</span>
-                      <span className="font-mono text-xs text-gray-text opacity-60">·</span>
-                      <span className="font-mono text-xs text-gray-text">{ev.time}</span>
+                      <span className="font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">{ev.type}</span>
+                      <span className="font-mono text-[10px] text-charcoal/20">·</span>
+                      <span className="font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">{ev.time}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    {ev.free && <span className="tag-cyan">GRATUITO</span>}
+                  <div className="flex items-center gap-4 shrink-0">
+                    {ev.free && (
+                      <span className="tag-cyan">GRATUITO</span>
+                    )}
                     <Link
                       to="/contacto"
-                      className="btn-primary text-xs py-2 px-5 whitespace-nowrap"
+                      className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em] uppercase whitespace-nowrap"
                     >
-                      INSCREVER
+                      Inscrever <span aria-hidden="true">→</span>
                     </Link>
                   </div>
                 </div>
@@ -425,48 +439,63 @@ export default function RecursosPage() {
       </section>
 
       {/* ── 4. Technical tools ── */}
-      <section id="ferramentas" className="section-pad bg-gray-light" aria-labelledby="tools-title">
+      <section id="ferramentas" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="tools-title">
         <div className="container">
           <header className="mb-10">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">FERRAMENTAS TÉCNICAS</p>
             <h2 className="section-title" id="tools-title">Referências de <em>campo</em></h2>
-            <p className="section-subtitle mt-2">Recursos de referência rápida para técnicos e geólogos no terreno.</p>
+            <p className="section-subtitle mt-2">
+              Recursos de referência rápida para técnicos e geólogos no terreno.
+            </p>
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl">
             {TOOLS.map((tool, i) => (
               <div
                 key={tool.title}
-                className="reveal bg-white border border-gray-mid border-l-4 border-l-cyan p-7 flex gap-4 items-start
-                           hover:shadow-card-hover transition-shadow duration-300"
+                className="reveal bg-white flex gap-4 items-start p-7
+                           hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
-                <span className="text-cyan text-2xl shrink-0 mt-0.5" aria-hidden="true">{tool.icon}</span>
+                <span className="text-charcoal/25 text-xl shrink-0 mt-0.5" aria-hidden="true">{tool.icon}</span>
                 <div>
-                  <h3 className="font-heading font-bold text-charcoal text-sm mb-1">{tool.title}</h3>
+                  <h3 className="font-heading font-semibold text-charcoal text-sm mb-1">{tool.title}</h3>
                   <p className="font-body text-gray-text text-xs leading-relaxed">{tool.desc}</p>
-                  <Link to="/contacto" className="font-mono text-xs text-cyan hover:underline mt-3 inline-block">
-                    SOLICITAR ACESSO <span aria-hidden="true">→</span>
+                  <Link
+                    to="/contacto"
+                    className="font-mono text-[10px] text-cyan hover:underline mt-3 inline-block tracking-[0.12em]"
+                  >
+                    Solicitar acesso <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
-          <p className="font-body text-gray-text text-xs mt-8 max-w-lg">
+          <p className="font-body text-gray-text text-xs mt-8 max-w-lg leading-relaxed">
             As ferramentas interactivas estão em desenvolvimento. Para acesso antecipado, contacte-nos.
           </p>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 text-center" style={{ backgroundColor: '#1A1A2E', borderTop: '4px solid #00AEEF' }}>
+      <section className="py-16 text-center bg-charcoal border-t border-white/5">
         <div className="container">
-          <h2 className="font-heading font-bold text-white text-2xl md:text-3xl tracking-tight mb-6">
+          <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mb-6">
             Não encontrou o que <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>procurava?</em>
           </h2>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contacto" className="btn-primary">CONTACTAR A EQUIPA <span aria-hidden="true">→</span></Link>
-            <Link to="/blog" className="btn-ghost">VER ARTIGOS TÉCNICOS</Link>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <Link
+              to="/contacto"
+              className="font-body font-medium text-white border-b border-white
+                         hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
+            >
+              Contactar a equipa <span aria-hidden="true">↗</span>
+            </Link>
+            <Link
+              to="/blog"
+              className="font-mono text-[13px] text-white/40 hover:text-white transition-colors tracking-wide"
+            >
+              Ver artigos técnicos
+            </Link>
           </div>
         </div>
       </section>

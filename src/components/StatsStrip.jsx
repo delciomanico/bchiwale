@@ -10,11 +10,11 @@ function StatItem({ value, suffix, label, detail, delay = 0 }) {
       className="reveal flex flex-col gap-1"
       style={{ transitionDelay: `${delay}ms` }}
     >
-      <span className="font-mono font-semibold text-charcoal text-2xl md:text-3xl tracking-tight leading-none">
+      <span className="font-heading font-light text-charcoal text-3xl md:text-4xl tracking-tight leading-none">
         {count}{suffix}
       </span>
-      <span className="font-body font-medium text-charcoal text-xs md:text-sm mt-1">{label}</span>
-      <span className="font-mono text-[10px] text-gray-text tracking-widest3">{detail}</span>
+      <span className="font-body text-charcoal text-xs md:text-sm mt-2 leading-snug">{label}</span>
+      <span className="font-mono text-[10px] text-gray-text/60 tracking-[0.15em] uppercase mt-0.5">{detail}</span>
     </div>
   );
 }

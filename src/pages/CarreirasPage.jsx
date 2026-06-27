@@ -106,6 +106,7 @@ const JOBS = [
 
 const DEPARTMENTS = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Ambiente', 'Administração'];
 
+// Tag class mapping — plain mono text after global update
 const DEPT_TAG = {
   Geologia: 'tag-cyan',
   Geofísica: 'tag-cyan',
@@ -127,67 +128,76 @@ function JobCard({ job, index, onApply }) {
   const [open, setOpen] = useState(false);
   return (
     <article
-      className="reveal bg-white border border-gray-mid transition-all duration-300 hover:shadow-card-hover"
+      className="reveal bg-white transition-all duration-300 hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)]"
       style={{ transitionDelay: `${(index % 6) * 60}ms` }}
       aria-labelledby={`job-title-${job.id}`}
     >
       <div className="p-7">
+        {/* Tags + date */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-4">
             <span className={DEPT_TAG[job.dept] || 'tag-gray'}>{job.dept}</span>
             <span className={LEVEL_TAG[job.level] || 'tag-gray'}>{job.level}</span>
           </div>
-          <time className="font-mono text-xs text-gray-text shrink-0">{job.posted}</time>
+          <time className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em] shrink-0">{job.posted}</time>
         </div>
+
         <h3
           id={`job-title-${job.id}`}
-          className="font-heading font-bold text-charcoal text-lg leading-snug tracking-tight mb-2"
+          className="font-heading font-semibold text-charcoal text-lg leading-snug tracking-tight mb-2"
         >
           {job.title}
         </h3>
+
         <div className="flex flex-wrap gap-4 mb-3">
-          <span className="flex items-center gap-1.5 font-mono text-xs text-gray-text">
+          <span className="flex items-center gap-1.5 font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">
             <span aria-hidden="true">◎</span> {job.location}
           </span>
-          <span className="flex items-center gap-1.5 font-mono text-xs text-gray-text">
+          <span className="flex items-center gap-1.5 font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">
             <span aria-hidden="true">◷</span> {job.type}
           </span>
         </div>
+
         <p className="font-body text-gray-text text-sm leading-relaxed">{job.description}</p>
 
         {/* Expandable requirements */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-2 font-mono text-xs text-cyan hover:underline mt-4 transition-colors"
+          className="flex items-center gap-2 font-mono text-[10px] text-cyan hover:underline mt-4 transition-colors tracking-[0.12em] uppercase"
           aria-expanded={open}
           aria-controls={`job-req-${job.id}`}
         >
-          {open ? 'OCULTAR REQUISITOS' : 'VER REQUISITOS'}
+          {open ? 'Ocultar requisitos' : 'Ver requisitos'}
           <span aria-hidden="true" className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▾</span>
         </button>
+
         {open && (
           <ul
             id={`job-req-${job.id}`}
-            className="mt-4 space-y-2 border-t border-gray-mid pt-4"
+            className="mt-4 space-y-2 border-t border-charcoal/8 pt-4"
           >
             {job.requirements.map((req) => (
               <li key={req} className="flex items-start gap-3 font-body text-xs text-gray-text leading-relaxed">
-                <span className="text-cyan mt-0.5 shrink-0" aria-hidden="true">—</span>
+                <span className="text-charcoal/30 mt-0.5 shrink-0" aria-hidden="true">—</span>
                 {req}
               </li>
             ))}
           </ul>
         )}
 
-        <div className="flex gap-3 mt-5 pt-4 border-t border-gray-mid">
+        <div className="flex gap-4 mt-5 pt-4 border-t border-charcoal/8">
           <button
             onClick={() => onApply(job)}
-            className="btn-primary text-xs py-2.5 px-6"
+            className="font-body font-medium text-charcoal border-b border-charcoal/25
+                       hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]"
           >
-            CANDIDATAR-SE <span aria-hidden="true">→</span>
+            Candidatar-se <span aria-hidden="true">→</span>
           </button>
-          <Link to="/contacto" className="btn-ghost text-xs py-2.5 px-6">
-            MAIS INFORMAÇÕES
+          <Link
+            to="/contacto"
+            className="font-mono text-[11px] text-charcoal/40 hover:text-charcoal transition-colors"
+          >
+            Mais informações
           </Link>
         </div>
       </div>
@@ -195,7 +205,7 @@ function JobCard({ job, index, onApply }) {
   );
 }
 
-// Application modal (inline — no external modal lib)
+// Application modal
 function ApplyModal({ job, onClose }) {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ nome: '', email: '', linkedin: '', mensagem: '' });
@@ -219,23 +229,29 @@ function ApplyModal({ job, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-white border border-gray-mid w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal header */}
-        <div className="bg-charcoal border-b-4 border-cyan p-6 flex items-start justify-between gap-4">
+        <div className="bg-charcoal border-b border-white/10 p-6 flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-xs text-cyan tracking-widest mb-1">CANDIDATURA</p>
-            <h3 className="font-heading font-bold text-white text-lg leading-snug">{job.title}</h3>
+            <p className="font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mb-1">CANDIDATURA</p>
+            <h3 className="font-heading font-semibold text-white text-lg leading-snug">{job.title}</h3>
           </div>
-          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors font-mono text-sm" aria-label="Fechar">×</button>
+          <button
+            onClick={onClose}
+            className="text-white/35 hover:text-white transition-colors font-mono text-sm"
+            aria-label="Fechar"
+          >
+            ×
+          </button>
         </div>
         {/* Modal body */}
         {sent ? (
           <div className="p-10 text-center">
-            <div className="font-mono text-4xl text-cyan mb-4" aria-hidden="true">✓</div>
-            <h4 className="font-heading font-bold text-charcoal text-lg mb-2">Candidatura enviada!</h4>
-            <p className="font-body text-gray-text text-sm max-w-xs mx-auto">
+            <div className="font-mono text-3xl text-cyan mb-4" aria-hidden="true">✓</div>
+            <h4 className="font-heading font-semibold text-charcoal text-lg mb-2">Candidatura enviada!</h4>
+            <p className="font-body text-gray-text text-sm max-w-xs mx-auto leading-relaxed">
               O nosso departamento de RH analisará o seu perfil e entrará em contacto.
             </p>
             <button className="btn-primary mt-6" onClick={onClose}>FECHAR</button>
@@ -243,7 +259,9 @@ function ApplyModal({ job, onClose }) {
         ) : (
           <form className="p-7 space-y-4" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="appl-nome" className="font-mono text-xs text-charcoal tracking-widest">NOME COMPLETO *</label>
+              <label htmlFor="appl-nome" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                Nome completo *
+              </label>
               <input
                 id="appl-nome"
                 name="nome"
@@ -251,12 +269,15 @@ function ApplyModal({ job, onClose }) {
                 required
                 value={form.nome}
                 onChange={handleChange}
-                className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal focus:outline-none focus:border-cyan transition-colors"
+                className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
+                           focus:outline-none focus:border-cyan transition-colors"
                 placeholder="O seu nome completo"
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="appl-email" className="font-mono text-xs text-charcoal tracking-widest">EMAIL *</label>
+              <label htmlFor="appl-email" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                Email *
+              </label>
               <input
                 id="appl-email"
                 name="email"
@@ -264,36 +285,43 @@ function ApplyModal({ job, onClose }) {
                 required
                 value={form.email}
                 onChange={handleChange}
-                className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal focus:outline-none focus:border-cyan transition-colors"
+                className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
+                           focus:outline-none focus:border-cyan transition-colors"
                 placeholder="email@exemplo.ao"
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="appl-linkedin" className="font-mono text-xs text-charcoal tracking-widest">LINKEDIN / PORTFÓLIO</label>
+              <label htmlFor="appl-linkedin" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                LinkedIn / Portfólio
+              </label>
               <input
                 id="appl-linkedin"
                 name="linkedin"
                 type="url"
                 value={form.linkedin}
                 onChange={handleChange}
-                className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal focus:outline-none focus:border-cyan transition-colors"
+                className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
+                           focus:outline-none focus:border-cyan transition-colors"
                 placeholder="https://linkedin.com/in/..."
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="appl-mensagem" className="font-mono text-xs text-charcoal tracking-widest">CARTA DE MOTIVAÇÃO</label>
+              <label htmlFor="appl-mensagem" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
+                Carta de motivação
+              </label>
               <textarea
                 id="appl-mensagem"
                 name="mensagem"
                 rows={4}
                 value={form.mensagem}
                 onChange={handleChange}
-                className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal resize-none focus:outline-none focus:border-cyan transition-colors"
+                className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
+                           resize-none focus:outline-none focus:border-cyan transition-colors"
                 placeholder="Por que razão quer fazer parte da B-CHIWALE?"
               />
             </div>
-            <p className="font-body text-xs text-gray-text">
-              Também pode enviar o seu CV directamente para{' '}
+            <p className="font-body text-xs text-gray-text leading-relaxed">
+              Também pode enviar o seu CV para{' '}
               <a href="mailto:rh@bchiwale.ao" className="text-cyan hover:underline">rh@bchiwale.ao</a>
               {' '}com o nome da vaga no assunto.
             </p>
@@ -307,6 +335,22 @@ function ApplyModal({ job, onClose }) {
   );
 }
 
+// Underline-style filter button
+function FilterBtn({ label, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`font-mono text-[10px] tracking-[0.18em] uppercase pb-1 border-b transition-colors ${
+        active
+          ? 'border-charcoal text-charcoal'
+          : 'border-transparent text-charcoal/40 hover:text-charcoal hover:border-charcoal/30'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
 export default function CarreirasPage() {
   const [activeDept, setActiveDept] = useState('Todos');
   const [applyJob, setApplyJob] = useState(null);
@@ -317,10 +361,14 @@ export default function CarreirasPage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Page hero */}
       <section
         className="min-h-[calc(44vh+72px)] flex items-end pb-16"
-        style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
+        style={{
+          background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
+          borderBottom: '1px solid rgba(0,174,239,0.2)',
+          paddingTop: '72px',
+        }}
       >
         <div className="container">
           <nav aria-label="Breadcrumb" className="mb-6">
@@ -330,33 +378,31 @@ export default function CarreirasPage() {
               <li className="text-white/60" aria-current="page">Carreiras</li>
             </ol>
           </nav>
-          <div className="section-rule" aria-hidden="true" />
-          <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+          <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
             Faça parte da <em className="italic" style={{ color: '#00AEEF' }}>B-CHIWALE</em>
           </h1>
-          <p className="font-body text-white/60 text-lg mt-3 max-w-xl">
+          <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
             Junte-se a uma equipa de mais de 100 profissionais que estão a definir o futuro das geociências em Angola.
           </p>
-          <div className="flex gap-8 mt-8">
+          <div className="flex gap-10 mt-10">
             {[['6', 'Vagas abertas'], ['100+', 'Profissionais'], ['8+', 'Anos de crescimento']].map(([n, l]) => (
               <div key={l}>
-                <div className="font-mono font-bold text-cyan text-2xl">{n}</div>
-                <div className="font-body text-white/40 text-xs">{l}</div>
+                <div className="font-heading font-light text-white text-2xl leading-none">{n}</div>
+                <div className="font-mono text-[10px] text-white/35 tracking-[0.18em] uppercase mt-1">{l}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why B-CHIWALE */}
-      <section className="section-pad bg-gray-light" aria-labelledby="why-title">
+      {/* Why B-CHIWALE — white, no gray background */}
+      <section className="section-pad bg-white border-b border-charcoal/8" aria-labelledby="why-title">
         <div className="container">
           <header className="mb-10">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">PORQUÊ TRABALHAR CONNOSCO</p>
             <h2 className="section-title" id="why-title">Uma carreira com <em>impacto real</em></h2>
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { icon: '⬡', title: 'Projectos de Referência', desc: 'Trabalhe em projectos de impacto nacional em 18 províncias angolanas.' },
               { icon: '↑', title: 'Progressão Acelerada', desc: 'Planos de carreira claros com avaliações semestrais e promoções baseadas em mérito.' },
@@ -365,11 +411,11 @@ export default function CarreirasPage() {
             ].map((v, i) => (
               <div
                 key={v.title}
-                className="reveal bg-white border border-gray-mid border-t-4 border-t-cyan p-6 flex flex-col gap-3"
+                className="reveal flex flex-col gap-3"
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
-                <span className="text-cyan text-2xl" aria-hidden="true">{v.icon}</span>
-                <h3 className="font-heading font-bold text-charcoal text-sm">{v.title}</h3>
+                <span className="text-charcoal/30 text-xl" aria-hidden="true">{v.icon}</span>
+                <h3 className="font-heading font-semibold text-charcoal text-sm">{v.title}</h3>
                 <p className="font-body text-gray-text text-xs leading-relaxed">{v.desc}</p>
               </div>
             ))}
@@ -378,28 +424,22 @@ export default function CarreirasPage() {
       </section>
 
       {/* Job listings */}
-      <section className="section-pad" aria-labelledby="jobs-title">
+      <section className="section-pad bg-white" aria-labelledby="jobs-title">
         <div className="container">
           <header className="mb-8">
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">OPORTUNIDADES</p>
             <h2 className="section-title" id="jobs-title">Vagas <em>abertas</em></h2>
           </header>
 
           {/* Department filters */}
-          <div className="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filtrar por departamento">
+          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por departamento">
             {DEPARTMENTS.map((dept) => (
-              <button
+              <FilterBtn
                 key={dept}
+                label={dept}
+                active={activeDept === dept}
                 onClick={() => setActiveDept(dept)}
-                className={`font-mono text-xs tracking-widest px-4 py-2 border transition-colors ${
-                  activeDept === dept
-                    ? 'bg-cyan text-white border-cyan'
-                    : 'bg-white text-charcoal border-gray-mid hover:border-cyan hover:text-cyan'
-                }`}
-              >
-                {dept.toUpperCase()}
-              </button>
+              />
             ))}
           </div>
 
@@ -409,7 +449,7 @@ export default function CarreirasPage() {
               <p className="font-body text-gray-text">Não há vagas abertas neste departamento de momento.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {filtered.map((job, i) => (
                 <JobCard key={job.id} job={job} index={i} onApply={setApplyJob} />
               ))}
@@ -418,27 +458,28 @@ export default function CarreirasPage() {
         </div>
       </section>
 
-      {/* Spontaneous application strip */}
-      <section className="py-14 bg-gray-light border-t border-gray-mid">
+      {/* Spontaneous application */}
+      <section className="py-14 bg-white border-t border-charcoal/8">
         <div className="container grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <div className="section-rule" aria-hidden="true" />
             <p className="eyebrow">CANDIDATURA ESPONTÂNEA</p>
-            <h2 className="font-heading font-bold text-charcoal text-2xl tracking-tight mt-1 mb-3">
+            <h2 className="font-heading font-semibold text-charcoal text-2xl tracking-tight mt-1 mb-3">
               Não encontrou a vaga <em>certa?</em>
             </h2>
             <p className="font-body text-gray-text text-sm leading-relaxed">
-              Envie o seu CV e carta de motivação para o nosso email de RH. Guardamos os perfis durante 12 meses e contactamo-lo quando surgir uma vaga adequada.
+              Envie o seu CV e carta de motivação para o nosso email de RH. Guardamos os perfis durante 12 meses
+              e contactamo-lo quando surgir uma vaga adequada.
             </p>
           </div>
           <div className="flex flex-col gap-4 md:items-end">
             <a
               href="mailto:rh@bchiwale.ao?subject=Candidatura Espontânea"
-              className="btn-primary"
+              className="font-body font-medium text-charcoal border-b border-charcoal/25
+                         hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
             >
-              ENVIAR CV ESPONTÂNEO <span aria-hidden="true">→</span>
+              Enviar CV espontâneo <span aria-hidden="true">→</span>
             </a>
-            <p className="font-mono text-xs text-gray-text">
+            <p className="font-mono text-[11px] text-charcoal/35">
               <a href="mailto:rh@bchiwale.ao" className="hover:text-cyan transition-colors">rh@bchiwale.ao</a>
             </p>
           </div>

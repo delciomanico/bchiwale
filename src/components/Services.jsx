@@ -16,7 +16,7 @@ function ServiceRow({ service, index }) {
       <div className="flex items-baseline gap-5 md:gap-8 flex-1 min-w-0">
         {/* Number — near invisible, structural only */}
         <span
-          className="font-mono text-xs text-charcoal/15 shrink-0 w-5 select-none"
+          className="font-mono text-[10px] text-charcoal/20 shrink-0 w-5 select-none"
           aria-hidden="true"
         >
           {service.number}
@@ -25,7 +25,7 @@ function ServiceRow({ service, index }) {
         <div className="min-w-0">
           {/* Service title */}
           <span
-            className="font-heading font-bold text-charcoal tracking-tight leading-tight
+            className="font-heading font-semibold text-charcoal tracking-tight leading-tight
                        group-hover:text-charcoal/70 transition-colors duration-300
                        block"
             style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.625rem)' }}
