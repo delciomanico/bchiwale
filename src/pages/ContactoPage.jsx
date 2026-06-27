@@ -38,16 +38,45 @@ export default function ContactoPage() {
   const [form, setForm] = useState({
     nome: '', email: '', telefone: '', empresa: '', servico: '', mensagem: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder — wire to HubSpot / Brevo in production
-    setSubmitted(true);
+    setStatus('sending');
+    setErrorMsg('');
+    try {
+      if (import.meta.env.DEV) {
+        await new Promise((r) => setTimeout(r, 1200));
+        console.log('[DEV] Dados do formulário que seriam enviados:', form);
+        setStatus('success');
+        return;
+      }
+
+      const fd = new FormData();
+      fd.append('access_key', import.meta.env.VITE_WEB3FORMS_KEY);
+      fd.append('subject', form.servico
+        ? `[B-CHIWALE] Nova mensagem de ${form.nome} — ${form.servico}`
+        : `[B-CHIWALE] Nova mensagem de ${form.nome}`);
+      fd.append('from_name', form.nome);
+      fd.append('replyto', form.email);
+      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: fd,
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || 'Erro ao enviar.');
+      setStatus('success');
+    } catch (err) {
+      setErrorMsg(err.message || 'Erro ao enviar. Tente novamente.');
+      setStatus('error');
+    }
   };
 
   return (
@@ -86,10 +115,8 @@ export default function ContactoPage() {
                 Envie uma mensagem
               </h2>
 
-              {submitted ? (
-                <div
-                  className="border-l-4 border-cyan bg-[#E8F7FD] p-8"
-                >
+              {status === 'success' ? (
+                <div className="border-l-4 border-cyan bg-[#E8F7FD] p-8">
                   <div className="font-mono text-xs text-cyan tracking-widest2 uppercase mb-2">
                     Mensagem enviada!
                   </div>
@@ -98,7 +125,7 @@ export default function ContactoPage() {
                   </p>
                   <button
                     className="btn-link mt-6"
-                    onClick={() => { setSubmitted(false); setForm({ nome: '', email: '', telefone: '', empresa: '', servico: '', mensagem: '' }); }}
+                    onClick={() => { setStatus('idle'); setForm({ nome: '', email: '', telefone: '', empresa: '', servico: '', mensagem: '' }); }}
                   >
                     Enviar outra mensagem <span aria-hidden="true">→</span>
                   </button>
@@ -198,8 +225,18 @@ export default function ContactoPage() {
                     />
                   </div>
 
-                  <button type="submit" className="btn-primary self-start mt-2">
-                    ENVIAR MENSAGEM <span aria-hidden="true">→</span>
+                  {status === 'error' && (
+                    <div className="border-l-4 border-red-500 bg-red-50 p-4">
+                      <p className="font-body text-red-700 text-sm">{errorMsg}</p>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="btn-primary self-start mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={status === 'sending'}
+                  >
+                    {status === 'sending' ? 'A ENVIAR...' : 'ENVIAR MENSAGEM'}{status !== 'sending' && <span aria-hidden="true"> →</span>}
                   </button>
                 </form>
               )}
