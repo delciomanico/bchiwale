@@ -48,12 +48,6 @@ const MEGA_DATA = {
         ],
       },
     ],
-    stats: [
-      { value: '8+', label: 'Anos' },
-      { value: '100+', label: 'Profissionais' },
-      { value: '18', label: 'Províncias' },
-      { value: '50+', label: 'Projectos' },
-    ],
     quote: 'Angola precisa de empresas de geociências que combinem rigor técnico de classe mundial com conhecimento profundo do nosso território.',
     quoteAuthor: 'B. Chiwale — Director-Geral & Fundador',
   },
@@ -144,15 +138,7 @@ function MegaSobre({ data, onClose }) {
           </h3>
           <p className="font-body text-white/50 text-sm leading-relaxed">{data.tagline}</p>
         </div>
-        {/* Stats row */}
-        <div className="grid grid-cols-2 gap-3 mt-6">
-          {data.stats.map((s) => (
-            <div key={s.label} className="border border-white/10 p-3">
-              <span className="font-heading font-extrabold text-cyan text-xl block">{s.value}</span>
-              <span className="font-mono text-[10px] text-white/40 tracking-widest3 uppercase">{s.label}</span>
-            </div>
-          ))}
-        </div>
+        
       </div>
 
       {/* Middle — section links */}
@@ -579,11 +565,18 @@ export default function Navbar() {
 
   const closeMega = () => setOpenMega(null);
 
+  // Transparent only on the home page, at the top, with no overlay open
+  const isTransparent = location.pathname === '/' && !isScrolled && !openMega && !searchOpen;
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50">
         <nav
-          className={`bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-nav' : 'border-b border-gray-mid'}`}
+          className={`transition-all duration-500 ${
+            isTransparent
+              ? 'bg-transparent'
+              : `bg-white border-b border-gray-mid ${isScrolled ? 'shadow-nav' : ''}`
+          }`}
           role="navigation"
           aria-label="Navegação principal"
         >
@@ -612,7 +605,7 @@ export default function Navbar() {
                     {item.mega ? (
                       <button
                         className={`flex items-center gap-1 px-3 py-2 text-[13px] font-body font-medium transition-colors duration-200 whitespace-nowrap
-                                    ${openMega === item.label ? 'text-cyan' : 'text-charcoal hover:text-cyan'}`}
+                                    ${openMega === item.label ? 'text-cyan' : isTransparent ? 'text-white/80 hover:text-white' : 'text-charcoal hover:text-cyan'}`}
                         aria-expanded={openMega === item.label}
                         aria-haspopup="true"
                         onClick={() => setOpenMega((v) => v === item.label ? null : item.label)}
@@ -627,7 +620,7 @@ export default function Navbar() {
                         to={item.href}
                         className={({ isActive }) =>
                           `flex items-center px-3 py-2 text-[13px] font-body font-medium transition-colors duration-200 whitespace-nowrap
-                           ${isActive ? 'text-cyan' : 'text-charcoal hover:text-cyan'}`
+                           ${isActive ? 'text-cyan' : isTransparent ? 'text-white/80 hover:text-white' : 'text-charcoal hover:text-cyan'}`
                         }
                       >
                         {item.label}
@@ -640,22 +633,22 @@ export default function Navbar() {
               {/* Right actions — desktop */}
               <div className="hidden xl:flex items-center gap-3 shrink-0">
                 <button
-                  className="p-2 text-charcoal hover:text-cyan transition-colors"
+                  className={`p-2 transition-colors duration-500 ${isTransparent ? 'text-white/70 hover:text-white' : 'text-charcoal hover:text-cyan'}`}
                   aria-label="Pesquisar"
                   onClick={() => setSearchOpen((v) => !v)}
                 >
                   <SearchIcon className="w-[18px] h-[18px]" />
                 </button>
-                <div className="flex items-center gap-1 font-mono font-medium text-gray-text" style={{ fontSize: '11px' }}>
-                  <button className="text-charcoal font-semibold hover:text-cyan transition-colors">PT</button>
-                  <span className="text-gray-mid" aria-hidden="true">|</span>
-                  <button className="hover:text-cyan transition-colors">EN</button>
+                <div className="flex items-center gap-1 font-mono font-medium" style={{ fontSize: '11px' }}>
+                  <button className={`font-semibold transition-colors duration-500 ${isTransparent ? 'text-white/90 hover:text-white' : 'text-charcoal hover:text-cyan'}`}>PT</button>
+                  <span className={`transition-colors duration-500 ${isTransparent ? 'text-white/20' : 'text-gray-mid'}`} aria-hidden="true">|</span>
+                  <button className={`transition-colors duration-500 ${isTransparent ? 'text-white/45 hover:text-white' : 'text-gray-text hover:text-cyan'}`}>EN</button>
                 </div>
                 <Link
                   to="/contacto"
-                  className="shrink-0 whitespace-nowrap inline-flex items-center bg-cyan text-white font-body font-semibold
-                             border-2 border-cyan hover:bg-[#009ed8] hover:border-[#009ed8] transition-all duration-300
-                             focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2"
+                  className="shrink-0 whitespace-nowrap inline-flex items-center font-body font-semibold
+                             bg-cyan text-white border-2 border-cyan hover:bg-[#009ed8] hover:border-[#009ed8]
+                             transition-all duration-300 focus:outline-none"
                   style={{ fontSize: '11px', letterSpacing: '0.08em', padding: '8px 18px', textTransform: 'uppercase' }}
                 >
                   SOLICITAR PROPOSTA
@@ -664,7 +657,7 @@ export default function Navbar() {
 
               {/* Hamburger — visible below xl */}
               <button
-                className="xl:hidden flex flex-col gap-1.5 p-2 text-charcoal"
+                className={`xl:hidden flex flex-col gap-1.5 p-2 transition-colors duration-500 ${isTransparent ? 'text-white' : 'text-charcoal'}`}
                 aria-label={drawerOpen ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={drawerOpen}
                 onClick={() => setDrawerOpen((v) => !v)}

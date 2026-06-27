@@ -1,234 +1,329 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { MINERALS } from '../data/minerals';
 
-// Lazy-load the heavy Three.js/R3F canvas — splits ~1MB of 3D deps into a separate chunk
-const MineralCarousel = lazy(() => import('./MineralCarousel'));
+const SLIDES = [
+  {
+    id: 1,
+    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale1.webp',
+    alt: 'Paisagem geológica angolana',
+    line1: 'A terra fala.',
+    line2: 'Nós lemos.',
+    primary:   { label: 'Os Nossos Serviços', href: '/servicos' },
+    secondary: { label: 'Contacto',           href: '/contacto' },
+  },
+  {
+    id: 2,
+    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale2.webp',
+    alt: 'Formação rochosa — Angola',
+    line1: 'Do subsolo à',
+    line2: 'superfície.',
+    primary:   { label: 'Geologia & Geofísica', href: '/servicos' },
+    secondary: { label: 'Ver Portfólio',         href: '/portfolio' },
+  },
+  {
+    id: 3,
+    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale3.webp',
+    alt: 'Vista aérea — terreno angolano',
+    line1: 'Angola vista',
+    line2: 'de perto.',
+    primary:   { label: 'Topografia & Geotecnia', href: '/servicos' },
+    secondary: { label: 'Ver Portfólio',           href: '/portfolio' },
+  },
+  {
+    id: 4,
+    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale1.webp',
+    alt: 'Território angolano',
+    line1: 'Rigor técnico.',
+    line2: 'Raízes locais.',
+    primary:   { label: 'Sobre Nós', href: '/sobre' },
+    secondary: { label: 'Contacto',  href: '/contacto' },
+  },
+  {
+    id: 5,
+    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale3.webp',
+    alt: 'Levantamento de campo — Angola',
+    line1: '50+ projectos.',
+    line2: '18 províncias.',
+    primary:   { label: 'Ver Portfólio',      href: '/portfolio' },
+    secondary: { label: 'Solicitar Proposta', href: '/contacto' },
+  },
+];
 
-// Cycles through mineral names in sync with the carousel (same 4.5s interval)
-function AnimatedMineralName() {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
+const SLIDE_INTERVAL = 9500;
+const FADE_MS        = 2200;
+const CONTENT_OUT_MS = 320;
+const CHAR_MS        = 78;
+const LINE_PAUSE_MS  = 260;
+const CTA_DELAY_MS   = 320;
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setIndex((i) => (i + 1) % MINERALS.length);
-        setVisible(true);
-      }, 400);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
+function Cursor() {
   return (
     <span
-      className="inline-block transition-all duration-400 font-extrabold italic"
+      aria-hidden="true"
       style={{
-        color: MINERALS[index].accentColor,
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(-8px)',
-        transition: 'opacity 0.4s ease, transform 0.4s ease, color 0.6s ease',
+        display:         'inline-block',
+        width:           '2px',
+        height:          '0.82em',
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        marginLeft:      '4px',
+        verticalAlign:   'text-bottom',
+        animation:       'cursorBlink 1s step-end infinite',
       }}
-    >
-      {MINERALS[index].label}
-    </span>
+    />
   );
 }
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
+  const [current,        setCurrent]        = useState(0);
+  const [contentVisible, setContentVisible] = useState(true);
+  const [typed,          setTyped]          = useState({ line1: '', line2: '' });
+  const [typingDone,     setTypingDone]     = useState(false);
+  const [showCtas,       setShowCtas]       = useState(false);
+
+  // Start typing sequence whenever the active slide changes
+  useEffect(() => {
+    const s = SLIDES[current];
+    setTyped({ line1: '', line2: '' });
+    setTypingDone(false);
+    setShowCtas(false);
+
+    const ids = [];
+    const later = (fn, ms) => { const id = setTimeout(fn, ms); ids.push(id); return id; };
+
+    // Type line1 char by char
+    s.line1.split('').forEach((_, i) => {
+      later(() => setTyped({ line1: s.line1.slice(0, i + 1), line2: '' }), i * CHAR_MS);
+    });
+
+    const line2Start = s.line1.length * CHAR_MS + LINE_PAUSE_MS;
+
+    // Type line2 char by char
+    s.line2.split('').forEach((_, i) => {
+      later(
+        () => setTyped({ line1: s.line1, line2: s.line2.slice(0, i + 1) }),
+        line2Start + i * CHAR_MS,
+      );
+    });
+
+    const doneAt = line2Start + s.line2.length * CHAR_MS;
+    later(() => setTypingDone(true), doneAt);
+    later(() => setShowCtas(true),   doneAt + CTA_DELAY_MS);
+
+    return () => ids.forEach(clearTimeout);
+  }, [current]);
+
+  const goTo = useCallback((index) => {
+    setContentVisible(false);
+    setTimeout(() => {
+      setCurrent(index);
+      setContentVisible(true);
+    }, CONTENT_OUT_MS);
+  }, []);
 
   useEffect(() => {
-    // Slight delay so fade-in feels intentional, not a flash
-    const t = setTimeout(() => setMounted(true), 100);
-    return () => clearTimeout(t);
+    const timer = setInterval(() => {
+      setContentVisible(false);
+      setTimeout(() => {
+        setCurrent((i) => (i + 1) % SLIDES.length);
+        setContentVisible(true);
+      }, CONTENT_OUT_MS);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(timer);
   }, []);
+
+  const slide = SLIDES[current];
 
   return (
     <section
-      className="relative min-h-screen flex"
-      style={{ backgroundColor: '#060d18' }}
-      aria-label="Hero — B-CHIWALE"
+      className="relative h-screen min-h-[600px] overflow-hidden flex flex-col"
+      style={{ backgroundColor: '#030d1c' }}
+      aria-label="Hero — B-CHIWALE Geociências"
     >
-      {/* Subtle grid pattern overlay */}
+
+      {/* ── Photo slideshow ──────────────────────────────────────────── */}
+      {SLIDES.map((s, i) => (
+        <div
+          key={s.id}
+          className="absolute inset-0"
+          style={{
+            opacity:    i === current ? 1 : 0,
+            transition: `opacity ${FADE_MS}ms ease-in-out`,
+            zIndex:     i === current ? 1 : 0,
+          }}
+          aria-hidden={i !== current}
+        >
+          <img
+            src={s.src}
+            alt={s.alt}
+            className="w-full h-full object-cover"
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        </div>
+      ))}
+
+      {/* ── Gradient overlay ─────────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,174,239,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,174,239,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
+          zIndex: 2,
+          background:
+            'linear-gradient(to bottom, rgba(3, 13, 28, 0.76) 0%, rgba(3,13,28,0.32) 35%, rgba(3,13,28,0.62) 62%, rgba(3,13,28,0.93) 100%)',
         }}
+        aria-hidden="true"
       />
 
-      {/* Radial glow — left centre */}
+      {/* ── Content anchored to the bottom ───────────────────────────── */}
       <div
-        className="absolute pointer-events-none"
-        aria-hidden="true"
-        style={{
-          left: '10%',
-          top: '40%',
-          width: '500px',
-          height: '500px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(0,174,239,0.06) 0%, transparent 70%)',
-        }}
-      />
+        className="relative flex-1 flex flex-col justify-end"
+        style={{ zIndex: 3, paddingBottom: '2.5rem' }}
+      >
+        <div className="container">
 
-      <div className="container flex-1 flex">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_460px] xl:grid-cols-[1fr_520px] gap-0">
-
-          {/* ── LEFT: Content ────────────────────────────────────────────── */}
           <div
-            className="flex flex-col justify-center py-32 lg:py-24 xl:py-0 pr-0 lg:pr-12 xl:pr-16 relative z-10"
+            className="max-w-2xl mb-8"
             style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
+              opacity:    contentVisible ? 1 : 0,
+              transition: `opacity ${CONTENT_OUT_MS}ms ease`,
             }}
           >
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-6 h-px bg-cyan" />
-              <p className="font-mono text-cyan/70 tracking-widest3 uppercase" style={{ fontSize: '11px' }}>
-                Geociências · Angola · Desde 2017
-              </p>
-            </div>
-
-            {/* Headline */}
+            {/* Headline — typed character by character */}
             <h1
-              className="font-heading font-bold text-white leading-[1.05] tracking-[-0.03em] mb-6"
-              style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)' }}
+              className="font-heading text-white"
+              style={{
+                fontSize:      'clamp(2.4rem, 5vw, 4.6rem)',
+                fontWeight:    300,
+                letterSpacing: '-0.035em',
+                lineHeight:    1.07,
+                marginBottom:  '2rem',
+                minHeight:     '2.2em', // prevents layout shift while typing
+              }}
             >
-              O subsolo de Angola
-              <br />
-              revela{' '}
-              <AnimatedMineralName />
-              <span className="text-white">.</span>
+              {typed.line1}
+              {!typingDone && !typed.line2 && <Cursor />}
+              {typed.line1 && <br />}
+              {typed.line2}
+              {!typingDone && typed.line2 && <Cursor />}
             </h1>
 
-            {/* Sub-headline */}
-            <p
-              className="font-heading font-medium text-white/55 mb-5"
-              style={{ fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', letterSpacing: '-0.01em' }}
+            {/* Divider + CTAs — appear after typing finishes */}
+            <div
+              style={{
+                opacity:    showCtas ? 1 : 0,
+                transform:  showCtas ? 'translateY(0)' : 'translateY(6px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
+              }}
             >
-              Somos quem o lê.
-            </p>
+              <div
+                style={{ width: '36px', height: '1px', backgroundColor: 'rgba(255,255,255,0.18)', marginBottom: '2rem' }}
+              />
 
-            {/* Description */}
-            <p
-              className="font-body text-white/45 leading-[1.85] mb-10 max-w-[420px]"
-              style={{ fontSize: 'clamp(0.875rem, 1.2vw, 1rem)' }}
-            >
-              Combinamos rigor técnico internacional com conhecimento profundo
-              do território angolano — em Geologia, Geofísica, Geotecnia,
-              Topografia e Ambiente.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 mb-16">
-              <Link
-                to="/servicos"
-                className="inline-flex items-center gap-2 font-body font-semibold text-white
-                           border border-white/20 hover:border-cyan hover:text-cyan
-                           transition-all duration-300"
-                style={{ fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '12px 24px' }}
-              >
-                Ver Serviços <span aria-hidden="true">→</span>
-              </Link>
-              <Link
-                to="/contacto"
-                className="inline-flex items-center gap-2 font-body font-semibold text-charcoal
-                           hover:bg-[#009ed8] transition-all duration-300"
-                style={{ fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '12px 24px', backgroundColor: '#00AEEF' }}
-              >
-                Solicitar Proposta
-              </Link>
+              <div className="flex flex-wrap items-center gap-8">
+                <Link
+                  to={slide.primary.href}
+                  className="font-body text-yellow"
+                  style={{
+                    fontSize:      '12px',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    borderBottom:  '1px solid rgba(255,255,255,0.30)',
+                    paddingBottom: '2px',
+                    transition:    'border-color 0.4s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.80)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.30)')}
+                >
+                  {slide.primary.label}
+                </Link>
+                <Link
+                  to={slide.secondary.href}
+                  className="font-body"
+                  style={{
+                    fontSize:      '12px',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    color:         'rgba(255,255,255,0.35)',
+                    transition:    'color 0.4s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}
+                >
+                  {slide.secondary.label}
+                </Link>
+              </div>
             </div>
-
-            {/* Stats row */}
-            <div className="flex flex-wrap gap-8 border-t border-white/8 pt-8">
-              {[
-                { value: '50+', label: 'Projectos' },
-                { value: '100+', label: 'Profissionais' },
-                { value: '18', label: 'Províncias' },
-                { value: '8+', label: 'Anos' },
-              ].map((s) => (
-                <div key={s.label} className="flex flex-col gap-0.5">
-                  <span
-                    className="font-heading font-extrabold text-white"
-                    style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', letterSpacing: '-0.02em' }}
-                  >
-                    {s.value}
-                  </span>
-                  <span className="font-mono text-white/30 uppercase tracking-widest3" style={{ fontSize: '10px' }}>
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Coordinates */}
-            <p
-              className="absolute bottom-8 left-0 font-mono text-white/18 tracking-widest3"
-              style={{ fontSize: '10px' }}
-              aria-hidden="true"
-            >
-              8°49′55″S · 13°15′56″E · Luanda, Angola
-            </p>
           </div>
 
-          {/* ── RIGHT: 3D Mineral Carousel ───────────────────────────────── */}
-          <div
-            className="relative h-72 lg:h-auto"
-            style={{
-              minHeight: '320px',
-              opacity: mounted ? 1 : 0,
-              transition: 'opacity 1.2s ease 0.4s',
-            }}
-          >
-            <Suspense fallback={
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-1 h-12 bg-cyan/20 rounded-full animate-pulse" />
-              </div>
-            }>
-              <MineralCarousel />
-            </Suspense>
-
-            {/* Left-edge fade — blends canvas into the dark content area */}
-            <div
-              className="absolute inset-y-0 left-0 w-12 pointer-events-none hidden lg:block"
-              style={{ background: 'linear-gradient(to right, #060d18, transparent)' }}
-              aria-hidden="true"
-            />
+          {/* ── Slide dots ───────────────────────────────────────────── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '16px' }}>
+            <div className="flex items-center gap-1.5" role="tablist" aria-label="Foto actual">
+              {SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  role="tab"
+                  aria-selected={i === current}
+                  aria-label={`Foto ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  style={{
+                    width:           i === current ? '22px' : '4px',
+                    height:          '2px',
+                    backgroundColor: i === current ? 'rgba(255,255,255,0.58)' : 'rgba(255,255,255,0.16)',
+                    borderRadius:    '1px',
+                    border:          'none',
+                    cursor:          'pointer',
+                    padding:         0,
+                    transition:      'width 0.5s ease, background-color 0.5s ease',
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
         </div>
       </div>
 
-      {/* ── Scroll indicator ── */}
+      {/* ── Scroll indicator — right edge ────────────────────────────── */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden lg:flex flex-col items-center gap-2"
+        className="absolute right-8 hidden lg:flex flex-col items-center gap-3"
+        style={{ zIndex: 3, top: '35%', transform: 'translateY(-50%)' }}
         aria-hidden="true"
       >
-        <span className="font-mono text-white/20 uppercase tracking-widest2" style={{ fontSize: '9px' }}>Scroll</span>
-        <div className="w-px h-8 bg-white/10 relative overflow-hidden">
+        <p
+          className="font-mono text-white/18 uppercase"
+          style={{ fontSize: '8px', letterSpacing: '0.2em', writingMode: 'vertical-lr' }}
+        >
+          Scroll
+        </p>
+        <div
+          className="relative overflow-hidden"
+          style={{ width: '1px', height: '60px', backgroundColor: 'rgba(255,255,255,0.08)' }}
+        >
           <span
-            className="absolute inset-x-0 top-0 h-4 bg-white/40"
-            style={{ animation: 'scrollBounce 2s ease-in-out infinite' }}
+            style={{
+              position:        'absolute',
+              left:            0,
+              right:           0,
+              top:             0,
+              height:          '22px',
+              backgroundColor: 'rgba(255,255,255,0.28)',
+              animation:       'scrollBar 2.8s ease-in-out infinite',
+            }}
           />
         </div>
       </div>
 
       <style>{`
-        @keyframes scrollBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(16px); }
+        @keyframes scrollBar {
+          0%   { transform: translateY(-100%); opacity: 0; }
+          18%  { opacity: 1; }
+          82%  { opacity: 1; }
+          100% { transform: translateY(380%); opacity: 0; }
+        }
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0; }
         }
       `}</style>
+
     </section>
   );
 }

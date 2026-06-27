@@ -7,10 +7,10 @@ export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
     <>
       {/* Internal page hero */}
       <section
-        className="min-h-[40vh] flex items-end pb-16"
+        className="min-h-[calc(40vh+72px)] flex items-end pb-16"
         style={{
           background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
-          borderBottom: '3px solid #00AEEF',
+          borderBottom: '3px solid #00AEEF', paddingTop: '72px',
         }}
       >
         <div className="container">

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -7,10 +7,11 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useHashScroll } from '../hooks/useHashScroll';
 
 export default function MainLayout() {
-  // Re-attach scroll reveal observer on every route change
   useScrollReveal();
-  // Handle smooth scroll to #hash anchors
   useHashScroll();
+
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
 
   return (
     <>
@@ -26,8 +27,15 @@ export default function MainLayout() {
 
       <Navbar />
 
-      <main id="main-content">
-        {/* Page-specific content rendered here */}
+      {/*
+        Inner pages: pt-[72px] clears the fixed navbar.
+        backgroundColor matches the dark banner so the gap is invisible.
+        Sections below the banner have their own bg-white/bg-gray-light that override it.
+      */}
+      <main
+        id="main-content"
+        style={isHome ? undefined : { paddingTop: '72px' }}
+      >
         <Outlet />
       </main>
 

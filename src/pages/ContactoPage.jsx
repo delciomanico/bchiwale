@@ -54,8 +54,8 @@ export default function ContactoPage() {
     <>
       {/* Internal hero */}
       <section
-        className="min-h-[36vh] flex items-end pb-16"
-        style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF' }}
+        className="min-h-[calc(36vh+72px)] flex items-end pb-16"
+        style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
       >
         <div className="container">
           <nav aria-label="Breadcrumb" className="mb-6">

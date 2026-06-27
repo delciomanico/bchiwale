@@ -15,8 +15,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Services />
       <About />
+      <Services />
       <Portfolio />
       <Team />
       <Testimonials />

@@ -7,8 +7,8 @@ import Timeline from '../components/Timeline';
 function PageHero() {
   return (
     <section
-      className="min-h-[44vh] flex items-end pb-16"
-      style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF' }}
+      className="min-h-[calc(44vh+72px)] flex items-end pb-16"
+      style={{ background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)', borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
     >
       <div className="container">
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -237,28 +237,39 @@ function TeamSection() {
         <header className="text-center mb-12">
           <div className="section-rule mx-auto" aria-hidden="true" />
           <p className="eyebrow">AS PESSOAS POR DETRÁS DO RIGOR</p>
-          <h2 className="section-title" id="team-sobre-title">Equipa de <em>Liderança</em></h2>
+          <h2 className="section-title" id="team-sobre-title">A nossa <em>Equipa</em></h2>
         </header>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
           {TEAM.map((member, i) => (
             <article
               key={member.initials}
-              className="reveal bg-white border border-gray-mid p-7 flex flex-col gap-4
-                         transition-all duration-300 hover:border-t-[3px] hover:border-t-cyan hover:shadow-card-hover"
+              className="reveal bg-white border border-gray-mid overflow-hidden flex
+                         transition-all duration-300 hover:shadow-card-hover"
               style={{ transitionDelay: `${i * 80}ms` }}
               role="listitem"
             >
-              <div className="w-14 h-14 rounded-full bg-cyan flex items-center justify-center" aria-hidden="true">
-                <span className="font-heading font-extrabold text-white text-base">{member.initials}</span>
+              {/* Photo */}
+              <div className="relative shrink-0 overflow-hidden" style={{ width: '38%' }}>
+                {member.photo ? (
+                  <img src={member.photo} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
+                ) : (
+                  <div className="w-full h-full bg-charcoal flex items-center justify-center">
+                    <span className="font-heading font-extrabold text-cyan text-3xl">{member.initials}</span>
+                  </div>
+                )}
               </div>
-              <div>
-                <h3 className="font-heading font-bold text-charcoal text-base">{member.name}</h3>
-                <div className="font-mono text-xs text-cyan uppercase tracking-widest3 mt-1">{member.role}</div>
-              </div>
-              <p className="font-body text-gray-text text-sm">{member.area}</p>
-              <p className="font-mono text-xs text-gray-text">{member.experience}</p>
-              <div className="flex flex-wrap gap-2 mt-auto pt-2">
-                {member.certs.map((c) => <span key={c} className="tag-gray">{c}</span>)}
+              {/* Info */}
+              <div className="flex flex-col flex-1 p-5">
+                <div className="flex items-baseline justify-between gap-2 mb-3">
+                  <h3 className="font-heading font-bold text-charcoal leading-tight" style={{ fontSize: '0.9rem' }}>{member.name}</h3>
+                  <span className="font-mono text-charcoal/35 shrink-0" style={{ fontSize: '10px' }}>{member.role}</span>
+                </div>
+                <p className="font-body text-charcoal/55 leading-relaxed flex-1" style={{ fontSize: '0.78rem' }}>{member.bio}</p>
+                <div className="mt-4 pt-3" style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>
+                  <a href={member.linkedin} className="font-body text-charcoal/40 hover:text-cyan transition-colors" style={{ fontSize: '11px' }}>
+                    Ver perfil →
+                  </a>
+                </div>
               </div>
             </article>
           ))}
