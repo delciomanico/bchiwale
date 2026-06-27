@@ -308,39 +308,90 @@ function TeamSection() {
   );
 }
 
-// ── Certifications ───────────────────────────────────────────────
+// ── Certifications marquee ────────────────────────────────────────
+function CertBadge() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M10 1.5l2.12 4.3 4.74.69-3.43 3.34.81 4.72L10 12.27l-4.24 2.28.81-4.72L3.14 6.49l4.74-.69L10 1.5z"
+        stroke="#00AEEF" strokeWidth="1.2" strokeLinejoin="round"
+        fill="none"
+      />
+      <path d="M7.5 10l1.8 1.8 3-3.6" stroke="#00AEEF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 function Certifications() {
   const certs = [
-    { code: 'ISO 9001', label: 'Sistema de Gestão da Qualidade', year: '2019', desc: 'Certificação internacional de qualidade em processos e serviços. Renovada anualmente.' },
-    { code: 'ISO 45001', label: 'Segurança e Saúde Ocupacional', year: '2019', desc: 'Norma de S&ST reconhecida globalmente. Garante segurança nas campanhas de campo.' },
-    { code: 'ABNT', label: 'Normas Técnicas Brasileiras', year: '2020', desc: 'Conformidade com normas técnicas aplicadas a ensaios geotécnicos e relatórios.' },
-    { code: 'JORC', label: 'Joint Ore Reserves Committee', year: '2021', desc: 'Padrão internacional australiano para reporte de recursos e reservas minerais.' },
-    { code: 'NI 43-101', label: 'National Instrument 43-101', year: '2021', desc: 'Norma canadiana para divulgação de informação mineral. Aceite por bolsas internacionais.' },
+    { code: 'ISO 9001',   label: 'Gestão da Qualidade',       year: '2019' },
+    { code: 'ISO 45001',  label: 'Saúde e Segurança',         year: '2019' },
+    { code: 'ABNT',       label: 'Normas Técnicas',           year: '2020' },
+    { code: 'JORC',       label: 'Recursos Minerais',         year: '2021' },
+    { code: 'NI 43-101',  label: 'Divulgação Mineral',        year: '2021' },
   ];
 
+  // Duplicate 3× for a seamless infinite loop at any screen width
+  const track = [...certs, ...certs, ...certs];
+
   return (
-    <section className="section-pad bg-white border-t border-charcoal/8" id="certificacoes" aria-labelledby="cert-title">
-      <div className="container">
-        <header className="text-center mb-12">
-          <p className="eyebrow">QUALIDADE E CONFORMIDADE</p>
-          <h2 className="section-title" id="cert-title">As nossas <em>Certificações</em></h2>
-        </header>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {certs.map((cert, i) => (
-            <div
-              key={cert.code}
-              className="reveal bg-white p-7 border-l-2 border-l-cyan/30
-                         hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300"
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              <div className="font-heading font-semibold text-charcoal text-2xl tracking-tight mb-1">{cert.code}</div>
-              <div className="font-mono text-[10px] text-[#00AEEF] tracking-[0.18em] uppercase mb-4">{cert.label}</div>
-              <p className="font-body text-gray-text text-sm leading-relaxed mb-4">{cert.desc}</p>
-              <div className="font-mono text-[10px] text-charcoal/30 tracking-[0.12em]">Desde {cert.year}</div>
+    <section
+      className="bg-white border-t border-charcoal/8 border-b border-charcoal/8"
+      id="certificacoes"
+      aria-labelledby="cert-title"
+    >
+      {/* Header */}
+      <div className="container py-16 text-center">
+        <p className="eyebrow">QUALIDADE E CONFORMIDADE</p>
+        <h2 className="section-title" id="cert-title">
+          As nossas <em>Certificações</em>
+        </h2>
+      </div>
+
+      {/* Marquee strip */}
+      <div
+        className="overflow-hidden border-t border-charcoal/6 py-8"
+        aria-label="Certificações em marquee"
+        onMouseEnter={e => e.currentTarget.querySelector('.cert-track').style.animationPlayState = 'paused'}
+        onMouseLeave={e => e.currentTarget.querySelector('.cert-track').style.animationPlayState = 'running'}
+      >
+        <div
+          className="cert-track flex items-center"
+          style={{
+            width: 'max-content',
+            animation: 'certScroll 28s linear infinite',
+          }}
+        >
+          {track.map((cert, i) => (
+            <div key={i} className="flex items-center shrink-0">
+              {/* Item */}
+              <div className="flex items-center gap-4 px-14">
+                <CertBadge />
+                <div>
+                  <div className="font-heading font-semibold text-charcoal tracking-tight" style={{ fontSize: '1rem', lineHeight: 1.2 }}>
+                    {cert.code}
+                  </div>
+                  <div className="font-mono text-[10px] tracking-[0.16em] uppercase mt-0.5" style={{ color: 'rgba(26,26,46,0.38)' }}>
+                    {cert.label}
+                  </div>
+                </div>
+              </div>
+              {/* Hairline separator */}
+              <div className="w-px h-6 bg-charcoal/10 shrink-0" aria-hidden="true" />
             </div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @keyframes certScroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .cert-track { animation: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
