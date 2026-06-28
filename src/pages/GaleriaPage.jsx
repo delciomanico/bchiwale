@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GALLERY_ITEMS, GALLERY_GALLERY_CATEGORIES } from '../data/siteData';
+import { GALLERY_ITEMS, GALLERY_CATEGORIES } from '../data/siteData';
 
 // Designed placeholder tile
 function GalleryTile({ item, onClick }) {

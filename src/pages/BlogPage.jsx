@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS, ALL_BLOG_POSTS, BLOG_BLOG_CATEGORIES } from '../data/siteData';
+import { BLOG_POSTS, ALL_BLOG_POSTS, BLOG_CATEGORIES } from '../data/siteData';
 
 const CAT_TAG_CLASS = {
   Geologia: 'tag-cyan',

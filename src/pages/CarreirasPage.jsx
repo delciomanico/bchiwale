@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { JOBS, JOB_JOB_DEPARTMENTS } from '../data/siteData';
+import { JOBS, JOB_DEPARTMENTS } from '../data/siteData';
 
 // Tag class mapping — plain mono text after global update
 const DEPT_TAG = {
