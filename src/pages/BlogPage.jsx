@@ -1,108 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS } from '../data/siteData';
-
-// ── Extended blog data ──
-const ALL_POSTS = [
-  {
-    id: 1,
-    slug: 'estimativa-recursos-jorc',
-    category: 'Geologia',
-    cat_type: 'tecnico',
-    date: 'Junho 2025',
-    dateTime: '2025-06',
-    title: 'Como funciona a estimativa de recursos minerais segundo o padrão JORC',
-    excerpt: 'Uma análise das etapas técnicas e documentais para classificação de recursos segundo o código JORC 2012, o padrão internacional de referência para relatórios de recursos e reservas minerais.',
-    readTime: '8 min',
-    featured: true,
-  },
-  {
-    id: 2,
-    slug: 'licenca-prospeccao-mineira-angola',
-    category: 'Legislação',
-    cat_type: 'noticias',
-    date: 'Maio 2025',
-    dateTime: '2025-05',
-    title: 'Guia prático: como obter uma Licença de Prospecção Mineira em Angola',
-    excerpt: 'O processo junto do MIREMPET passo a passo, com os documentos necessários, prazos esperados e os erros mais comuns a evitar.',
-    readTime: '11 min',
-    featured: false,
-  },
-  {
-    id: 3,
-    slug: 'tomografia-electrica-ert-aquiferos',
-    category: 'Geofísica',
-    cat_type: 'tecnico',
-    date: 'Abril 2025',
-    dateTime: '2025-04',
-    title: 'Tomografia Eléctrica (ERT): aplicações na exploração de aquíferos subterrâneos',
-    excerpt: 'A resistividade eléctrica como método principal na localização de recursos hídricos subterrâneos — fundamentos, equipamentos e interpretação de resultados.',
-    readTime: '9 min',
-    featured: false,
-  },
-  {
-    id: 4,
-    slug: 'spt-vs-cpt-ensaios-geotecnicos',
-    category: 'Geotecnia',
-    cat_type: 'tecnico',
-    date: 'Março 2025',
-    dateTime: '2025-03',
-    title: 'SPT vs CPT: qual o ensaio geotécnico adequado para o seu projecto?',
-    excerpt: 'Comparação técnica entre os dois principais ensaios de investigação do subsolo — quando usar cada um, vantagens e limitações em diferentes tipos de solo.',
-    readTime: '7 min',
-    featured: false,
-  },
-  {
-    id: 5,
-    slug: 'recuperacao-areas-mineiras-angola',
-    category: 'Sustentabilidade',
-    cat_type: 'guias',
-    date: 'Fevereiro 2025',
-    dateTime: '2025-02',
-    title: 'Recuperação de áreas mineiras degradadas: boas práticas em Angola',
-    excerpt: 'Um guia sobre as etapas de recuperação ambiental pós-lavra exigidas pela legislação angolana e padrões IFC, com exemplos práticos de projectos recentes.',
-    readTime: '12 min',
-    featured: false,
-  },
-  {
-    id: 6,
-    slug: 'prospeccao-1200km2-lunda-sul',
-    category: 'Notícias',
-    cat_type: 'noticias',
-    date: 'Janeiro 2025',
-    dateTime: '2025-01',
-    title: 'B-CHIWALE conclui campanha de prospecção de 1.200 km² na Lunda Sul',
-    excerpt: 'A nossa equipa concluiu com êxito uma das maiores campanhas de mapeamento geológico da empresa, cobrindo 1.200 km² de área diamantífera no Leste de Angola.',
-    readTime: '4 min',
-    featured: false,
-  },
-  {
-    id: 7,
-    slug: 'fotogrametria-drone-uav-5-etapas',
-    category: 'Topografia',
-    cat_type: 'tecnico',
-    date: 'Dezembro 2024',
-    dateTime: '2024-12',
-    title: 'Fotogrametria por drone UAV: da missão ao ortofotomapa em 5 etapas',
-    excerpt: 'Processo completo de um levantamento fotogramétrico UAV — planeamento de voo, aquisição de imagens, georreferenciação e processamento em software especializado.',
-    readTime: '10 min',
-    featured: false,
-  },
-  {
-    id: 8,
-    slug: 'direitos-mineiros-angola-lei-31-11',
-    category: 'Legislação',
-    cat_type: 'guias',
-    date: 'Novembro 2024',
-    dateTime: '2024-11',
-    title: 'Direitos mineiros em Angola: tipos, prazos e condições segundo a Lei 31/11',
-    excerpt: 'Explicação clara dos diferentes títulos mineiros angolanos — Licença de Prospecção, Licença de Exploração, Licença de Lavra — e o que cada um autoriza.',
-    readTime: '13 min',
-    featured: false,
-  },
-];
-
-const CATEGORIES = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Legislação', 'Sustentabilidade', 'Notícias'];
+import { BLOG_POSTS, ALL_BLOG_POSTS, BLOG_BLOG_CATEGORIES } from '../data/siteData';
 
 const CAT_TAG_CLASS = {
   Geologia: 'tag-cyan',
@@ -199,8 +97,8 @@ function FilterBtn({ label, active, onClick }) {
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('Todos');
-  const featuredPost = ALL_POSTS.find((p) => p.featured);
-  const regularPosts = ALL_POSTS.filter((p) => !p.featured);
+  const featuredPost = ALL_BLOG_POSTS.find((p) => p.featured);
+  const regularPosts = ALL_BLOG_POSTS.filter((p) => !p.featured);
 
   const filtered = activeCategory === 'Todos'
     ? regularPosts
@@ -299,7 +197,7 @@ export default function BlogPage() {
         <div className="container">
           {/* Underline filter tabs */}
           <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por categoria">
-            {CATEGORIES.map((cat) => (
+            {BLOG_CATEGORIES.map((cat) => (
               <FilterBtn
                 key={cat}
                 label={cat}

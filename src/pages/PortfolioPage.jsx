@@ -1,73 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PORTFOLIO_ITEMS, SERVICES } from '../data/siteData';
-
-// ── Extended portfolio data (adds more projects beyond siteData.js base) ──
-const EXTRA_PROJECTS = [
-  {
-    label: 'Geofísica · Bié',
-    service: 'Geofísica',
-    province: 'Bié',
-    title: 'Levantamento Magnetométrico — Área Mineira',
-    description: 'Interpretação de anomalias magnéticas para identificação de targets de cobre e ferro em 350 km².',
-    period: '2024',
-    slug: 'levantamento-magnetometrico-bie',
-  },
-  {
-    label: 'Topografia · Huíla',
-    service: 'Topografia',
-    province: 'Huíla',
-    title: 'Cartografia UAV — Concessão Agrária',
-    description: 'Fotogrametria de alta resolução por drone em 850 ha com MDT e ortofotomapa para delimitação de parcelas.',
-    period: '2023',
-    slug: 'cartografia-uav-concessao-agraria-huila',
-  },
-  {
-    label: 'Geologia · Lunda Sul',
-    service: 'Geologia',
-    province: 'Lunda Sul',
-    title: 'Prospecção Diamantífera — Zona Aluvionar',
-    description: 'Amostragem e mapeamento de depósitos aluvionares em área de 400 km² na bacia diamantífera angolana.',
-    period: '2024',
-    slug: 'prospeccao-diamantifera-lunda-sul',
-  },
-  {
-    label: 'Ambiente · Moxico',
-    service: 'Ambiente',
-    province: 'Moxico',
-    title: 'EIA — Central Hidroeléctrica Mini-Hídrica',
-    description: 'Estudo completo de impacto ambiental para projecto de geração de energia hídrica de 5 MW.',
-    period: '2023',
-    slug: 'eia-central-hidroelectrica-moxico',
-  },
-  {
-    label: 'Águas · Cunene',
-    service: 'Águas Subterrâneas',
-    province: 'Cunene',
-    title: 'Furos Tubulares — Programa de Abastecimento Rural',
-    description: 'Prospecção e execução de 12 furos tubulares para abastecimento de comunidades rurais do Cunene.',
-    period: '2022',
-    slug: 'furos-tubulares-cunene',
-  },
-  {
-    label: 'Geotecnia · Luanda',
-    service: 'Geotecnia',
-    province: 'Luanda',
-    title: 'Investigação Geotécnica — Urbanização de Grande Porte',
-    description: 'Estudo completo do subsolo para projecto residencial de 48 edifícios em terreno de 32 ha.',
-    period: '2024',
-    slug: 'investigacao-geotecnica-urbanizacao-luanda',
-  },
-];
+import {
+  PORTFOLIO_ITEMS,
+  SERVICES,
+  EXTRA_PORTFOLIO_ITEMS,
+  PORTFOLIO_PORTFOLIO_SERVICE_FILTERS,
+  PORTFOLIO_PORTFOLIO_PROVINCE_FILTERS,
+  PORTFOLIO_PORTFOLIO_PERIOD_FILTERS,
+} from '../data/siteData';
 
 const ALL_PROJECTS = [
   ...PORTFOLIO_ITEMS.map((p, i) => ({ ...p, period: ['2024', '2023', '2023', '2022', '2024', '2024'][i] })),
-  ...EXTRA_PROJECTS,
+  ...EXTRA_PORTFOLIO_ITEMS,
 ];
-
-const SERVICE_FILTERS = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Ambiente', 'Consultoria', 'Águas Subterrâneas'];
-const PROVINCE_FILTERS = ['Todas', 'Luanda', 'Malanje', 'Benguela', 'Huambo', 'Cabinda', 'Lunda Norte', 'Bié', 'Huíla', 'Lunda Sul', 'Moxico', 'Cunene'];
-const PERIOD_FILTERS = ['Todos', '2024', '2023', '2022'];
 
 // Placeholder card background (no real photos)
 function ProjectCardBg({ index }) {
@@ -208,7 +153,7 @@ export default function PortfolioPage() {
               Por Serviço
             </span>
             <div className="flex flex-wrap gap-5">
-              {SERVICE_FILTERS.map((opt) => (
+              {PORTFOLIO_SERVICE_FILTERS.map((opt) => (
                 <FilterBtn
                   key={opt}
                   label={opt}
@@ -224,7 +169,7 @@ export default function PortfolioPage() {
               Por Província
             </span>
             <div className="flex flex-wrap gap-5">
-              {PROVINCE_FILTERS.map((opt) => (
+              {PORTFOLIO_PROVINCE_FILTERS.map((opt) => (
                 <FilterBtn
                   key={opt}
                   label={opt}
@@ -240,7 +185,7 @@ export default function PortfolioPage() {
               Por Período
             </span>
             <div className="flex flex-wrap gap-5">
-              {PERIOD_FILTERS.map((opt) => (
+              {PORTFOLIO_PERIOD_FILTERS.map((opt) => (
                 <FilterBtn
                   key={opt}
                   label={opt}

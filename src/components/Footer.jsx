@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FOOTER_SERVICES, FOOTER_COMPANY, CONTACT } from '../data/siteData';
+import { FOOTER_SERVICES, FOOTER_COMPANY, CONTACT, CERT_BADGES } from '../data/siteData';
 
 function PinIcon() {
   return (
@@ -46,8 +46,6 @@ function LinkedInIcon() {
     </svg>
   );
 }
-
-const CERT_BADGES = ['ISO 9001', 'ISO 45001', 'ABNT', 'JORC', 'NI 43-101'];
 
 export default function Footer() {
   return (

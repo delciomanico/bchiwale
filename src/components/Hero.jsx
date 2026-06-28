@@ -1,53 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-
-const SLIDES = [
-  {
-    id: 1,
-    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale1.webp',
-    alt: 'Paisagem geológica angolana',
-    line1: 'A terra fala.',
-    line2: 'Nós lemos.',
-    primary:   { label: 'Os Nossos Serviços', href: '/servicos' },
-    secondary: { label: 'Contacto',           href: '/contacto' },
-  },
-  {
-    id: 2,
-    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale2.webp',
-    alt: 'Formação rochosa — Angola',
-    line1: 'Do subsolo à',
-    line2: 'superfície.',
-    primary:   { label: 'Geologia & Geofísica', href: '/servicos' },
-    secondary: { label: 'Ver Portfólio',         href: '/portfolio' },
-  },
-  {
-    id: 3,
-    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale3.webp',
-    alt: 'Vista aérea — terreno angolano',
-    line1: 'Angola vista',
-    line2: 'de perto.',
-    primary:   { label: 'Topografia & Geotecnia', href: '/servicos' },
-    secondary: { label: 'Ver Portfólio',           href: '/portfolio' },
-  },
-  {
-    id: 4,
-    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale1.webp',
-    alt: 'Território angolano',
-    line1: 'Rigor técnico.',
-    line2: 'Raízes locais.',
-    primary:   { label: 'Sobre Nós', href: '/sobre' },
-    secondary: { label: 'Contacto',  href: '/contacto' },
-  },
-  {
-    id: 5,
-    src: 'https://bchiwale.ao/wp-content/uploads/2025/04/bannerchiwale3.webp',
-    alt: 'Levantamento de campo — Angola',
-    line1: '50+ projectos.',
-    line2: '18 províncias.',
-    primary:   { label: 'Ver Portfólio',      href: '/portfolio' },
-    secondary: { label: 'Solicitar Proposta', href: '/contacto' },
-  },
-];
+import { HERO_SLIDES } from '../data/siteData';
 
 const SLIDE_INTERVAL = 9500;
 const FADE_MS        = 2200;
@@ -82,7 +35,7 @@ export default function Hero() {
 
   // Start typing sequence whenever the active slide changes
   useEffect(() => {
-    const s = SLIDES[current];
+    const s = HERO_SLIDES[current];
     setTyped({ line1: '', line2: '' });
     setTypingDone(false);
     setShowCtas(false);
@@ -124,14 +77,14 @@ export default function Hero() {
     const timer = setInterval(() => {
       setContentVisible(false);
       setTimeout(() => {
-        setCurrent((i) => (i + 1) % SLIDES.length);
+        setCurrent((i) => (i + 1) % HERO_SLIDES.length);
         setContentVisible(true);
       }, CONTENT_OUT_MS);
     }, SLIDE_INTERVAL);
     return () => clearInterval(timer);
   }, []);
 
-  const slide = SLIDES[current];
+  const slide = HERO_SLIDES[current];
 
   return (
     <section
@@ -141,7 +94,7 @@ export default function Hero() {
     >
 
       {/* ── Photo slideshow ──────────────────────────────────────────── */}
-      {SLIDES.map((s, i) => (
+      {HERO_SLIDES.map((s, i) => (
         <div
           key={s.id}
           className="absolute inset-0"
@@ -256,7 +209,7 @@ export default function Hero() {
           {/* ── Slide dots ───────────────────────────────────────────── */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '16px' }}>
             <div className="flex items-center gap-1.5" role="tablist" aria-label="Foto actual">
-              {SLIDES.map((_, i) => (
+              {HERO_SLIDES.map((_, i) => (
                 <button
                   key={i}
                   role="tab"

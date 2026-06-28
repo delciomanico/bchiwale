@@ -1,110 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// ── Job listings ──
-const JOBS = [
-  {
-    id: 1,
-    title: 'Geólogo de Campo Sénior',
-    dept: 'Geologia',
-    location: 'Luanda / Campo (Angola)',
-    type: 'Tempo Inteiro',
-    level: 'Sénior',
-    posted: 'Jun 2025',
-    description: 'Liderança de campanhas de prospecção mineral e mapeamento geológico em diversas províncias angolanas. Elaboração de relatórios técnicos segundo padrões JORC.',
-    requirements: [
-      'Licenciatura em Geologia ou área afim (Mestrado preferencial)',
-      'Mínimo 5 anos de experiência em prospecção mineral',
-      'Experiência em amostragem geoquímica e mapeamento estrutural',
-      'Capacidade de trabalho em condições de campo remoto',
-      'Inglês técnico (nível profissional)',
-    ],
-  },
-  {
-    id: 2,
-    title: 'Técnico de Geofísica Aplicada',
-    dept: 'Geofísica',
-    location: 'Luanda / Campo (Angola)',
-    type: 'Tempo Inteiro',
-    level: 'Júnior a Médio',
-    posted: 'Jun 2025',
-    description: 'Aquisição e processamento de dados geofísicos (ERT, magnetometria, sísmica) em projectos de exploração mineral e de recursos hídricos.',
-    requirements: [
-      'Licenciatura em Geofísica, Geologia ou Engenharia Geológica',
-      '2+ anos de experiência em levantamentos geofísicos de campo',
-      'Conhecimento de software de inversão (Res2DInv, Geosoft)',
-      'Carta de condução válida',
-    ],
-  },
-  {
-    id: 3,
-    title: 'Engenheiro Geotécnico',
-    dept: 'Geotecnia',
-    location: 'Luanda',
-    type: 'Tempo Inteiro',
-    level: 'Médio a Sénior',
-    posted: 'Mai 2025',
-    description: 'Planeamento e execução de campanhas de investigação geotécnica, análise de resultados de ensaios de laboratório e campo, elaboração de relatórios geotécnicos.',
-    requirements: [
-      'Licenciatura em Engenharia Civil (especialização Geotecnia)',
-      '3+ anos de experiência em geotecnia de campo',
-      'Conhecimento de ensaios SPT, CPT, PMT e triaxial',
-      'Experiência com software de modelagem (Plaxis ou semelhante)',
-      'Membro de ordem profissional (preferencial)',
-    ],
-  },
-  {
-    id: 4,
-    title: 'Topógrafo / Técnico de GNSS e UAV',
-    dept: 'Topografia',
-    location: 'Luanda / Campo (Angola)',
-    type: 'Tempo Inteiro',
-    level: 'Médio',
-    posted: 'Mai 2025',
-    description: 'Execução de levantamentos topográficos com GNSS de dupla frequência e estações totais. Operação de drones para fotogrametria UAV. Processamento de dados cartográficos.',
-    requirements: [
-      'Curso técnico ou licenciatura em Topografia / Geodesia / Geomática',
-      'Experiência com GNSS RTK (Leica, Trimble ou similar)',
-      'Competências em fotogrametria UAV (certificado de piloto preferencial)',
-      'Domínio de AutoCAD Civil 3D ou ArcGIS',
-    ],
-  },
-  {
-    id: 5,
-    title: 'Especialista em Ambiente e EIA',
-    dept: 'Ambiente',
-    location: 'Luanda',
-    type: 'Tempo Inteiro',
-    level: 'Sénior',
-    posted: 'Abr 2025',
-    description: 'Coordenação e redacção de Estudos de Impacto Ambiental (EIA/RIMA) para projectos de mineração, infraestrutura e energia segundo legislação angolana e padrões IFC.',
-    requirements: [
-      'Licenciatura em Engenharia do Ambiente, Biologia ou afim (Mestrado preferencial)',
-      'Mínimo 4 anos de experiência em elaboração de EIA em Angola',
-      'Conhecimento aprofundado da legislação ambiental angolana (Lei 5/98, Decreto 51/04)',
-      'Capacidade de articulação com o MINAMB',
-      'Inglês técnico fluente',
-    ],
-  },
-  {
-    id: 6,
-    title: 'Assistente Administrativo e de Projecto',
-    dept: 'Administração',
-    location: 'Luanda',
-    type: 'Tempo Inteiro',
-    level: 'Júnior',
-    posted: 'Jun 2025',
-    description: 'Apoio administrativo aos directores de projecto. Gestão de agenda, documentação técnica e contractual, controlo de despesas de campo e comunicação institucional.',
-    requirements: [
-      'Licenciatura em Gestão, Administração ou área afim',
-      'Excelente domínio do Microsoft Office (Word, Excel, PowerPoint)',
-      'Organização rigorosa e capacidade de trabalho sob pressão',
-      'Bom nível de inglês escrito',
-    ],
-  },
-];
-
-const DEPARTMENTS = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Ambiente', 'Administração'];
+import { JOBS, JOB_JOB_DEPARTMENTS } from '../data/siteData';
 
 // Tag class mapping — plain mono text after global update
 const DEPT_TAG = {
@@ -433,7 +329,7 @@ export default function CarreirasPage() {
 
           {/* Department filters */}
           <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por departamento">
-            {DEPARTMENTS.map((dept) => (
+            {JOB_DEPARTMENTS.map((dept) => (
               <FilterBtn
                 key={dept}
                 label={dept}

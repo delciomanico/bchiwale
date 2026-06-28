@@ -1,23 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// ── Gallery data — designed placeholders since no photos available yet ──
-const GALLERY_ITEMS = [
-  { id: 1, cat: 'Campo', title: 'Amostragem Geoquímica — Lunda Norte', province: 'Lunda Norte', accent: '#00AEEF', bg: '#0d1829' },
-  { id: 2, cat: 'Equipamentos', title: 'Equipamento ERT em Operação', province: 'Malanje', accent: '#F5C200', bg: '#1a1a0d' },
-  { id: 3, cat: 'Campo', title: 'Mapeamento Geológico de Detalhe', province: 'Bié', accent: '#00AEEF', bg: '#0d1a1a' },
-  { id: 4, cat: 'Laboratório', title: 'Análise de Amostras de Solo', province: 'Luanda', accent: '#F5C200', bg: '#1a0d0d' },
-  { id: 5, cat: 'UAV', title: 'Levantamento Fotogramétrico UAV', province: 'Huambo', accent: '#00AEEF', bg: '#0d1829' },
-  { id: 6, cat: 'Furos', title: 'Execução de Furo Tubular — 120m', province: 'Cunene', accent: '#F5C200', bg: '#0d1a0d' },
-  { id: 7, cat: 'Campo', title: 'Campanha de Prospecção Diamantífera', province: 'Lunda Sul', accent: '#00AEEF', bg: '#1a1a2e' },
-  { id: 8, cat: 'Equipamentos', title: 'Estação Total Robótica em Uso', province: 'Benguela', accent: '#F5C200', bg: '#1a1a0a' },
-  { id: 9, cat: 'Campo', title: 'Ensaio SPT em Obra Civil', province: 'Luanda', accent: '#00AEEF', bg: '#0d1520' },
-  { id: 10, cat: 'Laboratório', title: 'Ensaio de Granulometria de Solo', province: 'Benguela', accent: '#F5C200', bg: '#1a0d1a' },
-  { id: 11, cat: 'UAV', title: 'Ortofotomapa — Zona Industrial', province: 'Huíla', accent: '#00AEEF', bg: '#0a1a15' },
-  { id: 12, cat: 'Furos', title: 'Sondagem Geotécnica — 60m', province: 'Cabinda', accent: '#F5C200', bg: '#1a0a0a' },
-];
-
-const CATEGORIES = ['Todos', 'Campo', 'Laboratório', 'UAV', 'Equipamentos', 'Furos'];
+import { GALLERY_ITEMS, GALLERY_GALLERY_CATEGORIES } from '../data/siteData';
 
 // Designed placeholder tile
 function GalleryTile({ item, onClick }) {
@@ -191,7 +174,7 @@ export default function GaleriaPage() {
       <section className="py-6 bg-white border-b border-charcoal/8" aria-label="Filtros de categoria">
         <div className="container">
           <div className="flex flex-wrap items-center gap-6">
-            {CATEGORIES.map((cat) => (
+            {GALLERY_CATEGORIES.map((cat) => (
               <FilterBtn
                 key={cat}
                 label={cat}

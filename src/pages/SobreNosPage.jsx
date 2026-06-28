@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { TEAM, STATS } from '../data/siteData';
+import { TEAM, STATS, MVV_CARDS, CERTIFICATIONS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 import html2canvas from 'html2canvas';
@@ -100,11 +100,6 @@ function DGMessage() {
 
 // ── MVV ─────────────────────────────────────────────────────────
 function MVV() {
-  const cards = [
-    { label: 'Missão', title: 'Excelência Técnica', text: 'Prestar serviços de excelência em geologia e engenharia geotécnica, transformando recursos minerais em progresso sustentável para Angola.', accent: '#00AEEF' },
-    { label: 'Visão', title: 'Liderança Africana', text: 'Ser a empresa de referência em consultoria geológica e mineração em África, reconhecida pela excelência técnica e compromisso com a sustentabilidade.', accent: '#F5C200' },
-    { label: 'Valores', title: 'Princípios', text: 'Excelência técnica · Inovação contínua · Sustentabilidade · Integridade · Responsabilidade social', accent: '#1A1A2E' },
-  ];
   return (
     <section className="section-pad bg-white border-t border-charcoal/8" id="missao" aria-labelledby="mvv-title">
       <div className="container">
@@ -113,7 +108,7 @@ function MVV() {
           <h2 className="section-title" id="mvv-title">O que nos <em>define.</em></h2>
         </header>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cards.map((card, i) => (
+          {MVV_CARDS.map((card, i) => (
             <div
               key={card.label}
               className="reveal bg-white p-8 border-l-2"
@@ -655,16 +650,7 @@ function CertBadge() {
 }
 
 function Certifications() {
-  const certs = [
-    { code: 'ISO 9001',   label: 'Gestão da Qualidade',       year: '2019' },
-    { code: 'ISO 45001',  label: 'Saúde e Segurança',         year: '2019' },
-    { code: 'ABNT',       label: 'Normas Técnicas',           year: '2020' },
-    { code: 'JORC',       label: 'Recursos Minerais',         year: '2021' },
-    { code: 'NI 43-101',  label: 'Divulgação Mineral',        year: '2021' },
-  ];
-
-  // Duplicate 3× for a seamless infinite loop at any screen width
-  const track = [...certs, ...certs, ...certs];
+  const track = [...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS];
 
   return (
     <section
