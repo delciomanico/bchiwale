@@ -14,47 +14,33 @@ const ALL_PROJECTS = [
   ...EXTRA_PORTFOLIO_ITEMS,
 ];
 
-// Placeholder card background (no real photos)
-function ProjectCardBg({ index }) {
-  const gradients = [
-    'linear-gradient(135deg, #0d1829 0%, #1a2d40 100%)',
-    'linear-gradient(135deg, #0f1e2a 0%, #1a3320 100%)',
-    'linear-gradient(135deg, #1a1a1a 0%, #2a1a0a 100%)',
-    'linear-gradient(135deg, #0a1a2a 0%, #0a2020 100%)',
-    'linear-gradient(135deg, #1a0a1a 0%, #0a1a30 100%)',
-    'linear-gradient(135deg, #0d2020 0%, #0a1025 100%)',
-  ];
-  const accents = ['#00AEEF', '#F5C200', '#00AEEF', '#F5C200', '#00AEEF', '#F5C200'];
-  return (
-    <div
-      className="w-full h-48 relative overflow-hidden"
-      style={{ background: gradients[index % gradients.length] }}
-      aria-hidden="true"
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 39px, ${accents[index % accents.length]}14 39px, ${accents[index % accents.length]}14 40px),
-                            repeating-linear-gradient(0deg, transparent, transparent 39px, ${accents[index % accents.length]}14 39px, ${accents[index % accents.length]}14 40px)`,
-        }}
-      />
-      <div className="absolute bottom-0 left-0 right-0 h-px" style={{ backgroundColor: accents[index % accents.length], opacity: 0.4 }} />
-      <div className="absolute top-4 right-4 font-mono text-xs tracking-widest opacity-20" style={{ color: accents[index % accents.length] }}>
-        B-CHW
-      </div>
-    </div>
-  );
-}
-
 function ProjectCard({ project, index }) {
+  const accent = index % 2 === 0 ? '#00AEEF' : '#F5C200';
   return (
     <article
       className="reveal group bg-white flex flex-col transition-all duration-300
                  hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)] hover:-translate-y-0.5"
       style={{ transitionDelay: `${(index % 6) * 60}ms` }}
     >
-      <div className="overflow-hidden">
-        <ProjectCardBg index={index} />
+      <div className="overflow-hidden w-full h-48 relative">
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div
+            className="w-full h-full"
+            style={{ background: 'linear-gradient(135deg, #0d1829 0%, #1a2d40 100%)', position: 'relative' }}
+            aria-hidden="true"
+          >
+            <div className="absolute top-4 right-4 font-mono text-xs tracking-widest opacity-20" style={{ color: accent }}>
+              B-CHW
+            </div>
+          </div>
+        )}
       </div>
       <div className="p-7 flex flex-col flex-1 gap-3">
         <div className="flex items-center justify-between gap-2">

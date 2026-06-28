@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GALLERY_ITEMS, GALLERY_CATEGORIES } from '../data/siteData';
 
-// Designed placeholder tile
 function GalleryTile({ item, onClick }) {
   return (
     <button
@@ -10,38 +9,45 @@ function GalleryTile({ item, onClick }) {
       className="group relative w-full aspect-square overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2"
       aria-label={`Ver detalhe: ${item.title}`}
     >
-      {/* Background */}
-      <div
-        className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
-        style={{ backgroundColor: item.bg }}
-      />
-      {/* Grid pattern */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 29px, ${item.accent}18 29px, ${item.accent}18 30px),
-                            repeating-linear-gradient(90deg, transparent, transparent 29px, ${item.accent}18 29px, ${item.accent}18 30px)`,
-        }}
-        aria-hidden="true"
-      />
-      {/* Diagonal accent */}
-      <div
-        className="absolute inset-0"
-        style={{ background: `linear-gradient(135deg, ${item.accent}1a 0%, transparent 50%, ${item.accent}08 100%)` }}
-        aria-hidden="true"
-      />
+      {item.image ? (
+        <img
+          src={item.image}
+          alt={item.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      ) : (
+        <>
+          <div
+            className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+            style={{ backgroundColor: item.bg }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 29px, ${item.accent}18 29px, ${item.accent}18 30px),
+                                repeating-linear-gradient(90deg, transparent, transparent 29px, ${item.accent}18 29px, ${item.accent}18 30px)`,
+            }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(135deg, ${item.accent}1a 0%, transparent 50%, ${item.accent}08 100%)` }}
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+            <span className="font-mono text-[9px] tracking-[0.2em] opacity-40" style={{ color: item.accent }}>
+              {item.cat.toUpperCase()}
+            </span>
+          </div>
+        </>
+      )}
       {/* Bottom accent bar */}
       <div
         className="absolute bottom-0 left-0 w-8 h-px transition-all duration-300 group-hover:w-full"
         style={{ backgroundColor: item.accent, opacity: 0.6 }}
         aria-hidden="true"
       />
-      {/* Subtle category label */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-        <span className="font-mono text-[9px] tracking-[0.2em] opacity-40" style={{ color: item.accent }}>
-          {item.cat.toUpperCase()}
-        </span>
-      </div>
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/75 transition-all duration-300 flex items-end p-5">
         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-left">
@@ -80,25 +86,35 @@ function Lightbox({ item, onClose }) {
         >
           Fechar ×
         </button>
-        {/* Enlarged placeholder */}
+        {/* Image */}
         <div
-          className="w-full"
-          style={{ aspectRatio: '16/9', backgroundColor: item.bg, position: 'relative', overflow: 'hidden' }}
+          className="w-full overflow-hidden"
+          style={{ aspectRatio: '16/9', backgroundColor: item.bg, position: 'relative' }}
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 39px, ${item.accent}22 39px, ${item.accent}22 40px),
-                                repeating-linear-gradient(90deg, transparent, transparent 39px, ${item.accent}22 39px, ${item.accent}22 40px)`,
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: `linear-gradient(135deg, ${item.accent}28 0%, transparent 60%)` }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="font-mono font-bold text-6xl opacity-[0.07]" style={{ color: item.accent }}>B-CHW</div>
-          </div>
+          {item.image ? (
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <>
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 39px, ${item.accent}22 39px, ${item.accent}22 40px),
+                                    repeating-linear-gradient(90deg, transparent, transparent 39px, ${item.accent}22 39px, ${item.accent}22 40px)`,
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: `linear-gradient(135deg, ${item.accent}28 0%, transparent 60%)` }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="font-mono font-bold text-6xl opacity-[0.07]" style={{ color: item.accent }}>B-CHW</div>
+              </div>
+            </>
+          )}
           <div className="absolute bottom-0 left-0 right-0 h-px" style={{ backgroundColor: item.accent, opacity: 0.4 }} />
         </div>
         {/* Caption */}
