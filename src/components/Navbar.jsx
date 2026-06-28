@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM } from '../data/siteData';
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 function ChevronDown({ className = 'w-3.5 h-3.5' }) {
@@ -448,14 +449,52 @@ function SimpleDropdown({ items, isOpen, onClose }) {
   );
 }
 
-// ─── Search suggestions ────────────────────────────────────────────────────────
-const SEARCH_SUGGESTIONS = [
-  { label: 'Geologia e Prospecção', to: '/servicos/geologia-prospeccao' },
-  { label: 'Engenharia Geotécnica', to: '/servicos/engenharia-geotecnica' },
-  { label: 'Topografia e Geodesia', to: '/servicos/topografia-geodesia' },
-  { label: 'Portfolio de Projectos', to: '/portfolio' },
-  { label: 'Solicitar Proposta', to: '/contacto' },
-  { label: 'Carreiras', to: '/carreiras' },
+// ─── Search index ─────────────────────────────────────────────────────────────
+const SEARCH_INDEX = [
+  { type: 'Páginas',   label: 'Home',               subtitle: 'Página inicial',                     href: '/' },
+  { type: 'Páginas',   label: 'Sobre Nós',           subtitle: 'História, equipa e certificações',   href: '/sobre-nos' },
+  { type: 'Páginas',   label: 'Portfolio',            subtitle: 'Mais de 50 projectos concluídos',   href: '/portfolio' },
+  { type: 'Páginas',   label: 'Blog & Conhecimento',  subtitle: 'Artigos técnicos e guias',          href: '/blog' },
+  { type: 'Páginas',   label: 'Galeria',              subtitle: 'Imagens de campo',                  href: '/galeria' },
+  { type: 'Páginas',   label: 'Recursos',             subtitle: 'Downloads e documentos',            href: '/recursos' },
+  { type: 'Páginas',   label: 'Contacto',             subtitle: 'Fale connosco',                     href: '/contacto' },
+  { type: 'Páginas',   label: 'Carreiras',            subtitle: 'Trabalhe connosco',                 href: '/carreiras' },
+  ...SERVICES.map((s) => ({
+    type: 'Serviços',
+    label: s.title,
+    subtitle: s.description,
+    href: s.href,
+    keywords: (s.subtechniques || []).join(' ') + ' ' + (s.tags || []).map((t) => t.label).join(' '),
+  })),
+  ...PORTFOLIO_ITEMS.map((p) => ({
+    type: 'Projectos',
+    label: p.title,
+    subtitle: `${p.service} · ${p.province}`,
+    href: `/portfolio/${p.slug}`,
+    keywords: `${p.description} ${p.challenge || ''} ${p.solution || ''}`,
+  })),
+  ...BLOG_POSTS.map((b) => ({
+    type: 'Artigos',
+    label: b.title,
+    subtitle: `${b.category} · ${b.date}`,
+    href: `/blog/${b.slug}`,
+    keywords: `${b.excerpt} ${(b.tags || []).join(' ')}`,
+  })),
+  ...TEAM.map((m) => ({
+    type: 'Equipa',
+    label: m.name,
+    subtitle: m.role,
+    href: '/sobre-nos#equipa',
+    keywords: `${m.bio} ${(m.specialties || []).join(' ')}`,
+  })),
+];
+
+const POPULAR = [
+  { label: 'Geologia e Prospecção',     href: '/servicos/geologia-prospeccao' },
+  { label: 'Geofísica Aplicada',        href: '/servicos/geofisica-aplicada' },
+  { label: 'Engenharia Geotécnica',     href: '/servicos/engenharia-geotecnica' },
+  { label: 'Portfolio de Projectos',    href: '/portfolio' },
+  { label: 'Solicitar Proposta',        href: '/contacto' },
 ];
 
 // ─── Nav items (local, no longer imported from siteData for labels) ──────────
@@ -517,6 +556,20 @@ const MOBILE_SUBITEMS = {
   ],
 };
 
+// ─── Highlight helper ─────────────────────────────────────────────────────────
+function Highlight({ text, query }) {
+  if (!query) return <>{text}</>;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="bg-transparent text-cyan font-semibold not-italic">{text.slice(idx, idx + query.length)}</mark>
+      {text.slice(idx + query.length)}
+    </>
+  );
+}
+
 // ─── Main component ────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -524,12 +577,41 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [openDrawerSub, setOpenDrawerSub] = useState(null);
+  const [query, setQuery] = useState('');
+  const [selectedIdx, setSelectedIdx] = useState(-1);
   const searchInputRef = useRef(null);
   const closeTimer = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchResults = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return SEARCH_INDEX.filter((item) =>
+      item.label.toLowerCase().includes(q) ||
+      item.subtitle?.toLowerCase().includes(q) ||
+      item.keywords?.toLowerCase().includes(q)
+    ).slice(0, 20);
+  }, [query]);
+
+  const grouped = useMemo(() => {
+    return searchResults.reduce((acc, item) => {
+      if (!acc[item.type]) acc[item.type] = [];
+      acc[item.type].push(item);
+      return acc;
+    }, {});
+  }, [searchResults]);
+
+  const flatResults = searchResults;
+
+  const closeSearch = useCallback(() => {
+    setSearchOpen(false);
+    setQuery('');
+    setSelectedIdx(-1);
+  }, []);
 
   // Close mega on route change
-  useEffect(() => { setOpenMega(null); setDrawerOpen(false); }, [location]);
+  useEffect(() => { setOpenMega(null); setDrawerOpen(false); closeSearch(); }, [location]);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
@@ -539,11 +621,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape') { setDrawerOpen(false); setSearchOpen(false); setOpenMega(null); }
+      if (e.key === 'Escape') { setDrawerOpen(false); closeSearch(); setOpenMega(null); }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [closeSearch]);
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) searchInputRef.current.focus();
@@ -553,6 +635,21 @@ export default function Navbar() {
     document.body.style.overflow = drawerOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [drawerOpen]);
+
+  const handleSearchKeyDown = (e) => {
+    if (!flatResults.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIdx((i) => Math.min(i + 1, flatResults.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIdx((i) => Math.max(i - 1, -1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const target = selectedIdx >= 0 ? flatResults[selectedIdx] : flatResults[0];
+      if (target) { navigate(target.href); closeSearch(); }
+    }
+  };
 
   const handleMouseEnter = (label) => {
     clearTimeout(closeTimer.current);
@@ -633,9 +730,9 @@ export default function Navbar() {
               {/* Right actions — desktop */}
               <div className="hidden xl:flex items-center gap-3 shrink-0">
                 <button
-                  className={`p-2 transition-colors duration-500 ${isTransparent ? 'text-white/70 hover:text-white' : 'text-charcoal hover:text-cyan'}`}
+                  className={`p-2 transition-colors duration-500 ${isTransparent ? 'text-white/70 hover:text-white' : searchOpen ? 'text-cyan' : 'text-charcoal hover:text-cyan'}`}
                   aria-label="Pesquisar"
-                  onClick={() => setSearchOpen((v) => !v)}
+                  onClick={() => { if (searchOpen) { closeSearch(); } else { setSearchOpen(true); } }}
                 >
                   <SearchIcon className="w-[18px] h-[18px]" />
                 </button>
@@ -670,36 +767,100 @@ export default function Navbar() {
           </div>
 
           {/* Search panel */}
-          <div
-            className={`border-t border-gray-mid bg-white transition-all duration-300 overflow-hidden
-                        ${searchOpen ? 'max-h-52 opacity-100' : 'max-h-0 opacity-0'}`}
-          >
-            <div className="container py-4">
-              <form className="flex items-center gap-3 border-b-2 border-charcoal pb-2" onSubmit={(e) => e.preventDefault()}>
-                <SearchIcon className="w-4 h-4 text-gray-text shrink-0" />
-                <input
-                  ref={searchInputRef}
-                  type="search"
-                  className="flex-1 bg-transparent text-charcoal font-body text-base outline-none placeholder:text-gray-text"
-                  placeholder="Pesquisar serviços, projectos, artigos..."
-                />
-                <button type="button" className="text-xs text-gray-text font-mono hover:text-charcoal" onClick={() => setSearchOpen(false)}>
-                  ESC
-                </button>
-              </form>
-              <div className="pt-3">
-                <p className="font-mono text-[10px] text-gray-text tracking-widest2 uppercase mb-2">Sugestões</p>
-                <div className="flex flex-wrap gap-2">
-                  {SEARCH_SUGGESTIONS.map((s) => (
-                    <Link key={s.to} to={s.to} onClick={() => setSearchOpen(false)}
-                      className="font-body text-xs text-gray-text border border-gray-mid px-3 py-1 hover:border-cyan hover:text-cyan transition-colors">
-                      {s.label}
-                    </Link>
-                  ))}
+          {searchOpen && (
+            <div className="border-t-[3px] border-cyan bg-white shadow-xl">
+              <div className="container py-5">
+                {/* Input */}
+                <div className="flex items-center gap-3 border-b border-charcoal/15 pb-4 mb-5">
+                  <SearchIcon className="w-5 h-5 text-charcoal/30 shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="search"
+                    value={query}
+                    onChange={(e) => { setQuery(e.target.value); setSelectedIdx(-1); }}
+                    onKeyDown={handleSearchKeyDown}
+                    className="flex-1 bg-transparent text-charcoal font-body text-lg outline-none placeholder:text-charcoal/25"
+                    placeholder="Pesquisar serviços, projectos, artigos, equipa…"
+                    aria-label="Pesquisa"
+                    autoComplete="off"
+                  />
+                  <button
+                    type="button"
+                    className="font-mono text-[10px] text-charcoal/30 tracking-[0.18em] hover:text-charcoal transition-colors px-2 py-1 border border-charcoal/15 hover:border-charcoal/40"
+                    onClick={closeSearch}
+                  >
+                    ESC
+                  </button>
                 </div>
+
+                {/* Results */}
+                {query.trim() ? (
+                  flatResults.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-1 max-h-[60vh] overflow-y-auto pb-4">
+                      {Object.entries(grouped).map(([type, items]) => (
+                        <div key={type} className="mb-4">
+                          <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-charcoal/30 mb-2 pb-1.5 border-b border-charcoal/8">
+                            {type}
+                          </p>
+                          <ul>
+                            {items.slice(0, 4).map((item) => {
+                              const globalIdx = flatResults.indexOf(item);
+                              const isSelected = globalIdx === selectedIdx;
+                              return (
+                                <li key={item.href + item.label}>
+                                  <Link
+                                    to={item.href}
+                                    onClick={closeSearch}
+                                    onMouseEnter={() => setSelectedIdx(globalIdx)}
+                                    className={`flex flex-col py-2 px-3 -mx-3 transition-colors duration-100 ${
+                                      isSelected ? 'bg-gray-light' : 'hover:bg-gray-light'
+                                    }`}
+                                  >
+                                    <span className="font-body font-medium text-charcoal text-sm leading-snug">
+                                      <Highlight text={item.label} query={query.trim()} />
+                                    </span>
+                                    <span className="font-mono text-[10px] text-charcoal/35 tracking-wide mt-0.5 truncate">
+                                      {item.subtitle}
+                                    </span>
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-8 text-center">
+                      <p className="font-body text-charcoal/40 text-sm">
+                        Sem resultados para <strong className="text-charcoal/60">"{query}"</strong>
+                      </p>
+                      <p className="font-mono text-[10px] text-charcoal/25 tracking-wide mt-2 uppercase">
+                        Tente "geologia", "ERT", "Luanda" ou "JORC"
+                      </p>
+                    </div>
+                  )
+                ) : (
+                  <div>
+                    <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-charcoal/30 mb-3">Pesquisas populares</p>
+                    <div className="flex flex-wrap gap-2">
+                      {POPULAR.map((p) => (
+                        <Link
+                          key={p.href}
+                          to={p.href}
+                          onClick={closeSearch}
+                          className="font-mono text-[10px] tracking-[0.14em] text-charcoal/50 border border-charcoal/15
+                                     px-3 py-1.5 hover:border-cyan hover:text-cyan transition-colors duration-200"
+                        >
+                          {p.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
         </nav>
 
         {/* ── Mega menu panel ── */}
