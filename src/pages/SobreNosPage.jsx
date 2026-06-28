@@ -469,8 +469,124 @@ function OrgChart() {
   );
 }
 
-// ── Team section ─────────────────────────────────────────────────
+function TeamModal({ member, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      style={{ background: 'rgba(10,14,22,0.80)', backdropFilter: 'blur(6px)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Perfil de ${member.name}`}
+    >
+      <div className="bg-white w-full max-w-lg overflow-y-auto" style={{ maxHeight: '90vh' }}>
+        <div
+          className="flex items-center gap-6 p-8"
+          style={{ background: '#F7F7F7', borderBottom: '1px solid rgba(26,26,46,0.10)' }}
+        >
+          {member.photo ? (
+            <img
+              src={member.photo}
+              alt={member.name}
+              className="rounded-full object-cover shrink-0"
+              style={{ width: 120, height: 120, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 3 }}
+            />
+          ) : (
+            <div
+              className="rounded-full shrink-0 flex items-center justify-center"
+              style={{ width: 120, height: 120, background: '#1A1A2E', border: '1px solid rgba(0,174,239,0.2)' }}
+            >
+              <span className="font-heading font-semibold text-cyan text-3xl">{member.initials}</span>
+            </div>
+          )}
+          <div>
+            <h2 className="font-heading font-semibold text-charcoal text-xl leading-tight">{member.name}</h2>
+            <div className="font-mono text-[10px] tracking-[0.18em] uppercase mt-1.5 mb-2" style={{ color: '#00AEEF' }}>
+              {member.role}
+            </div>
+            {member.yearsExp && (
+              <div className="font-mono text-[10px] text-charcoal/40 tracking-[0.15em]">
+                {member.yearsExp} anos de experiência
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="p-8 space-y-6">
+          <p className="font-body text-charcoal/70 text-sm leading-relaxed">{member.bio}</p>
+
+          {member.education && (
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">FORMAÇÃO</p>
+              <p className="font-body text-charcoal/70 text-sm">{member.education}</p>
+            </div>
+          )}
+
+          {member.specialties && member.specialties.length > 0 && (
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-3">ESPECIALIDADES</p>
+              <ul className="space-y-2">
+                {member.specialties.map((spec) => (
+                  <li key={spec} className="flex items-center gap-2.5">
+                    <span
+                      className="w-1 h-1 rounded-full shrink-0"
+                      style={{ backgroundColor: '#00AEEF' }}
+                      aria-hidden="true"
+                    />
+                    <span className="font-body text-charcoal/70 text-sm">{spec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {member.languages && member.languages.length > 0 && (
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">IDIOMAS</p>
+              <p className="font-body text-charcoal/70 text-sm">{member.languages.join(' · ')}</p>
+            </div>
+          )}
+        </div>
+
+        <div
+          className="px-8 pb-8 flex items-center gap-4"
+          style={{ borderTop: '1px solid rgba(26,26,46,0.08)', paddingTop: '1.5rem' }}
+        >
+          {member.linkedin && member.linkedin !== '#' && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+            >
+              LinkedIn
+            </a>
+          )}
+          <button
+            onClick={onClose}
+            className="font-mono text-[11px] tracking-[0.18em] uppercase text-charcoal/40 hover:text-charcoal transition-colors"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TeamSection() {
+  const [selectedMember, setSelectedMember] = useState(null);
+
   return (
     <section className="section-pad bg-white border-t border-charcoal/8" id="equipa" aria-labelledby="team-sobre-title">
       <div className="container">
@@ -487,7 +603,6 @@ function TeamSection() {
               style={{ transitionDelay: `${i * 80}ms` }}
               role="listitem"
             >
-              {/* Photo / initials */}
               <div className="relative shrink-0 overflow-hidden" style={{ width: '38%' }}>
                 {member.photo ? (
                   <img src={member.photo} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
@@ -497,7 +612,6 @@ function TeamSection() {
                   </div>
                 )}
               </div>
-              {/* Info */}
               <div className="flex flex-col flex-1 p-5">
                 <div className="flex items-baseline justify-between gap-2 mb-3">
                   <h3 className="font-heading font-semibold text-charcoal leading-tight" style={{ fontSize: '0.9rem' }}>
@@ -507,18 +621,21 @@ function TeamSection() {
                 </div>
                 <p className="font-body text-charcoal/50 leading-relaxed flex-1" style={{ fontSize: '0.78rem' }}>{member.bio}</p>
                 <div className="mt-4 pt-3 border-t border-charcoal/8">
-                  <a
-                    href={member.linkedin}
+                  <button
+                    onClick={() => setSelectedMember(member)}
                     className="font-mono text-[11px] text-charcoal/35 hover:text-cyan transition-colors"
                   >
                     Ver perfil →
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
           ))}
         </div>
       </div>
+      {selectedMember && (
+        <TeamModal member={selectedMember} onClose={() => setSelectedMember(null)} />
+      )}
     </section>
   );
 }

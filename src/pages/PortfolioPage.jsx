@@ -11,6 +11,7 @@ const EXTRA_PROJECTS = [
     title: 'Levantamento Magnetométrico — Área Mineira',
     description: 'Interpretação de anomalias magnéticas para identificação de targets de cobre e ferro em 350 km².',
     period: '2024',
+    slug: 'levantamento-magnetometrico-bie',
   },
   {
     label: 'Topografia · Huíla',
@@ -19,6 +20,7 @@ const EXTRA_PROJECTS = [
     title: 'Cartografia UAV — Concessão Agrária',
     description: 'Fotogrametria de alta resolução por drone em 850 ha com MDT e ortofotomapa para delimitação de parcelas.',
     period: '2023',
+    slug: 'cartografia-uav-concessao-agraria-huila',
   },
   {
     label: 'Geologia · Lunda Sul',
@@ -27,6 +29,7 @@ const EXTRA_PROJECTS = [
     title: 'Prospecção Diamantífera — Zona Aluvionar',
     description: 'Amostragem e mapeamento de depósitos aluvionares em área de 400 km² na bacia diamantífera angolana.',
     period: '2024',
+    slug: 'prospeccao-diamantifera-lunda-sul',
   },
   {
     label: 'Ambiente · Moxico',
@@ -35,6 +38,7 @@ const EXTRA_PROJECTS = [
     title: 'EIA — Central Hidroeléctrica Mini-Hídrica',
     description: 'Estudo completo de impacto ambiental para projecto de geração de energia hídrica de 5 MW.',
     period: '2023',
+    slug: 'eia-central-hidroelectrica-moxico',
   },
   {
     label: 'Águas · Cunene',
@@ -43,6 +47,7 @@ const EXTRA_PROJECTS = [
     title: 'Furos Tubulares — Programa de Abastecimento Rural',
     description: 'Prospecção e execução de 12 furos tubulares para abastecimento de comunidades rurais do Cunene.',
     period: '2022',
+    slug: 'furos-tubulares-cunene',
   },
   {
     label: 'Geotecnia · Luanda',
@@ -51,6 +56,7 @@ const EXTRA_PROJECTS = [
     title: 'Investigação Geotécnica — Urbanização de Grande Porte',
     description: 'Estudo completo do subsolo para projecto residencial de 48 edifícios em terreno de 32 ha.',
     period: '2024',
+    slug: 'investigacao-geotecnica-urbanizacao-luanda',
   },
 ];
 
@@ -116,11 +122,11 @@ function ProjectCard({ project, index }) {
         <div className="flex items-center justify-between mt-1 pt-3 border-t border-charcoal/8">
           <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em] uppercase">{project.province}</span>
           <Link
-            to="/contacto"
+            to={`/portfolio/${project.slug}`}
             className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
-            aria-label={`Falar sobre projecto similar a ${project.title}`}
+            aria-label={`Ver detalhe do projecto: ${project.title}`}
           >
-            Projecto similar <span aria-hidden="true">→</span>
+            Ver projecto <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>

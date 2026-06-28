@@ -6,6 +6,7 @@ import { BLOG_POSTS } from '../data/siteData';
 const ALL_POSTS = [
   {
     id: 1,
+    slug: 'estimativa-recursos-jorc',
     category: 'Geologia',
     cat_type: 'tecnico',
     date: 'Junho 2025',
@@ -17,6 +18,7 @@ const ALL_POSTS = [
   },
   {
     id: 2,
+    slug: 'licenca-prospeccao-mineira-angola',
     category: 'Legislação',
     cat_type: 'noticias',
     date: 'Maio 2025',
@@ -28,6 +30,7 @@ const ALL_POSTS = [
   },
   {
     id: 3,
+    slug: 'tomografia-electrica-ert-aquiferos',
     category: 'Geofísica',
     cat_type: 'tecnico',
     date: 'Abril 2025',
@@ -39,6 +42,7 @@ const ALL_POSTS = [
   },
   {
     id: 4,
+    slug: 'spt-vs-cpt-ensaios-geotecnicos',
     category: 'Geotecnia',
     cat_type: 'tecnico',
     date: 'Março 2025',
@@ -50,6 +54,7 @@ const ALL_POSTS = [
   },
   {
     id: 5,
+    slug: 'recuperacao-areas-mineiras-angola',
     category: 'Sustentabilidade',
     cat_type: 'guias',
     date: 'Fevereiro 2025',
@@ -61,6 +66,7 @@ const ALL_POSTS = [
   },
   {
     id: 6,
+    slug: 'prospeccao-1200km2-lunda-sul',
     category: 'Notícias',
     cat_type: 'noticias',
     date: 'Janeiro 2025',
@@ -72,6 +78,7 @@ const ALL_POSTS = [
   },
   {
     id: 7,
+    slug: 'fotogrametria-drone-uav-5-etapas',
     category: 'Topografia',
     cat_type: 'tecnico',
     date: 'Dezembro 2024',
@@ -83,6 +90,7 @@ const ALL_POSTS = [
   },
   {
     id: 8,
+    slug: 'direitos-mineiros-angola-lei-31-11',
     category: 'Legislação',
     cat_type: 'guias',
     date: 'Novembro 2024',
@@ -162,7 +170,7 @@ function PostCard({ post, index }) {
             {post.date}
           </time>
           <Link
-            to="/contacto"
+            to={`/blog/${post.slug}`}
             className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
           >
             Ler mais <span aria-hidden="true">→</span>
@@ -273,7 +281,7 @@ export default function BlogPage() {
                     {featuredPost.date}
                   </time>
                   <Link
-                    to="/contacto"
+                    to={`/blog/${featuredPost.slug}`}
                     className="font-body font-medium text-charcoal border-b border-charcoal/25
                                hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]"
                   >

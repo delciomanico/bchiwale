@@ -4,7 +4,7 @@ import { BLOG_POSTS } from '../data/siteData';
 function ArticleCard({ post, index }) {
   return (
     <Link
-      to={post.href}
+      to={`/blog/${post.slug}`}
       className="reveal group block bg-white border border-gray-mid overflow-hidden
                  transition-shadow duration-300 hover:shadow-card-hover"
       style={{ transitionDelay: `${index * 80}ms` }}

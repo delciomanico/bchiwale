@@ -4,7 +4,7 @@ import { PORTFOLIO_ITEMS } from '../data/siteData';
 function PortfolioCard({ item, delay = 0 }) {
   return (
     <Link
-      to={item.href}
+      to={`/portfolio/${item.slug}`}
       className="reveal group block bg-white overflow-hidden
                  transition-all duration-500 ease-out
                  hover:-translate-y-1.5
