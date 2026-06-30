@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { useLang } from '../contexts/LangContext';
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 
@@ -40,6 +41,7 @@ function CollapseIcon() {
 function VideoPlayer() {
   const videoRef   = useRef(null);
   const wrapperRef = useRef(null);
+  const { t } = useLang();
   const [playing,      setPlaying]      = useState(false);
   const [started,      setStarted]      = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -86,7 +88,7 @@ function VideoPlayer() {
     >
       <video
         ref={videoRef}
-        src="/WhatsApp Video 2026-06-26 at 12.03.51.mp4"
+        src="/about-video.mp4"
         playsInline
         onEnded={() => { setPlaying(false); setStarted(false); }}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -96,7 +98,7 @@ function VideoPlayer() {
       <div
         onClick={togglePlay}
         role="button"
-        aria-label={playing ? 'Pausar vídeo' : 'Reproduzir vídeo'}
+        aria-label={playing ? t('about.pause') : t('about.play')}
         style={{
           position:       'absolute',
           inset:          0,
@@ -134,7 +136,7 @@ function VideoPlayer() {
       {/* Fullscreen toggle — bottom-right */}
       <button
         onClick={toggleFullscreen}
-        aria-label={isFullscreen ? 'Sair de ecrã completo' : 'Ecrã completo'}
+        aria-label={isFullscreen ? t('about.exit_fullscreen') : t('about.fullscreen')}
         style={{
           position:        'absolute',
           bottom:          '10px',
@@ -171,6 +173,7 @@ function VideoPlayer() {
 /* ── Section ────────────────────────────────────────────────────────── */
 
 export default function About() {
+  const { t } = useLang();
   return (
     <section
       className="section-tall bg-gray-light"
@@ -180,7 +183,7 @@ export default function About() {
       <div className="container">
 
         {/* Eyebrow */}
-        <p className="eyebrow-muted mb-12">QUEM SOMOS</p>
+        <p className="eyebrow-muted mb-12">{t('about.eyebrow')}</p>
 
         {/* Two-column: video left, text right */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] gap-12 lg:gap-16 items-start">
@@ -193,7 +196,7 @@ export default function About() {
           {/* Right — quote + body + pillars + CTA */}
           <div className="flex flex-col gap-8">
 
-            <blockquote aria-label="Citação do Director-Geral">
+            <blockquote aria-label={t('about.quote_author')}>
               <span
                 className="block font-heading font-extrabold text-cyan leading-none select-none mb-3"
                 style={{ fontSize: '3.2rem', opacity: 0.13 }}
@@ -206,12 +209,10 @@ export default function About() {
                 id="about-title"
                 style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}
               >
-                Angola precisa de empresas de geociências que combinem
-                rigor técnico de classe mundial com conhecimento profundo
-                do nosso território.
+                {t('about.quote')}
               </p>
               <cite className="font-mono text-[10px] text-charcoal/38 tracking-widest2 not-italic uppercase block">
-                Severino Chiwale — Director-Geral & Fundador
+                {t('about.quote_author')}
               </cite>
             </blockquote>
 
@@ -220,22 +221,16 @@ export default function About() {
               style={{ transitionDelay: '80ms' }}
             >
               <p className="font-body text-charcoal/60 text-sm leading-[1.85]">
-                A B-CHIWALE é uma empresa angolana constituída em 2017, com actuação em
-                Geologia, Geofísica Aplicada, Engenharia Geotécnica, Topografia e Ambiente.
+                {t('about.body1')}
               </p>
-              <p
-                className="font-body text-charcoal/60 text-sm leading-[1.85]"
-              >
-                Com uma equipa de mais de 100 profissionais qualificados e cobertura em
-                18 províncias angolanas, somos referência nacional em soluções de
-                exploração e consultoria mineral.
+              <p className="font-body text-charcoal/60 text-sm leading-[1.85]">
+                {t('about.body2')}
               </p>
             </div>
 
-
             <div className="reveal" style={{ transitionDelay: '240ms' }}>
               <Link to="/sobre-nos" className="hero-link">
-                A nossa história completa <span aria-hidden="true">↗</span>
+                {t('about.full_story')} <span aria-hidden="true">↗</span>
               </Link>
             </div>
 
