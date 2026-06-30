@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { TESTIMONIALS } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { TESTIMONIALS_EN } from '../i18n/dataEN';
 
 // ── Testimonials — single centered quote, rotates every 6s ──
 export default function Testimonials() {
+  const { t, loc } = useLang();
+  const testimonials = loc(TESTIMONIALS, TESTIMONIALS_EN);
   const [active, setActive] = useState(0);
   const [fading, setFading] = useState(false);
 
@@ -13,7 +17,7 @@ export default function Testimonials() {
     const interval = setInterval(() => {
       setFading(true);
       setTimeout(() => {
-        setActive((prev) => (prev + 1) % TESTIMONIALS.length);
+        setActive((prev) => (prev + 1) % testimonials.length);
         setFading(false);
       }, 400);
     }, 6000);
@@ -21,7 +25,7 @@ export default function Testimonials() {
     return () => clearInterval(interval);
   }, []);
 
-  const item = TESTIMONIALS[active];
+  const item = testimonials[active];
 
   return (
     <section
@@ -31,7 +35,7 @@ export default function Testimonials() {
       aria-live="polite"
     >
       <div className="container">
-        <p className="eyebrow-muted mb-16 md:mb-20 text-center">O QUE DIZEM OS CLIENTES</p>
+        <p className="eyebrow-muted mb-16 md:mb-20 text-center">{t('testimonials.eyebrow')}</p>
 
         {/* Single quote — centered, display scale */}
         <div className="max-w-3xl mx-auto text-center">
@@ -76,8 +80,8 @@ export default function Testimonials() {
           </blockquote>
 
           {/* Dot indicators */}
-          <div className="flex items-center justify-center gap-3 mt-12" aria-label="Testemunhos — indicadores">
-            {TESTIMONIALS.map((_, i) => (
+          <div className="flex items-center justify-center gap-3 mt-12" aria-label={t('testimonials.dots_label')}>
+            {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => {
@@ -89,7 +93,7 @@ export default function Testimonials() {
                     ? 'w-5 h-1.5 bg-cyan'
                     : 'w-1.5 h-1.5 bg-charcoal/20 hover:bg-charcoal/40'
                 }`}
-                aria-label={`Ver testemunho ${i + 1}`}
+                aria-label={`${t('testimonials.dot_label')} ${i + 1}`}
                 aria-current={i === active ? 'true' : undefined}
               />
             ))}

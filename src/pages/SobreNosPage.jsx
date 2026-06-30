@@ -4,6 +4,7 @@ import { TEAM, STATS, MVV_CARDS, CERTIFICATIONS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 import html2canvas from 'html2canvas';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 // ── Internal hero ────────────────────────────────────────────────
 function PageHero() {
@@ -716,6 +717,11 @@ function Certifications() {
 
 // ── Page ─────────────────────────────────────────────────────────
 export default function SobreNosPage() {
+  usePageMeta(
+    'Sobre Nós — História, Equipa e Certificações',
+    'Conheça a B-CHIWALE: fundada em 2017, certificada ISO 9001 e ISO 45001, com mais de 100 profissionais em geociências e 18 províncias de actuação em Angola.',
+    'https://bchiwale.ao/sobre-nos'
+  );
   return (
     <>
       <PageHero />

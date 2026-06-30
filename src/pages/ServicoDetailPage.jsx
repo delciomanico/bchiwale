@@ -2,12 +2,19 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { SERVICES, SERVICE_DETAIL, SERVICE_SLUG_MAP } from '../data/siteData';
 import { ServiceIcon } from '../components/ServiceIcons';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function ServicoDetailPage() {
   const { slug } = useParams();
   const serviceIndex = SERVICE_SLUG_MAP[slug];
   const service = serviceIndex !== undefined ? SERVICES[serviceIndex] : null;
   const detail = SERVICE_DETAIL[slug];
+
+  usePageMeta(
+    service ? service.title : 'Serviço',
+    service ? `${service.description} Empresa certificada B-CHIWALE — Angola.` : undefined,
+    service ? `https://bchiwale.ao/servicos/${slug}` : undefined
+  );
 
   // Fallback for unknown slug
   if (!service) {

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FOOTER_SERVICES, FOOTER_COMPANY, CONTACT, CERT_BADGES } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { FOOTER_SERVICES_EN, FOOTER_COMPANY_EN } from '../i18n/dataEN';
 
 function PinIcon() {
   return (
@@ -48,6 +50,10 @@ function LinkedInIcon() {
 }
 
 export default function Footer() {
+  const { t, loc } = useLang();
+  const footerServices = loc(FOOTER_SERVICES, FOOTER_SERVICES_EN);
+  const footerCompany  = loc(FOOTER_COMPANY,  FOOTER_COMPANY_EN);
+
   return (
     <footer
       className="bg-charcoal"
@@ -64,14 +70,13 @@ export default function Footer() {
               B-CHIWALE
             </div>
             <div className="font-mono text-xs text-cyan/70 tracking-widest3 mb-4 leading-snug">
-              Empresa Certificada de Prestação de Serviços no Sector Mineiro
+              {t('footer.brand_tagline')}
             </div>
             <p className="font-body text-white/50 text-sm leading-relaxed mb-6">
-              Empresa angolana certificada, a operar desde 2017 em todo o território nacional
-              e a expandir para África.
+              {t('footer.brand_desc')}
             </p>
             {/* Cert badges */}
-            <div className="flex flex-wrap gap-2" aria-label="Certificações">
+            <div className="flex flex-wrap gap-2" aria-label={t('footer.certifications_label')}>
               {CERT_BADGES.map((cert) => (
                 <span
                   key={cert}
@@ -87,10 +92,10 @@ export default function Footer() {
           {/* Column 2 — Services */}
           <div>
             <div className="font-mono text-xs text-white/40 tracking-widest2 uppercase mb-5">
-              Serviços
+              {t('footer.col_services')}
             </div>
             <ul className="space-y-2.5" role="list">
-              {FOOTER_SERVICES.map((item) => (
+              {footerServices.map((item) => (
                 <li key={item.href}>
                   <Link
                     to={item.href}
@@ -107,10 +112,10 @@ export default function Footer() {
           {/* Column 3 — Company */}
           <div>
             <div className="font-mono text-xs text-white/40 tracking-widest2 uppercase mb-5">
-              Empresa
+              {t('footer.col_company')}
             </div>
             <ul className="space-y-2.5" role="list">
-              {FOOTER_COMPANY.map((item) => (
+              {footerCompany.map((item) => (
                 <li key={item.href}>
                   <Link
                     to={item.href}
@@ -127,7 +132,7 @@ export default function Footer() {
           {/* Column 4 — Contact */}
           <div>
             <div className="font-mono text-xs text-white/40 tracking-widest2 uppercase mb-5">
-              Contacto
+              {t('footer.col_contact')}
             </div>
             <div className="space-y-4">
               <div className="flex items-start gap-3 text-white/60 text-sm font-body">
@@ -158,7 +163,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-white/60 text-sm font-body
                            hover:text-cyan transition-colors mt-1"
-                aria-label="LinkedIn da B-CHIWALE (abre em nova aba)"
+                aria-label={t('footer.linkedin_label')}
               >
                 <LinkedInIcon />
                 LinkedIn
@@ -173,10 +178,10 @@ export default function Footer() {
         <div className="container py-5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <span className="font-body text-white/30 text-xs">
-              © 2025 B-CHIWALE · Todos os direitos reservados
+              {t('footer.copyright')}
             </span>
             <nav className="flex items-center gap-5" aria-label="Links legais">
-              {['Política de Privacidade', 'Termos de Uso', 'Mapa do Site'].map((link) => (
+              {[t('footer.privacy'), t('footer.terms'), t('footer.sitemap')].map((link) => (
                 <a
                   key={link}
                   href="#"

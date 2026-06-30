@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { SERVICES_EN } from '../i18n/dataEN';
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 function ChevronDown({ className = 'w-3.5 h-3.5' }) {
@@ -25,126 +27,68 @@ function ArrowRight({ className = 'w-4 h-4' }) {
   );
 }
 
-// ─── Mega menu data ────────────────────────────────────────────────────────────
-const MEGA_DATA = {
-  'Sobre Nós': {
+// ─── Mega menu structural data (hrefs and images only — text from t()) ────────
+const MEGA_STRUCT = {
+  sobre: {
     type: 'sobre',
-    title: 'Sobre a B-CHIWALE',
-    tagline: 'Uma empresa angolana de geociências fundada em 2017, com actuação nacional em 18 províncias.',
-    sections: [
-      {
-        heading: 'A Empresa',
-        links: [
-          { label: 'História & Marcos', href: '/sobre-nos#historia', desc: 'Oito anos de crescimento contínuo' },
-          { label: 'Missão, Visão e Valores', href: '/sobre-nos#missao', desc: 'O que nos define e orienta' },
-          { label: 'Organograma', href: '/sobre-nos#organograma', desc: 'Estrutura e direcções técnicas' },
-        ],
-      },
-      {
-        heading: 'Pessoas & Certificações',
-        links: [
-          { label: 'Equipa de Liderança', href: '/sobre-nos#equipa', desc: '6 directores multidisciplinares' },
-          { label: 'Certificações', href: '/sobre-nos#certificacoes', desc: 'ISO 9001 · ISO 45001 · ABNT · JORC' },
-          { label: 'Responsabilidade Social', href: '/sobre-nos#rse', desc: 'Compromisso com Angola e as comunidades' },
-        ],
-      },
+    section1Links: [
+      { tLabel: 'mega_sobre_historia', tDesc: 'mega_sobre_historia_desc', href: '/sobre-nos#historia' },
+      { tLabel: 'mega_sobre_missao',   tDesc: 'mega_sobre_missao_desc',   href: '/sobre-nos#missao' },
+      { tLabel: 'mega_sobre_organograma', tDesc: 'mega_sobre_organograma_desc', href: '/sobre-nos#organograma' },
     ],
-    quote: 'Angola precisa de empresas de geociências que combinem rigor técnico de classe mundial com conhecimento profundo do nosso território.',
-    quoteAuthor: 'B. Chiwale — Director-Geral & Fundador',
+    section2Links: [
+      { tLabel: 'mega_sobre_equipa',        tDesc: 'mega_sobre_equipa_desc',        href: '/sobre-nos#equipa' },
+      { tLabel: 'mega_sobre_certificacoes', tDesc: 'mega_sobre_certificacoes_desc', href: '/sobre-nos#certificacoes' },
+      { tLabel: 'mega_sobre_rse',           tDesc: 'mega_sobre_rse_desc',           href: '/sobre-nos#rse' },
+    ],
   },
-
-  'Serviços': {
+  servicos: {
     type: 'servicos',
-    title: 'Áreas de Especialização',
-    tagline: 'Do subsolo à licença — sete serviços técnicos integrados para a indústria mineira angolana.',
-    services: [
-      { num: '01', label: 'Geologia e Prospecção Mineral', href: '/servicos/geologia-prospeccao', tags: 'Cartografia · Depósitos · JORC' },
-      { num: '02', label: 'Geofísica Aplicada', href: '/servicos/geofisica-aplicada', tags: 'ERT · Sísmica · Magnetometria' },
-      { num: '03', label: 'Engenharia Geotécnica', href: '/servicos/engenharia-geotecnica', tags: 'Fundações · Estabilidade · Sondagens' },
-      { num: '04', label: 'Topografia e Geodesia', href: '/servicos/topografia-geodesia', tags: 'GNSS · UAV Drone · Batimetria' },
-      { num: '05', label: 'Ambiente e Gestão Territorial', href: '/servicos/ambiente-gestao', tags: 'EIA · Monitoramento · Recuperação' },
-      { num: '06', label: 'Exploração de Águas Subterrâneas', href: '/servicos/aguas-subterraneas', tags: 'Aquíferos · Furos · Hidrogeologia' },
-      { num: '07', label: 'Consultoria e Tramitação Mineira', href: '/servicos/consultoria-tramitacao', tags: 'MIREMPET · Licenciamento · Direitos' },
-    ],
     image: 'https://bchiwale.ao/wp-content/uploads/2025/04/chiwale1section.webp',
     imageAlt: 'Geólogos B-CHIWALE em trabalho de campo',
   },
-
-  'Portfolio': {
+  portfolio: {
     type: 'portfolio',
-    title: 'Portfolio de Projectos',
-    tagline: 'Mais de 50 projectos concluídos em 18 províncias angolanas.',
-    filters: [
-      { label: 'Todos os Projectos', href: '/portfolio', desc: '50+ projectos documentados' },
-      { label: 'Por Serviço', href: '/portfolio?filter=servico', desc: 'Geologia, Geofísica, Geotecnia…' },
-      { label: 'Por Região / Província', href: '/portfolio?filter=provincia', desc: 'Luanda, Malanje, Lunda Norte…' },
-      { label: 'Por Período', href: '/portfolio?filter=periodo', desc: '2017 – 2025' },
-    ],
+    filterHrefs: ['/portfolio', '/portfolio?filter=servico', '/portfolio?filter=provincia', '/portfolio?filter=periodo'],
     featured: [
-      {
-        title: 'Prospecção Mineral — Bacia Sedimentar Norte',
-        service: 'Geologia',
-        province: 'Luanda',
-        image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project-1.jpg',
-        href: '/portfolio',
-      },
-      {
-        title: 'Levantamento ERT — Aquífero Regional',
-        service: 'Geofísica',
-        province: 'Malanje',
-        image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project2.jpg',
-        href: '/portfolio',
-      },
+      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project-1.jpg', href: '/portfolio', province: 'Luanda' },
+      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project2.jpg',  href: '/portfolio', province: 'Malanje' },
     ],
   },
-
-  'Blog': {
+  blog: {
     type: 'blog',
-    title: 'Blog & Conhecimento',
-    tagline: 'Artigos técnicos, guias e análises do sector de geociências em Angola.',
-    categories: [
-      { label: 'Artigos Técnicos', href: '/blog?cat=tecnico', desc: 'Geologia · Geofísica · Geotecnia' },
-      { label: 'Webinars & Eventos', href: '/blog?cat=webinars', desc: 'Formação e partilha de conhecimento' },
-      { label: 'Guias e Whitepapers', href: '/blog?cat=guias', desc: 'Documentos de referência sectorial' },
-      { label: 'Notícias do Sector', href: '/blog?cat=noticias', desc: 'Mineração e ambiente em Angola' },
-    ],
+    categoryHrefs: ['/blog?cat=tecnico', '/blog?cat=webinars', '/blog?cat=guias', '/blog?cat=noticias'],
     recent: [
-      {
-        title: 'Como funciona a estimativa de recursos minerais segundo o JORC',
-        date: 'Jun 2025',
-        image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service1.jpg',
-        href: '/blog',
-      },
-      {
-        title: 'Guia prático: Licença de Prospecção Mineira em Angola',
-        date: 'Mai 2025',
-        image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service-baner.jpg',
-        href: '/blog',
-      },
+      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service1.jpg',     href: '/blog' },
+      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service-baner.jpg', href: '/blog' },
     ],
   },
 };
 
 // ─── Mega menu panels ──────────────────────────────────────────────────────────
 
-function MegaSobre({ data, onClose }) {
+function MegaSobre({ struct, onClose }) {
+  const { t } = useLang();
+  const sections = [
+    { heading: t('nav.mega_sobre_section_empresa'), links: struct.section1Links },
+    { heading: t('nav.mega_sobre_section_pessoas'), links: struct.section2Links },
+  ];
   return (
     <div className="grid grid-cols-[220px_1fr_260px] min-h-[300px]">
       {/* Left — dark panel */}
       <div className="bg-charcoal p-8 flex flex-col justify-between">
         <div>
-          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">B-CHIWALE</p>
+          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">{t('nav.mega_sobre_badge')}</p>
           <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">
-            {data.title}
+            {t('nav.mega_sobre_title')}
           </h3>
-          <p className="font-body text-white/50 text-sm leading-relaxed">{data.tagline}</p>
+          <p className="font-body text-white/50 text-sm leading-relaxed">{t('nav.mega_sobre_tagline')}</p>
         </div>
-        
       </div>
 
       {/* Middle — section links */}
       <div className="p-8 grid grid-cols-2 gap-x-8 gap-y-0 content-start border-r border-gray-mid">
-        {data.sections.map((section) => (
+        {sections.map((section) => (
           <div key={section.heading}>
             <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-4 pb-2 border-b border-gray-mid">
               {section.heading}
@@ -158,9 +102,9 @@ function MegaSobre({ data, onClose }) {
                     className="group flex flex-col py-2.5 px-3 hover:bg-gray-light transition-colors duration-150 border-l-2 border-transparent hover:border-cyan"
                   >
                     <span className="font-body font-semibold text-charcoal text-sm group-hover:text-cyan transition-colors">
-                      {link.label}
+                      {t(`nav.${link.tLabel}`)}
                     </span>
-                    <span className="font-body text-charcoal/45 text-xs mt-0.5">{link.desc}</span>
+                    <span className="font-body text-charcoal/45 text-xs mt-0.5">{t(`nav.${link.tDesc}`)}</span>
                   </Link>
                 </li>
               ))}
@@ -169,7 +113,7 @@ function MegaSobre({ data, onClose }) {
         ))}
         <div className="col-span-2 mt-4 pt-4 border-t border-gray-mid">
           <Link to="/sobre-nos" onClick={onClose} className="inline-flex items-center gap-2 font-mono text-xs text-cyan tracking-widest3 uppercase hover:gap-3 transition-all duration-200">
-            Ver tudo sobre nós <ArrowRight className="w-3.5 h-3.5" />
+            {t('nav.mega_sobre_ver_tudo')} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
@@ -179,48 +123,57 @@ function MegaSobre({ data, onClose }) {
         <div>
           <span className="font-heading font-extrabold text-cyan/20 leading-none text-6xl select-none block -mb-2" aria-hidden="true">"</span>
           <p className="font-heading font-bold text-charcoal text-sm leading-snug mt-2 mb-4">
-            {data.quote}
+            {t('nav.mega_sobre_quote')}
           </p>
-          <p className="font-mono text-[10px] text-charcoal/40 tracking-widest3 uppercase">{data.quoteAuthor}</p>
+          <p className="font-mono text-[10px] text-charcoal/40 tracking-widest3 uppercase">{t('nav.mega_sobre_quote_author')}</p>
         </div>
         <Link
           to="/contacto"
           onClick={onClose}
           className="mt-6 block text-center bg-cyan text-white font-mono text-[11px] tracking-widest3 uppercase py-3 px-4 hover:bg-[#009ed8] transition-colors duration-200"
         >
-          Falar com a equipa
+          {t('nav.mega_sobre_cta')}
         </Link>
       </div>
     </div>
   );
 }
 
-function MegaServicos({ data, onClose }) {
+function MegaServicos({ struct, onClose }) {
+  const { t, loc } = useLang();
+  const services = loc(SERVICES, SERVICES_EN);
+  const megaServices = services.map((s, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    label: s.title,
+    href: s.href,
+    tags: (s.tags || []).map((tag) => tag.label).join(' · '),
+  }));
+
   return (
     <div className="grid grid-cols-[200px_1fr_240px] min-h-[340px]">
       {/* Left — dark panel */}
       <div className="bg-charcoal p-8 flex flex-col justify-between">
         <div>
-          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">O QUE FAZEMOS</p>
-          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{data.title}</h3>
-          <p className="font-body text-white/50 text-sm leading-relaxed">{data.tagline}</p>
+          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">{t('nav.mega_servicos_badge')}</p>
+          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{t('nav.mega_servicos_title')}</h3>
+          <p className="font-body text-white/50 text-sm leading-relaxed">{t('nav.mega_servicos_tagline')}</p>
         </div>
         <Link
           to="/servicos"
           onClick={onClose}
           className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] text-yellow tracking-widest3 uppercase hover:gap-3 transition-all duration-200"
         >
-          Todos os serviços <ArrowRight className="w-3.5 h-3.5" />
+          {t('nav.mega_servicos_ver_todos')} <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
       {/* Middle — service list */}
       <div className="p-6 border-r border-gray-mid">
         <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-4 pb-2 border-b border-gray-mid">
-          7 Áreas de Actuação
+          {t('nav.mega_servicos_count')}
         </p>
         <ul className="space-y-0.5">
-          {data.services.map((s) => (
+          {megaServices.map((s) => (
             <li key={s.href}>
               <Link
                 to={s.href}
@@ -247,15 +200,15 @@ function MegaServicos({ data, onClose }) {
       <div className="flex flex-col">
         <div className="relative overflow-hidden flex-1" style={{ minHeight: '220px' }}>
           <img
-            src={data.image}
-            alt={data.imageAlt}
+            src={struct.image}
+            alt={struct.imageAlt}
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
           <div className="absolute bottom-4 left-5 right-5">
-            <p className="font-mono text-[10px] text-white/50 tracking-widest3 uppercase mb-1">B-CHIWALE · Campo</p>
+            <p className="font-mono text-[10px] text-white/50 tracking-widest3 uppercase mb-1">{t('nav.mega_servicos_field_caption')}</p>
             <p className="font-heading font-bold text-white text-sm leading-snug">
-              Trabalho de campo com equipamentos de última geração
+              {t('nav.mega_servicos_field_text')}
             </p>
           </div>
         </div>
@@ -264,25 +217,35 @@ function MegaServicos({ data, onClose }) {
           onClick={onClose}
           className="block text-center bg-yellow text-charcoal font-mono text-[11px] tracking-widest3 uppercase py-4 px-4 hover:bg-[#e0b000] transition-colors duration-200 font-bold"
         >
-          SOLICITAR PROPOSTA
+          {t('nav.mega_servicos_cta')}
         </Link>
       </div>
     </div>
   );
 }
 
-function MegaPortfolio({ data, onClose }) {
+function MegaPortfolio({ struct, onClose }) {
+  const { t } = useLang();
+  const filters = [
+    { label: t('nav.mega_portfolio_all'),      desc: t('nav.mega_portfolio_all_desc'),      href: struct.filterHrefs[0] },
+    { label: t('nav.mega_portfolio_service'),  desc: t('nav.mega_portfolio_service_desc'),  href: struct.filterHrefs[1] },
+    { label: t('nav.mega_portfolio_province'), desc: t('nav.mega_portfolio_province_desc'), href: struct.filterHrefs[2] },
+    { label: t('nav.mega_portfolio_period'),   desc: t('nav.mega_portfolio_period_desc'),   href: struct.filterHrefs[3] },
+  ];
+  const featTitles   = [t('nav.mega_portfolio_feat1_title'),   t('nav.mega_portfolio_feat2_title')];
+  const featServices = [t('nav.mega_portfolio_feat1_service'), t('nav.mega_portfolio_feat2_service')];
+
   return (
     <div className="grid grid-cols-[200px_1fr] min-h-[280px]">
       {/* Left — dark panel */}
       <div className="bg-charcoal p-8 flex flex-col justify-between">
         <div>
-          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">TRABALHO DE CAMPO</p>
-          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{data.title}</h3>
-          <p className="font-body text-white/50 text-sm leading-relaxed">{data.tagline}</p>
+          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">{t('nav.mega_portfolio_badge')}</p>
+          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{t('nav.mega_portfolio_title')}</h3>
+          <p className="font-body text-white/50 text-sm leading-relaxed">{t('nav.mega_portfolio_tagline')}</p>
         </div>
         <div className="mt-6 space-y-1">
-          {data.filters.map((f) => (
+          {filters.map((f) => (
             <Link
               key={f.href}
               to={f.href}
@@ -299,12 +262,12 @@ function MegaPortfolio({ data, onClose }) {
       {/* Right — featured projects */}
       <div className="p-8">
         <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-5 pb-2 border-b border-gray-mid">
-          Projectos em Destaque
+          {t('nav.mega_portfolio_featured')}
         </p>
         <div className="grid grid-cols-2 gap-5">
-          {data.featured.map((p) => (
+          {struct.featured.map((p, i) => (
             <Link
-              key={p.title}
+              key={p.image}
               to={p.href}
               onClick={onClose}
               className="group block border border-gray-mid overflow-hidden hover:shadow-card-hover transition-shadow duration-200"
@@ -312,12 +275,12 @@ function MegaPortfolio({ data, onClose }) {
               <div className="relative overflow-hidden" style={{ height: '140px' }}>
                 <img
                   src={p.image}
-                  alt={p.title}
+                  alt={featTitles[i]}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/50 transition-all duration-300 flex items-center justify-center">
                   <span className="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity tracking-widest3 uppercase">
-                    Ver projecto →
+                    {t('nav.mega_portfolio_ver_projecto')}
                   </span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan" />
@@ -325,14 +288,14 @@ function MegaPortfolio({ data, onClose }) {
               <div className="p-3">
                 <div className="flex gap-1.5 mb-1.5">
                   <span className="font-mono text-[9px] bg-cyan/10 text-cyan border border-cyan/30 px-1.5 py-0.5 uppercase tracking-wide">
-                    {p.service}
+                    {featServices[i]}
                   </span>
                   <span className="font-mono text-[9px] bg-yellow/10 text-[#a07800] border border-yellow/30 px-1.5 py-0.5 uppercase tracking-wide">
                     {p.province}
                   </span>
                 </div>
                 <p className="font-body font-semibold text-charcoal text-xs leading-snug group-hover:text-cyan transition-colors">
-                  {p.title}
+                  {featTitles[i]}
                 </p>
               </div>
             </Link>
@@ -340,7 +303,7 @@ function MegaPortfolio({ data, onClose }) {
         </div>
         <div className="mt-5 pt-4 border-t border-gray-mid">
           <Link to="/portfolio" onClick={onClose} className="inline-flex items-center gap-2 font-mono text-xs text-cyan tracking-widest3 uppercase hover:gap-3 transition-all duration-200">
-            Ver portfolio completo <ArrowRight className="w-3.5 h-3.5" />
+            {t('nav.mega_portfolio_ver_todos')} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
@@ -348,18 +311,28 @@ function MegaPortfolio({ data, onClose }) {
   );
 }
 
-function MegaBlog({ data, onClose }) {
+function MegaBlog({ struct, onClose }) {
+  const { t } = useLang();
+  const categories = [
+    { label: t('nav.mega_blog_tecnico'),  desc: t('nav.mega_blog_tecnico_desc'),  href: struct.categoryHrefs[0] },
+    { label: t('nav.mega_blog_webinars'), desc: t('nav.mega_blog_webinars_desc'), href: struct.categoryHrefs[1] },
+    { label: t('nav.mega_blog_guias'),    desc: t('nav.mega_blog_guias_desc'),    href: struct.categoryHrefs[2] },
+    { label: t('nav.mega_blog_noticias'), desc: t('nav.mega_blog_noticias_desc'), href: struct.categoryHrefs[3] },
+  ];
+  const recTitles = [t('nav.mega_blog_rec1_title'), t('nav.mega_blog_rec2_title')];
+  const recDates  = [t('nav.mega_blog_rec1_date'),  t('nav.mega_blog_rec2_date')];
+
   return (
     <div className="grid grid-cols-[200px_1fr] min-h-[260px]">
       {/* Left — dark panel */}
       <div className="bg-charcoal p-8 flex flex-col justify-between">
         <div>
-          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">CONHECIMENTO TÉCNICO</p>
-          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{data.title}</h3>
-          <p className="font-body text-white/50 text-sm leading-relaxed">{data.tagline}</p>
+          <p className="font-mono text-[10px] text-cyan/70 tracking-widest3 uppercase mb-3">{t('nav.mega_blog_badge')}</p>
+          <h3 className="font-heading font-bold text-white text-xl leading-snug mb-3">{t('nav.mega_blog_title')}</h3>
+          <p className="font-body text-white/50 text-sm leading-relaxed">{t('nav.mega_blog_tagline')}</p>
         </div>
         <div className="mt-6 space-y-1">
-          {data.categories.map((c) => (
+          {categories.map((c) => (
             <Link
               key={c.href}
               to={c.href}
@@ -376,12 +349,12 @@ function MegaBlog({ data, onClose }) {
       {/* Right — recent articles */}
       <div className="p-8">
         <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-5 pb-2 border-b border-gray-mid">
-          Artigos Recentes
+          {t('nav.mega_blog_recent')}
         </p>
         <div className="grid grid-cols-2 gap-5">
-          {data.recent.map((a) => (
+          {struct.recent.map((a, i) => (
             <Link
-              key={a.title}
+              key={a.image}
               to={a.href}
               onClick={onClose}
               className="group block border border-gray-mid overflow-hidden hover:shadow-card-hover transition-shadow duration-200"
@@ -389,15 +362,15 @@ function MegaBlog({ data, onClose }) {
               <div className="relative overflow-hidden" style={{ height: '120px' }}>
                 <img
                   src={a.image}
-                  alt={a.title}
+                  alt={recTitles[i]}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan" />
               </div>
               <div className="p-3">
-                <p className="font-mono text-[9px] text-cyan/70 tracking-widest3 uppercase mb-1">{a.date}</p>
+                <p className="font-mono text-[9px] text-cyan/70 tracking-widest3 uppercase mb-1">{recDates[i]}</p>
                 <p className="font-body font-semibold text-charcoal text-xs leading-snug group-hover:text-cyan transition-colors">
-                  {a.title}
+                  {recTitles[i]}
                 </p>
               </div>
             </Link>
@@ -405,7 +378,7 @@ function MegaBlog({ data, onClose }) {
         </div>
         <div className="mt-5 pt-4 border-t border-gray-mid">
           <Link to="/blog" onClick={onClose} className="inline-flex items-center gap-2 font-mono text-xs text-cyan tracking-widest3 uppercase hover:gap-3 transition-all duration-200">
-            Ver todos os artigos <ArrowRight className="w-3.5 h-3.5" />
+            {t('nav.mega_blog_ver_todos')} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
@@ -413,19 +386,18 @@ function MegaBlog({ data, onClose }) {
   );
 }
 
-// Renders the correct mega menu panel based on label
-function MegaPanel({ label, onClose }) {
-  const data = MEGA_DATA[label];
-  if (!data) return null;
-  if (data.type === 'sobre') return <MegaSobre data={data} onClose={onClose} />;
-  if (data.type === 'servicos') return <MegaServicos data={data} onClose={onClose} />;
-  if (data.type === 'portfolio') return <MegaPortfolio data={data} onClose={onClose} />;
-  if (data.type === 'blog') return <MegaBlog data={data} onClose={onClose} />;
+// Renders the correct mega menu panel based on megaKey
+function MegaPanel({ megaKey, onClose }) {
+  const struct = MEGA_STRUCT[megaKey];
+  if (!struct) return null;
+  if (struct.type === 'sobre')    return <MegaSobre    struct={struct} onClose={onClose} />;
+  if (struct.type === 'servicos') return <MegaServicos struct={struct} onClose={onClose} />;
+  if (struct.type === 'portfolio') return <MegaPortfolio struct={struct} onClose={onClose} />;
+  if (struct.type === 'blog')     return <MegaBlog     struct={struct} onClose={onClose} />;
   return null;
 }
 
-// Simple dropdown for items without mega menu (Portfolio nav label → uses mega, but Blog uses mega too)
-// Fallback for any item with dropdown that isn't in MEGA_DATA
+// Simple dropdown fallback
 function SimpleDropdown({ items, isOpen, onClose }) {
   return (
     <ul
@@ -489,70 +461,37 @@ const SEARCH_INDEX = [
   })),
 ];
 
-const POPULAR = [
-  { label: 'Geologia e Prospecção',     href: '/servicos/geologia-prospeccao' },
-  { label: 'Geofísica Aplicada',        href: '/servicos/geofisica-aplicada' },
-  { label: 'Engenharia Geotécnica',     href: '/servicos/engenharia-geotecnica' },
-  { label: 'Portfolio de Projectos',    href: '/portfolio' },
-  { label: 'Solicitar Proposta',        href: '/contacto' },
-];
-
-// ─── Nav items (local, no longer imported from siteData for labels) ──────────
+// ─── Nav items (language-independent keys) ────────────────────────────────────
 const NAV_ITEMS = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'Sobre Nós',
-    href: '/sobre-nos',
-    mega: true,
-  },
-  {
-    label: 'Serviços',
-    href: '/servicos',
-    mega: true,
-  },
-  {
-    label: 'Portfolio',
-    href: '/portfolio',
-    mega: true,
-  },
-  { label: 'Galeria', href: '/galeria' },
-  {
-    label: 'Blog',
-    href: '/blog',
-    mega: true,
-  },
-  { label: 'Recursos', href: '/recursos' },
-  { label: 'Contacto', href: '/contacto' },
+  { key: 'home',      href: '/' },
+  { key: 'sobre',     href: '/sobre-nos',  mega: true },
+  { key: 'servicos',  href: '/servicos',   mega: true },
+  { key: 'portfolio', href: '/portfolio',  mega: true },
+  { key: 'galeria',   href: '/galeria' },
+  { key: 'blog',      href: '/blog',       mega: true },
+  { key: 'recursos',  href: '/recursos' },
+  { key: 'contacto',  href: '/contacto' },
 ];
 
-// Mobile sub-items for drawer
+// Mobile sub-items keyed by same keys as NAV_ITEMS
 const MOBILE_SUBITEMS = {
-  'Sobre Nós': [
-    { label: 'História & Marcos', href: '/sobre-nos#historia' },
-    { label: 'Missão, Visão e Valores', href: '/sobre-nos#missao' },
-    { label: 'Equipa de Liderança', href: '/sobre-nos#equipa' },
-    { label: 'Certificações', href: '/sobre-nos#certificacoes' },
-    { label: 'Responsabilidade Social', href: '/sobre-nos#rse' },
+  sobre: [
+    { tKey: 'mega_sobre_historia',    href: '/sobre-nos#historia' },
+    { tKey: 'mega_sobre_missao',      href: '/sobre-nos#missao' },
+    { tKey: 'mega_sobre_equipa',      href: '/sobre-nos#equipa' },
+    { tKey: 'mega_sobre_certificacoes', href: '/sobre-nos#certificacoes' },
+    { tKey: 'mega_sobre_rse',         href: '/sobre-nos#rse' },
   ],
-  'Serviços': [
-    { label: 'Geologia e Prospecção Mineral', href: '/servicos/geologia-prospeccao' },
-    { label: 'Geofísica Aplicada', href: '/servicos/geofisica-aplicada' },
-    { label: 'Engenharia Geotécnica', href: '/servicos/engenharia-geotecnica' },
-    { label: 'Topografia e Geodesia', href: '/servicos/topografia-geodesia' },
-    { label: 'Ambiente e Gestão Territorial', href: '/servicos/ambiente-gestao' },
-    { label: 'Exploração de Águas Subterrâneas', href: '/servicos/aguas-subterraneas' },
-    { label: 'Consultoria e Tramitação Mineira', href: '/servicos/consultoria-tramitacao' },
+  portfolio: [
+    { tKey: 'mega_portfolio_all',     href: '/portfolio' },
+    { tKey: 'mega_portfolio_service', href: '/portfolio?filter=servico' },
+    { tKey: 'mega_portfolio_province', href: '/portfolio?filter=provincia' },
   ],
-  'Portfolio': [
-    { label: 'Todos os Projectos', href: '/portfolio' },
-    { label: 'Por Serviço', href: '/portfolio?filter=servico' },
-    { label: 'Por Região / Província', href: '/portfolio?filter=provincia' },
-  ],
-  'Blog': [
-    { label: 'Artigos Técnicos', href: '/blog?cat=tecnico' },
-    { label: 'Webinars & Eventos', href: '/blog?cat=webinars' },
-    { label: 'Guias e Whitepapers', href: '/blog?cat=guias' },
-    { label: 'Notícias do Sector', href: '/blog?cat=noticias' },
+  blog: [
+    { tKey: 'mega_blog_tecnico',   href: '/blog?cat=tecnico' },
+    { tKey: 'mega_blog_webinars',  href: '/blog?cat=webinars' },
+    { tKey: 'mega_blog_guias',     href: '/blog?cat=guias' },
+    { tKey: 'mega_blog_noticias',  href: '/blog?cat=noticias' },
   ],
 };
 
@@ -572,6 +511,7 @@ function Highlight({ text, query }) {
 
 // ─── Main component ────────────────────────────────────────────────────────────
 export default function Navbar() {
+  const { lang, setLang, t, loc } = useLang();
   const [isScrolled, setIsScrolled] = useState(false);
   const [openMega, setOpenMega] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -583,6 +523,18 @@ export default function Navbar() {
   const closeTimer = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Reactive services list for mobile drawer
+  const services = loc(SERVICES, SERVICES_EN);
+
+  // Popular chips (reactive)
+  const popular = [
+    { label: t('nav.popular_1'), href: '/servicos/geologia-prospeccao' },
+    { label: t('nav.popular_2'), href: '/servicos/geofisica-aplicada' },
+    { label: t('nav.popular_3'), href: '/servicos/engenharia-geotecnica' },
+    { label: t('nav.popular_4'), href: '/portfolio' },
+    { label: t('nav.popular_5'), href: '/contacto' },
+  ];
 
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -651,9 +603,9 @@ export default function Navbar() {
     }
   };
 
-  const handleMouseEnter = (label) => {
+  const handleMouseEnter = (key) => {
     clearTimeout(closeTimer.current);
-    if (MEGA_DATA[label]) setOpenMega(label);
+    if (MEGA_STRUCT[key]) setOpenMega(key);
   };
 
   const handleMouseLeave = () => {
@@ -690,26 +642,26 @@ export default function Navbar() {
                 />
               </Link>
 
-              {/* Desktop nav — visible from xl (1280px) up to avoid cramping */}
+              {/* Desktop nav — visible from xl (1280px) up */}
               <ul className="hidden xl:flex items-center gap-0" role="list">
                 {NAV_ITEMS.map((item) => (
                   <li
-                    key={item.label}
+                    key={item.key}
                     className="relative"
-                    onMouseEnter={() => handleMouseEnter(item.label)}
+                    onMouseEnter={() => handleMouseEnter(item.key)}
                     onMouseLeave={handleMouseLeave}
                   >
                     {item.mega ? (
                       <button
                         className={`flex items-center gap-1 px-3 py-2 text-[13px] font-body font-medium transition-colors duration-200 whitespace-nowrap
-                                    ${openMega === item.label ? 'text-cyan' : isTransparent ? 'text-white/80 hover:text-white' : 'text-charcoal hover:text-cyan'}`}
-                        aria-expanded={openMega === item.label}
+                                    ${openMega === item.key ? 'text-cyan' : isTransparent ? 'text-white/80 hover:text-white' : 'text-charcoal hover:text-cyan'}`}
+                        aria-expanded={openMega === item.key}
                         aria-haspopup="true"
-                        onClick={() => setOpenMega((v) => v === item.label ? null : item.label)}
+                        onClick={() => setOpenMega((v) => v === item.key ? null : item.key)}
                       >
-                        {item.label}
+                        {t(`nav.nav_${item.key}`)}
                         <ChevronDown
-                          className={`w-3 h-3 transition-transform duration-200 shrink-0 ${openMega === item.label ? 'rotate-180 text-cyan' : ''}`}
+                          className={`w-3 h-3 transition-transform duration-200 shrink-0 ${openMega === item.key ? 'rotate-180 text-cyan' : ''}`}
                         />
                       </button>
                     ) : (
@@ -720,7 +672,7 @@ export default function Navbar() {
                            ${isActive ? 'text-cyan' : isTransparent ? 'text-white/80 hover:text-white' : 'text-charcoal hover:text-cyan'}`
                         }
                       >
-                        {item.label}
+                        {t(`nav.nav_${item.key}`)}
                       </NavLink>
                     )}
                   </li>
@@ -731,16 +683,39 @@ export default function Navbar() {
               <div className="hidden xl:flex items-center gap-3 shrink-0">
                 <button
                   className={`p-2 transition-colors duration-500 ${isTransparent ? 'text-white/70 hover:text-white' : searchOpen ? 'text-cyan' : 'text-charcoal hover:text-cyan'}`}
-                  aria-label="Pesquisar"
+                  aria-label={t('nav.search_icon_label')}
                   onClick={() => { if (searchOpen) { closeSearch(); } else { setSearchOpen(true); } }}
                 >
                   <SearchIcon className="w-[18px] h-[18px]" />
                 </button>
+
+                {/* Language switcher */}
                 <div className="flex items-center gap-1 font-mono font-medium" style={{ fontSize: '11px' }}>
-                  <button className={`font-semibold transition-colors duration-500 ${isTransparent ? 'text-white/90 hover:text-white' : 'text-charcoal hover:text-cyan'}`}>PT</button>
+                  <button
+                    onClick={() => setLang('pt')}
+                    className={`transition-colors duration-500 ${
+                      lang === 'pt'
+                        ? isTransparent ? 'text-white font-bold' : 'text-cyan font-bold'
+                        : isTransparent ? 'text-white/45 hover:text-white' : 'text-gray-text hover:text-cyan'
+                    }`}
+                    aria-pressed={lang === 'pt'}
+                  >
+                    PT
+                  </button>
                   <span className={`transition-colors duration-500 ${isTransparent ? 'text-white/20' : 'text-gray-mid'}`} aria-hidden="true">|</span>
-                  <button className={`transition-colors duration-500 ${isTransparent ? 'text-white/45 hover:text-white' : 'text-gray-text hover:text-cyan'}`}>EN</button>
+                  <button
+                    onClick={() => setLang('en')}
+                    className={`transition-colors duration-500 ${
+                      lang === 'en'
+                        ? isTransparent ? 'text-white font-bold' : 'text-cyan font-bold'
+                        : isTransparent ? 'text-white/45 hover:text-white' : 'text-gray-text hover:text-cyan'
+                    }`}
+                    aria-pressed={lang === 'en'}
+                  >
+                    EN
+                  </button>
                 </div>
+
                 <Link
                   to="/contacto"
                   className="shrink-0 whitespace-nowrap inline-flex items-center font-body font-semibold
@@ -748,14 +723,14 @@ export default function Navbar() {
                              transition-all duration-300 focus:outline-none"
                   style={{ fontSize: '11px', letterSpacing: '0.08em', padding: '8px 18px', textTransform: 'uppercase' }}
                 >
-                  SOLICITAR PROPOSTA
+                  {t('nav.request_proposal')}
                 </Link>
               </div>
 
               {/* Hamburger — visible below xl */}
               <button
                 className={`xl:hidden flex flex-col gap-1.5 p-2 transition-colors duration-500 ${isTransparent ? 'text-white' : 'text-charcoal'}`}
-                aria-label={drawerOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-label={drawerOpen ? t('nav.mobile_close') : t('nav.mobile_open')}
                 aria-expanded={drawerOpen}
                 onClick={() => setDrawerOpen((v) => !v)}
               >
@@ -780,8 +755,8 @@ export default function Navbar() {
                     onChange={(e) => { setQuery(e.target.value); setSelectedIdx(-1); }}
                     onKeyDown={handleSearchKeyDown}
                     className="flex-1 bg-transparent text-charcoal font-body text-lg outline-none placeholder:text-charcoal/25"
-                    placeholder="Pesquisar serviços, projectos, artigos, equipa…"
-                    aria-label="Pesquisa"
+                    placeholder={t('nav.search_placeholder')}
+                    aria-label={t('nav.search_label')}
                     autoComplete="off"
                   />
                   <button
@@ -833,18 +808,18 @@ export default function Navbar() {
                   ) : (
                     <div className="py-8 text-center">
                       <p className="font-body text-charcoal/40 text-sm">
-                        Sem resultados para <strong className="text-charcoal/60">"{query}"</strong>
+                        {t('nav.search_no_query')} <strong className="text-charcoal/60">"{query}"</strong>
                       </p>
                       <p className="font-mono text-[10px] text-charcoal/25 tracking-wide mt-2 uppercase">
-                        Tente "geologia", "ERT", "Luanda" ou "JORC"
+                        {t('nav.search_hint')}
                       </p>
                     </div>
                   )
                 ) : (
                   <div>
-                    <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-charcoal/30 mb-3">Pesquisas populares</p>
+                    <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-charcoal/30 mb-3">{t('nav.search_popular')}</p>
                     <div className="flex flex-wrap gap-2">
-                      {POPULAR.map((p) => (
+                      {popular.map((p) => (
                         <Link
                           key={p.href}
                           to={p.href}
@@ -864,18 +839,18 @@ export default function Navbar() {
         </nav>
 
         {/* ── Mega menu panel ── */}
-        {openMega && MEGA_DATA[openMega] && (
+        {openMega && MEGA_STRUCT[openMega] && (
           <div
             className="absolute left-0 right-0 top-full bg-white border-t-[3px] border-cyan shadow-xl z-40 animate-fade-up"
             style={{ animationDuration: '150ms' }}
             onMouseEnter={() => { clearTimeout(closeTimer.current); }}
             onMouseLeave={handleMouseLeave}
             role="dialog"
-            aria-label={`Submenu — ${openMega}`}
+            aria-label={`Submenu — ${t(`nav.nav_${openMega}`)}`}
           >
             {/* Constrained width to match container */}
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-              <MegaPanel label={openMega} onClose={closeMega} />
+              <MegaPanel megaKey={openMega} onClose={closeMega} />
             </div>
           </div>
         )}
@@ -909,7 +884,7 @@ export default function Navbar() {
         {/* Drawer header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-mid bg-charcoal">
           <img src="/logo.png" alt="B-CHIWALE" className="h-8 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
-          <button className="p-1 text-white/60 hover:text-white" onClick={() => setDrawerOpen(false)} aria-label="Fechar menu">
+          <button className="p-1 text-white/60 hover:text-white" onClick={() => setDrawerOpen(false)} aria-label={t('nav.mobile_close')}>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -918,20 +893,51 @@ export default function Navbar() {
 
         <ul className="py-2" role="list">
           {NAV_ITEMS.map((item) => {
-            const subs = MOBILE_SUBITEMS[item.label];
+            // Services: use translated services array
+            if (item.key === 'servicos') {
+              return (
+                <li key={item.key} className="border-b border-gray-mid/50">
+                  <button
+                    className="flex items-center justify-between w-full px-5 py-3.5 text-sm font-body font-medium text-charcoal hover:text-cyan transition-colors"
+                    onClick={() => setOpenDrawerSub((v) => v === item.key ? null : item.key)}
+                    aria-expanded={openDrawerSub === item.key}
+                  >
+                    {t(`nav.nav_${item.key}`)}
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDrawerSub === item.key ? 'rotate-180 text-cyan' : ''}`} />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ${openDrawerSub === item.key ? 'max-h-96' : 'max-h-0'}`}>
+                    <ul className="bg-gray-light pb-2">
+                      {services.map((s) => (
+                        <li key={s.href}>
+                          <Link
+                            to={s.href}
+                            className="block px-8 py-2.5 text-sm text-gray-text hover:text-cyan border-l-2 border-transparent hover:border-cyan ml-5 transition-all duration-150"
+                            onClick={() => setDrawerOpen(false)}
+                          >
+                            {s.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              );
+            }
+
+            const subs = MOBILE_SUBITEMS[item.key];
             return (
-              <li key={item.label} className="border-b border-gray-mid/50">
+              <li key={item.key} className="border-b border-gray-mid/50">
                 {subs ? (
                   <>
                     <button
                       className="flex items-center justify-between w-full px-5 py-3.5 text-sm font-body font-medium text-charcoal hover:text-cyan transition-colors"
-                      onClick={() => setOpenDrawerSub((v) => v === item.label ? null : item.label)}
-                      aria-expanded={openDrawerSub === item.label}
+                      onClick={() => setOpenDrawerSub((v) => v === item.key ? null : item.key)}
+                      aria-expanded={openDrawerSub === item.key}
                     >
-                      {item.label}
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDrawerSub === item.label ? 'rotate-180 text-cyan' : ''}`} />
+                      {t(`nav.nav_${item.key}`)}
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDrawerSub === item.key ? 'rotate-180 text-cyan' : ''}`} />
                     </button>
-                    <div className={`overflow-hidden transition-all duration-300 ${openDrawerSub === item.label ? 'max-h-96' : 'max-h-0'}`}>
+                    <div className={`overflow-hidden transition-all duration-300 ${openDrawerSub === item.key ? 'max-h-96' : 'max-h-0'}`}>
                       <ul className="bg-gray-light pb-2">
                         {subs.map((sub) => (
                           <li key={sub.href}>
@@ -940,7 +946,7 @@ export default function Navbar() {
                               className="block px-8 py-2.5 text-sm text-gray-text hover:text-cyan border-l-2 border-transparent hover:border-cyan ml-5 transition-all duration-150"
                               onClick={() => setDrawerOpen(false)}
                             >
-                              {sub.label}
+                              {t(`nav.${sub.tKey}`)}
                             </Link>
                           </li>
                         ))}
@@ -956,7 +962,7 @@ export default function Navbar() {
                     }
                     onClick={() => setDrawerOpen(false)}
                   >
-                    {item.label}
+                    {t(`nav.nav_${item.key}`)}
                   </NavLink>
                 )}
               </li>
@@ -966,13 +972,33 @@ export default function Navbar() {
 
         <div className="p-5">
           <Link to="/contacto" className="btn-primary block text-center" onClick={() => setDrawerOpen(false)}>
-            SOLICITAR PROPOSTA
+            {t('nav.request_proposal')}
           </Link>
+        </div>
+
+        {/* Language switcher — mobile */}
+        <div className="px-5 pb-2 pt-0 flex items-center gap-3">
+          <span className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase">Lang:</span>
+          <button
+            onClick={() => setLang('pt')}
+            className={`font-mono text-xs font-semibold transition-colors ${lang === 'pt' ? 'text-cyan' : 'text-charcoal/40 hover:text-charcoal'}`}
+            aria-pressed={lang === 'pt'}
+          >
+            PT
+          </button>
+          <span className="text-charcoal/20" aria-hidden="true">|</span>
+          <button
+            onClick={() => setLang('en')}
+            className={`font-mono text-xs font-semibold transition-colors ${lang === 'en' ? 'text-cyan' : 'text-charcoal/40 hover:text-charcoal'}`}
+            aria-pressed={lang === 'en'}
+          >
+            EN
+          </button>
         </div>
 
         {/* Drawer footer */}
         <div className="px-5 pb-5 pt-2 border-t border-gray-mid mt-2">
-          <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-1">Contacto Directo</p>
+          <p className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase mb-1">{t('nav.mobile_contact_label')}</p>
           <a href="tel:+244924073147" className="font-body text-sm text-charcoal hover:text-cyan transition-colors">
             +244 924 073 147
           </a>

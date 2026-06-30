@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { HERO_SLIDES } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { HERO_SLIDES_EN } from '../i18n/dataEN';
 
 const SLIDE_INTERVAL = 9500;
 const FADE_MS        = 2200;
@@ -27,6 +29,8 @@ function Cursor() {
 }
 
 export default function Hero() {
+  const { loc } = useLang();
+  const slides = loc(HERO_SLIDES, HERO_SLIDES_EN);
   const [current,        setCurrent]        = useState(0);
   const [contentVisible, setContentVisible] = useState(true);
   const [typed,          setTyped]          = useState({ line1: '', line2: '' });
@@ -35,7 +39,7 @@ export default function Hero() {
 
   // Start typing sequence whenever the active slide changes
   useEffect(() => {
-    const s = HERO_SLIDES[current];
+    const s = slides[current];
     setTyped({ line1: '', line2: '' });
     setTypingDone(false);
     setShowCtas(false);
@@ -77,14 +81,14 @@ export default function Hero() {
     const timer = setInterval(() => {
       setContentVisible(false);
       setTimeout(() => {
-        setCurrent((i) => (i + 1) % HERO_SLIDES.length);
+        setCurrent((i) => (i + 1) % slides.length);
         setContentVisible(true);
       }, CONTENT_OUT_MS);
     }, SLIDE_INTERVAL);
     return () => clearInterval(timer);
   }, []);
 
-  const slide = HERO_SLIDES[current];
+  const slide = slides[current];
 
   return (
     <section
@@ -94,7 +98,7 @@ export default function Hero() {
     >
 
       {/* ── Photo slideshow ──────────────────────────────────────────── */}
-      {HERO_SLIDES.map((s, i) => (
+      {slides.map((s, i) => (
         <div
           key={s.id}
           className="absolute inset-0"
@@ -209,7 +213,7 @@ export default function Hero() {
           {/* ── Slide dots ───────────────────────────────────────────── */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '16px' }}>
             <div className="flex items-center gap-1.5" role="tablist" aria-label="Foto actual">
-              {HERO_SLIDES.map((_, i) => (
+              {slides.map((_, i) => (
                 <button
                   key={i}
                   role="tab"

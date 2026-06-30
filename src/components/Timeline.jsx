@@ -1,4 +1,6 @@
 import { TIMELINE } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { TIMELINE_EN } from '../i18n/dataEN';
 
 function TimelineDot({ type }) {
   if (type === 'active') {
@@ -91,6 +93,8 @@ function TimelineContent({ item }) {
 }
 
 export default function Timeline() {
+  const { loc } = useLang();
+  const timeline = loc(TIMELINE, TIMELINE_EN);
   return (
     <section className="section-pad" id="historia" aria-labelledby="timeline-title">
       <div className="container max-w-3xl">
@@ -114,7 +118,7 @@ export default function Timeline() {
           />
 
           <div className="pl-0 space-y-0">
-            {TIMELINE.map((item, i) => (
+            {timeline.map((item, i) => (
               <div
                 key={item.year}
                 className="reveal relative flex items-start gap-6"

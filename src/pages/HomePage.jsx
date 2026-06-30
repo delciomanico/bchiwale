@@ -6,12 +6,14 @@ import Team from '../components/Team';
 import Testimonials from '../components/Testimonials';
 import Blog from '../components/Blog';
 import CTAFinal from '../components/CTAFinal';
-
-// Timeline and Newsletter are intentionally omitted from the homepage.
-// Timeline lives in full on /sobre-nos.
-// Newsletter is accessible via /recursos and the Blog page.
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function HomePage() {
+  usePageMeta(
+    'Geologia, Geofísica e Engenharia Geotécnica em Angola',
+    'Empresa angolana certificada de geociências: Geologia, Geofísica, Engenharia Geotécnica, Topografia e Consultoria Mineira desde 2017. ISO 9001 · ISO 45001 · JORC · 18 províncias.',
+    'https://bchiwale.ao/'
+  );
   return (
     <>
       <Hero />

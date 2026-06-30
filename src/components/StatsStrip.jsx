@@ -1,5 +1,7 @@
 import { STATS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
+import { useLang } from '../contexts/LangContext';
+import { STATS_EN } from '../i18n/dataEN';
 
 function StatItem({ value, suffix, label, detail, delay = 0 }) {
   const { count, ref } = useStatCounter(value);
@@ -20,14 +22,17 @@ function StatItem({ value, suffix, label, detail, delay = 0 }) {
 }
 
 export default function StatsStrip() {
+  const { t, loc } = useLang();
+  const stats = loc(STATS, STATS_EN);
+
   return (
     <section
       className="bg-white border-b border-gray-mid py-12 md:py-16"
-      aria-label="Indicadores de desempenho"
+      aria-label={t('stats.section_label')}
     >
       <div className="container">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
-          {STATS.map((stat, i) => (
+          {stats.map((stat, i) => (
             <StatItem
               key={stat.label}
               value={stat.value}

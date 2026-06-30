@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { SERVICES } from '../data/siteData';
 import { ServiceIcon } from '../components/ServiceIcons';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 function ServiceCard({ service, index }) {
   return (
@@ -64,6 +65,11 @@ function ServiceCard({ service, index }) {
 }
 
 export default function ServicosPage() {
+  usePageMeta(
+    'Serviços de Geociências em Angola',
+    'Sete serviços integrados: Geologia e Prospecção Mineral, Geofísica Aplicada, Engenharia Geotécnica, Topografia, Ambiente, Águas Subterrâneas e Consultoria Mineira.',
+    'https://bchiwale.ao/servicos'
+  );
   return (
     <>
       {/* Page hero */}

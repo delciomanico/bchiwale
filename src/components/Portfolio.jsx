@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { PORTFOLIO_ITEMS } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { PORTFOLIO_ITEMS_EN } from '../i18n/dataEN';
 
-function PortfolioCard({ item, delay = 0 }) {
+function PortfolioCard({ item, delay = 0, viewLabel }) {
   return (
     <Link
       to={`/portfolio/${item.slug}`}
@@ -50,7 +52,7 @@ function PortfolioCard({ item, delay = 0 }) {
         <div className="pt-3 mt-1 flex items-center gap-2 border-t border-gray-mid/60">
           <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/35
                            group-hover:text-[#00AEEF] transition-colors duration-300">
-            Ver projecto
+            {viewLabel}
           </span>
           <span
             className="font-mono text-[10px] text-charcoal/30 group-hover:text-[#00AEEF]
@@ -67,6 +69,9 @@ function PortfolioCard({ item, delay = 0 }) {
 }
 
 export default function Portfolio() {
+  const { t, loc } = useLang();
+  const items = loc(PORTFOLIO_ITEMS, PORTFOLIO_ITEMS_EN);
+
   return (
     <section
       className="section-tall bg-white"
@@ -78,15 +83,15 @@ export default function Portfolio() {
         {/* Header */}
         <header className="mb-14 max-w-lg">
           <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-[#00AEEF] mb-5">
-            Trabalho de campo
+            {t('portfolio.eyebrow')}
           </p>
           <h2 className="font-heading font-semibold text-charcoal tracking-tight" id="portfolio-title"
               style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', lineHeight: 1.1 }}>
-            Projectos em{' '}
-            <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>destaque.</em>
+            {t('portfolio.title_line1')}{' '}
+            <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>{t('portfolio.title_em')}</em>
           </h2>
           <p className="font-body text-charcoal/50 text-base leading-relaxed mt-5">
-            Uma selecção de casos de estudo representativos do nosso portfólio.
+            {t('portfolio.subtitle')}
           </p>
         </header>
 
@@ -94,11 +99,11 @@ export default function Portfolio() {
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-mid/30"
           role="list"
-          aria-label="Projectos em destaque"
+          aria-label={t('portfolio.grid_label')}
         >
-          {PORTFOLIO_ITEMS.map((item, i) => (
-            <div key={item.title} className="bg-white">
-              <PortfolioCard item={item} delay={i * 60} />
+          {items.map((item, i) => (
+            <div key={item.slug} className="bg-white">
+              <PortfolioCard item={item} delay={i * 60} viewLabel={t('portfolio.view_project')} />
             </div>
           ))}
         </div>
@@ -110,7 +115,7 @@ export default function Portfolio() {
             className="group font-mono text-[11px] tracking-[0.18em] uppercase text-charcoal/50
                        hover:text-charcoal transition-colors duration-300 flex items-center gap-2"
           >
-            Ver portfolio completo
+            {t('portfolio.view_all')}
             <span className="group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true">
               ↗
             </span>

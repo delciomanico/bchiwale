@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { SERVICES } from '../data/siteData';
+import { useLang } from '../contexts/LangContext';
+import { SERVICES_EN } from '../i18n/dataEN';
 
 // ── Services — editorial index, no cards, no icons ──
 // Each row is a full-width link. Hovering scales in a cyan left-bar
@@ -58,6 +60,9 @@ function ServiceRow({ service, index }) {
 }
 
 export default function Services() {
+  const { t, loc } = useLang();
+  const services = loc(SERVICES, SERVICES_EN);
+
   return (
     <section
       className="section-tall"
@@ -67,23 +72,23 @@ export default function Services() {
       <div className="container">
         {/* Header */}
         <header className="mb-10 md:mb-14 max-w-2xl">
-          <p className="eyebrow-muted mb-4">O QUE FAZEMOS</p>
+          <p className="eyebrow-muted mb-4">{t('services.eyebrow')}</p>
           <h2
             className="section-title-xl"
             id="services-title"
           >
-            Sete serviços,<br />
-            do subsolo à <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>licença.</em>
+            {t('services.title_line1')}<br />
+            {t('services.title_line2')} <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>{t('services.title_em')}</em>
           </h2>
         </header>
 
-        {/* Service rows — full width, no grid */}
+        {/* Service rows */}
         <div
           className="border-t border-gray-mid"
           role="list"
-          aria-label="Lista de serviços"
+          aria-label={t('services.list_label')}
         >
-          {SERVICES.map((service, i) => (
+          {services.map((service, i) => (
             <div key={service.number} role="listitem">
               <ServiceRow service={service} index={i} />
             </div>
@@ -93,7 +98,7 @@ export default function Services() {
         {/* Section link */}
         <div className="mt-12 reveal" style={{ transitionDelay: '480ms' }}>
           <Link to="/servicos" className="hero-link">
-            Ver todos os serviços em detalhe <span aria-hidden="true">↗</span>
+            {t('services.view_all')} <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>
