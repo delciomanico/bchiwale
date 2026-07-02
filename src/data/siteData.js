@@ -199,10 +199,14 @@ export const SERVICES = [
 export const ORG_CHART = {
   cargo: 'Presidente do Conselho de Administração',
   nome: 'Severino Nambuengue Chiwale',
+  iniciais: 'SC',
+  photo: null,
   subordinados: [
     {
       cargo: 'Administradora Executiva — Área Administrativa e Financeira',
       nome: 'Bernadeth de Nazaré',
+      iniciais: 'BN',
+      photo: null,
       subordinados: [
         {
           cargo: 'Direcção de R.H',
@@ -226,9 +230,11 @@ export const ORG_CHART = {
     {
       cargo: 'Administradora Executiva — Área de Geociências',
       nome: 'Samba Clotilde Franga Eduardo André',
+      iniciais: 'SA',
+      photo: null,
       subordinados: [
-        { cargo: 'Director para Área de Geociências', nome: 'Gilberto Armando Viegas', subordinados: [] },
-        { cargo: 'Coordenador para Área de Geociências', nome: 'Sebastião Malungo Miguel António', subordinados: [] },
+        { cargo: 'Director para Área de Geociências', nome: 'Gilberto Armando Viegas', iniciais: 'GV', photo: null, subordinados: [] },
+        { cargo: 'Coordenador para Área de Geociências', nome: 'Sebastião Malungo Miguel António', iniciais: 'SM', photo: null, subordinados: [] },
       ],
     },
   ],
@@ -834,7 +840,32 @@ export const EXTRA_PORTFOLIO_ITEMS = [
 ];
 
 export const PORTFOLIO_SERVICE_FILTERS  = ['Todos', 'Geologia', 'Geofísica', 'Geotecnia', 'Topografia', 'Ambiente', 'Consultoria', 'Águas Subterrâneas'];
-export const PORTFOLIO_PROVINCE_FILTERS = ['Todas', 'Luanda', 'Malanje', 'Benguela', 'Huambo', 'Cabinda', 'Lunda Norte', 'Bié', 'Huíla', 'Lunda Sul', 'Moxico', 'Cunene'];
+// Divisão político-administrativa de Angola em 21 províncias (Cuando Cubango
+// dividida em Cuando e Cubango; novas províncias Icolo e Bengo e Moxico Leste).
+export const PORTFOLIO_PROVINCE_FILTERS = [
+  'Todas',
+  'Bengo',
+  'Benguela',
+  'Bié',
+  'Cabinda',
+  'Cuando',
+  'Cuanza Norte',
+  'Cuanza Sul',
+  'Cubango',
+  'Cunene',
+  'Huambo',
+  'Huíla',
+  'Icolo e Bengo',
+  'Luanda',
+  'Lunda Norte',
+  'Lunda Sul',
+  'Malanje',
+  'Moxico',
+  'Moxico Leste',
+  'Namibe',
+  'Uíge',
+  'Zaire',
+];
 export const PORTFOLIO_PERIOD_FILTERS   = ['Todos', '2024', '2023', '2022'];
 
 export const JOBS = [

@@ -174,8 +174,26 @@ function OrgCard({ node }) {
       className={`flex flex-col items-center text-center px-4 py-3 bg-white ${
         hasName ? 'border-t-2 border-t-cyan border-x border-b border-charcoal/10' : 'border border-dashed border-charcoal/20'
       }`}
-      style={{ width: 190, minHeight: 74 }}
+      style={{ width: 190, minHeight: hasName ? 148 : 74 }}
     >
+      {hasName && (
+        node.photo ? (
+          <img
+            src={node.photo}
+            alt={node.nome}
+            className="rounded-full object-cover mb-2"
+            style={{ width: 48, height: 48, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 2 }}
+          />
+        ) : (
+          <div
+            className="rounded-full flex items-center justify-center mb-2 shrink-0"
+            style={{ width: 48, height: 48, background: '#1A1A2E', border: '1px solid rgba(0,174,239,0.2)' }}
+            aria-hidden="true"
+          >
+            <span className="font-heading font-semibold text-cyan text-xs">{node.iniciais}</span>
+          </div>
+        )
+      )}
       {hasName && (
         <div className="font-heading font-semibold text-charcoal leading-tight text-[0.78rem] mb-1">
           {node.nome}
