@@ -1,20 +1,7 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DOWNLOADS, EVENTS, TOOLS, RECURSOS_SERVICES } from '../data/siteData';
+import { DOWNLOADS, TOOLS } from '../data/siteData';
 
 export default function RecursosPage() {
-  const [form, setForm] = useState({ nome: '', email: '', servico: '', area: '', descricao: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    setSubmitted(true);
-  }
-
-  function handleChange(e) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-
   return (
     <>
       {/* Page hero */}
@@ -38,7 +25,7 @@ export default function RecursosPage() {
             Centro de <em className="italic" style={{ color: '#00AEEF' }}>Recursos</em>
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Ferramentas, downloads, eventos e calculadora de orçamentos para projectos de geociências.
+            Ferramentas e downloads técnicos para projectos de geociências.
           </p>
         </div>
       </section>
@@ -48,9 +35,7 @@ export default function RecursosPage() {
         <div className="container">
           <div className="flex flex-wrap gap-6">
             {[
-              ['#calculadora', 'Calculadora de Orçamentos'],
               ['#downloads', 'Centro de Downloads'],
-              ['#eventos', 'Calendário de Eventos'],
               ['#ferramentas', 'Ferramentas Técnicas'],
             ].map(([href, label]) => (
               <a
@@ -67,131 +52,7 @@ export default function RecursosPage() {
         </div>
       </nav>
 
-      {/* ── 1. Calculator ── */}
-      <section id="calculadora" className="section-pad bg-white" aria-labelledby="calc-title">
-        <div className="container">
-          <header className="mb-10">
-            <p className="eyebrow">FERRAMENTA</p>
-            <h2 className="section-title" id="calc-title">Calculadora de <em>Orçamentos</em></h2>
-            <p className="section-subtitle mt-2">
-              Descreva o seu projecto e receba uma estimativa de custo em 24–48 horas.
-            </p>
-          </header>
-          <div className="max-w-2xl">
-            {submitted ? (
-              <div className="bg-white border-l-2 border-l-cyan/40 p-10 text-center">
-                <div className="font-mono text-3xl text-cyan mb-4" aria-hidden="true">✓</div>
-                <h3 className="font-heading font-semibold text-charcoal text-xl mb-2">Pedido enviado com sucesso</h3>
-                <p className="font-body text-gray-text text-sm max-w-sm mx-auto leading-relaxed">
-                  A nossa equipa técnica analisará as suas necessidades e entrará em contacto em 24–48 horas
-                  com uma proposta detalhada.
-                </p>
-                <button
-                  className="btn-ghost mt-6"
-                  onClick={() => { setSubmitted(false); setForm({ nome: '', email: '', servico: '', area: '', descricao: '' }); }}
-                >
-                  NOVO PEDIDO
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="rc-nome" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                      Nome *
-                    </label>
-                    <input
-                      id="rc-nome"
-                      name="nome"
-                      type="text"
-                      required
-                      value={form.nome}
-                      onChange={handleChange}
-                      className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
-                                 focus:outline-none focus:border-cyan transition-colors"
-                      placeholder="O seu nome"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="rc-email" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                      Email *
-                    </label>
-                    <input
-                      id="rc-email"
-                      name="email"
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
-                                 focus:outline-none focus:border-cyan transition-colors"
-                      placeholder="email@empresa.ao"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-servico" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                    Serviço pretendido *
-                  </label>
-                  <select
-                    id="rc-servico"
-                    name="servico"
-                    required
-                    value={form.servico}
-                    onChange={handleChange}
-                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
-                               focus:outline-none focus:border-cyan transition-colors bg-white"
-                  >
-                    <option value="">Seleccione o serviço</option>
-                    {RECURSOS_SERVICES.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-area" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                    Área / extensão do projecto
-                  </label>
-                  <input
-                    id="rc-area"
-                    name="area"
-                    type="text"
-                    value={form.area}
-                    onChange={handleChange}
-                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
-                               focus:outline-none focus:border-cyan transition-colors"
-                    placeholder="Ex: 500 ha, 20 km de corredor, 10 sondagens..."
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="rc-descricao" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                    Descrição do projecto *
-                  </label>
-                  <textarea
-                    id="rc-descricao"
-                    name="descricao"
-                    rows={4}
-                    required
-                    value={form.descricao}
-                    onChange={handleChange}
-                    className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
-                               resize-none focus:outline-none focus:border-cyan transition-colors"
-                    placeholder="Descreva os objectivos, localização e especificações técnicas do projecto..."
-                  />
-                </div>
-                <button type="submit" className="btn-primary w-full">
-                  SOLICITAR ESTIMATIVA <span aria-hidden="true">→</span>
-                </button>
-                <p className="font-body text-xs text-gray-text text-center">
-                  Resposta em 24–48 horas úteis. Proposta sem compromisso.
-                </p>
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. Downloads ── */}
+      {/* ── 1. Downloads ── */}
       <section id="downloads" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="dl-title">
         <div className="container">
           <header className="mb-10">
@@ -242,63 +103,7 @@ export default function RecursosPage() {
         </div>
       </section>
 
-      {/* ── 3. Events ── */}
-      <section id="eventos" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="ev-title">
-        <div className="container">
-          <header className="mb-10">
-            <p className="eyebrow">CALENDÁRIO</p>
-            <h2 className="section-title" id="ev-title">Eventos e <em>Formações</em></h2>
-            <p className="section-subtitle mt-2">
-              Webinars, workshops e conferências organizados ou apoiados pela B-CHIWALE.
-            </p>
-          </header>
-          <div className="space-y-4 max-w-3xl">
-            {EVENTS.map((ev, i) => (
-              <article
-                key={ev.id}
-                className="reveal bg-white flex items-stretch
-                           hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow duration-300 group"
-                style={{ transitionDelay: `${i * 70}ms` }}
-              >
-                {/* Date block */}
-                <div
-                  className="flex flex-col items-center justify-center w-20 shrink-0 bg-charcoal text-white p-4 text-center"
-                  aria-label={ev.date}
-                >
-                  <span className="font-heading font-light text-white text-2xl leading-none">{ev.day}</span>
-                  <span className="font-mono text-[9px] text-white/35 tracking-[0.18em] mt-1">{ev.month}</span>
-                </div>
-                {/* Content */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between flex-1 gap-3 p-5">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-heading font-semibold text-charcoal text-sm leading-snug tracking-tight">
-                      {ev.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-3 mt-1">
-                      <span className="font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">{ev.type}</span>
-                      <span className="font-mono text-[10px] text-charcoal/20">·</span>
-                      <span className="font-mono text-[10px] text-charcoal/40 tracking-[0.12em]">{ev.time}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 shrink-0">
-                    {ev.free && (
-                      <span className="tag-cyan">GRATUITO</span>
-                    )}
-                    <Link
-                      to="/contacto"
-                      className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em] uppercase whitespace-nowrap"
-                    >
-                      Inscrever <span aria-hidden="true">→</span>
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. Technical tools ── */}
+      {/* ── 2. Technical tools ── */}
       <section id="ferramentas" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="tools-title">
         <div className="container">
           <header className="mb-10">

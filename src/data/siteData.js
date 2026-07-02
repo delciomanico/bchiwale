@@ -951,49 +951,6 @@ export const DOWNLOADS = [
   },
 ];
 
-export const EVENTS = [
-  {
-    id: 1,
-    date: 'Jul 2025',
-    day: '15',
-    month: 'JUL',
-    title: 'Webinar: Estimativa de Recursos JORC para Técnicos Angolanos',
-    type: 'Webinar Online',
-    time: '10h00 – 12h00 WAT',
-    free: true,
-  },
-  {
-    id: 2,
-    date: 'Ago 2025',
-    day: '22',
-    month: 'AGO',
-    title: 'Workshop: Fundamentos de Geofísica Aplicada à Mineração',
-    type: 'Presencial · Luanda',
-    time: '09h00 – 17h00 WAT',
-    free: false,
-  },
-  {
-    id: 3,
-    date: 'Set 2025',
-    day: '10',
-    month: 'SET',
-    title: 'Angola Mining & Geosciences Forum 2025',
-    type: 'Conferência · Luanda',
-    time: 'Dois dias',
-    free: false,
-  },
-  {
-    id: 4,
-    date: 'Out 2025',
-    day: '08',
-    month: 'OUT',
-    title: 'Webinar: Processo de Licenciamento Mineiro no MIREMPET',
-    type: 'Webinar Online',
-    time: '14h00 – 15h30 WAT',
-    free: true,
-  },
-];
-
 export const TOOLS = [
   {
     title: 'Tabela Periódica Geoquímica',
@@ -1019,16 +976,6 @@ export const TOOLS = [
     icon: '⊕',
     href: '#ferramentas',
   },
-];
-
-export const RECURSOS_SERVICES = [
-  'Geologia e Prospecção Mineral',
-  'Geofísica Aplicada',
-  'Engenharia Geotécnica',
-  'Topografia e Geodesia',
-  'Ambiente e Gestão Territorial',
-  'Exploração de Águas Subterrâneas',
-  'Consultoria, Tramitação e Acompanhamento',
 ];
 
 export const SERVICE_DETAIL = {
