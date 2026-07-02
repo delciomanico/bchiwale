@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   PORTFOLIO_ITEMS,
-  SERVICES,
   EXTRA_PORTFOLIO_ITEMS,
   PORTFOLIO_SERVICE_FILTERS,
   PORTFOLIO_PROVINCE_FILTERS,
