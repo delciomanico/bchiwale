@@ -65,19 +65,25 @@ function ProjectCard({ project, index }) {
   );
 }
 
-// Underline-style filter button
-function FilterBtn({ label, active, onClick }) {
+// Filter dropdown
+function FilterSelect({ label, value, onChange, options }) {
   return (
-    <button
-      onClick={onClick}
-      className={`font-mono text-[10px] tracking-[0.18em] uppercase pb-1 border-b transition-colors ${
-        active
-          ? 'border-charcoal text-charcoal'
-          : 'border-transparent text-charcoal/40 hover:text-charcoal hover:border-charcoal/30'
-      }`}
-    >
-      {label}
-    </button>
+    <label className="flex flex-col gap-2 flex-1 min-w-[180px]">
+      <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.18em] uppercase">
+        {label}
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="border border-charcoal/15 px-4 py-3 font-mono text-xs text-charcoal
+                   tracking-[0.08em] uppercase bg-white focus:outline-none focus:border-cyan
+                   transition-colors"
+      >
+        {options.map((opt) => (
+          <option key={opt} value={opt}>{opt}</option>
+        ))}
+      </select>
+    </label>
   );
 }
 
@@ -132,54 +138,26 @@ export default function PortfolioPage() {
 
       {/* Filters — white background, hairline border */}
       <section className="py-8 bg-white border-b border-charcoal/8" aria-label="Filtros do portfolio">
-        <div className="container space-y-5">
-          {/* Service filter */}
-          <div>
-            <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.18em] uppercase block mb-3">
-              Por Serviço
-            </span>
-            <div className="flex flex-wrap gap-5">
-              {PORTFOLIO_SERVICE_FILTERS.map((opt) => (
-                <FilterBtn
-                  key={opt}
-                  label={opt}
-                  active={activeService === opt}
-                  onClick={() => setActiveService(opt)}
-                />
-              ))}
-            </div>
-          </div>
-          {/* Province filter */}
-          <div>
-            <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.18em] uppercase block mb-3">
-              Por Província
-            </span>
-            <div className="flex flex-wrap gap-5">
-              {PORTFOLIO_PROVINCE_FILTERS.map((opt) => (
-                <FilterBtn
-                  key={opt}
-                  label={opt}
-                  active={activeProvince === opt}
-                  onClick={() => setActiveProvince(opt)}
-                />
-              ))}
-            </div>
-          </div>
-          {/* Period filter */}
-          <div>
-            <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.18em] uppercase block mb-3">
-              Por Período
-            </span>
-            <div className="flex flex-wrap gap-5">
-              {PORTFOLIO_PERIOD_FILTERS.map((opt) => (
-                <FilterBtn
-                  key={opt}
-                  label={opt}
-                  active={activePeriod === opt}
-                  onClick={() => setActivePeriod(opt)}
-                />
-              ))}
-            </div>
+        <div className="container">
+          <div className="flex flex-wrap gap-5">
+            <FilterSelect
+              label="Por Serviço"
+              value={activeService}
+              onChange={setActiveService}
+              options={PORTFOLIO_SERVICE_FILTERS}
+            />
+            <FilterSelect
+              label="Por Província"
+              value={activeProvince}
+              onChange={setActiveProvince}
+              options={PORTFOLIO_PROVINCE_FILTERS}
+            />
+            <FilterSelect
+              label="Por Período"
+              value={activePeriod}
+              onChange={setActivePeriod}
+              options={PORTFOLIO_PERIOD_FILTERS}
+            />
           </div>
         </div>
       </section>

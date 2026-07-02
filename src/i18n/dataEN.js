@@ -76,6 +76,7 @@ export const SERVICES_EN = [
       'Mineral resource estimation',
     ],
     iconId: 'geology',
+    image: '/images/project1.jpg',
   },
   {
     number: '02',
@@ -94,6 +95,7 @@ export const SERVICES_EN = [
       'Refraction and reflection seismics',
     ],
     iconId: 'geophysics',
+    image: '/images/geofisico.jpg',
   },
   {
     number: '03',
@@ -112,6 +114,7 @@ export const SERVICES_EN = [
       'Instrumentation and monitoring',
     ],
     iconId: 'geotechnics',
+    image: '/images/project3.jpg',
   },
   {
     number: '04',
@@ -130,6 +133,7 @@ export const SERVICES_EN = [
       'Land cadastre',
     ],
     iconId: 'topography',
+    image: '/images/project4.jpg',
   },
   {
     number: '05',
@@ -148,6 +152,7 @@ export const SERVICES_EN = [
       'Territorial mapping',
     ],
     iconId: 'environment',
+    image: '/images/about-main.jpg',
   },
   {
     number: '06',
@@ -166,6 +171,7 @@ export const SERVICES_EN = [
       'Pumping systems',
     ],
     iconId: 'water',
+    image: '/images/project2.jpg',
   },
   {
     number: '07',
@@ -184,6 +190,7 @@ export const SERVICES_EN = [
       'MIREMPET monitoring',
     ],
     iconId: 'consultancy',
+    image: '/images/project-main.jpg',
   },
 ];
 
