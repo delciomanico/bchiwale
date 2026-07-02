@@ -1,0 +1,10 @@
+# SPA fallback for Apache hosting (cPanel, shared hosting, etc.)
+# Any request that doesn't match a real file/folder is served index.html
+# so React Router can handle the route client-side.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
