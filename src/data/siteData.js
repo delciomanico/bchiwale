@@ -194,6 +194,46 @@ export const SERVICES = [
   },
 ];
 
+// Organograma — Conselho de Administração B-CHIWALE
+// Cod. B.CH-001 · Revisão 00 · Data 03/07/2024
+export const ORG_CHART = {
+  cargo: 'Presidente do Conselho de Administração',
+  nome: 'Severino Nambuengue Chiwale',
+  subordinados: [
+    {
+      cargo: 'Administradora Executiva — Área Administrativa e Financeira',
+      nome: 'Bernadeth de Nazaré',
+      subordinados: [
+        {
+          cargo: 'Direcção de R.H',
+          nome: null,
+          subordinados: [
+            { cargo: 'Coord. Pessoal', nome: null, subordinados: [] },
+            { cargo: 'Coord. Recrutamento', nome: null, subordinados: [] },
+          ],
+        },
+        {
+          cargo: 'Direcção Administrativa e Financeira',
+          nome: null,
+          subordinados: [
+            { cargo: 'Depart. Conta a Receber e a Pagar', nome: null, subordinados: [] },
+            { cargo: 'Direcção de Logística', nome: null, subordinados: [] },
+            { cargo: 'Depart. de Tesouraria', nome: null, subordinados: [] },
+          ],
+        },
+      ],
+    },
+    {
+      cargo: 'Administradora Executiva — Área de Geociências',
+      nome: 'Samba Clotilde Franga Eduardo André',
+      subordinados: [
+        { cargo: 'Director para Área de Geociências', nome: 'Gilberto Armando Viegas', subordinados: [] },
+        { cargo: 'Coordenador para Área de Geociências', nome: 'Sebastião Malungo Miguel António', subordinados: [] },
+      ],
+    },
+  ],
+};
+
 export const TEAM = [
   {
     initials: 'BC',

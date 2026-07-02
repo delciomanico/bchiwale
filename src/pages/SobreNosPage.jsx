@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { TEAM, STATS, MVV_CARDS, CERTIFICATIONS } from '../data/siteData';
+import { TEAM, STATS, MVV_CARDS, CERTIFICATIONS, ORG_CHART } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 import html2canvas from 'html2canvas';
@@ -165,177 +165,49 @@ function Numbers() {
 }
 
 // ── Organograma ──────────────────────────────────────────────────
+// Cod. B.CH-001 · Revisão 00 · Data 03/07/2024
 
-function OrgNode({ member, size = 'sm' }) {
-  const dim = size === 'lg' ? 88 : 56;
+function OrgCard({ node }) {
+  const hasName = Boolean(node.nome);
   return (
-    <div className="flex flex-col items-center text-center" style={{ width: size === 'lg' ? 140 : 110 }}>
-      <img
-        src={member.photo}
-        alt={member.name}
-        className="rounded-full object-cover mb-2.5"
-        style={{ width: dim, height: dim, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 2 }}
-      />
+    <div
+      className={`flex flex-col items-center text-center px-4 py-3 bg-white ${
+        hasName ? 'border-t-2 border-t-cyan border-x border-b border-charcoal/10' : 'border border-dashed border-charcoal/20'
+      }`}
+      style={{ width: 190, minHeight: 74 }}
+    >
+      {hasName && (
+        <div className="font-heading font-semibold text-charcoal leading-tight text-[0.78rem] mb-1">
+          {node.nome}
+        </div>
+      )}
       <div
-        className="font-heading font-semibold text-charcoal leading-tight"
-        style={{ fontSize: size === 'lg' ? '0.8rem' : '0.68rem' }}
+        className={`font-mono tracking-[0.1em] uppercase leading-snug ${hasName ? '' : 'text-charcoal/45'}`}
+        style={{ fontSize: '0.6rem', color: hasName ? '#00AEEF' : undefined }}
       >
-        {member.name}
-      </div>
-      <div
-        className="font-mono tracking-[0.13em] uppercase mt-0.5"
-        style={{ fontSize: '0.58rem', color: '#00AEEF' }}
-      >
-        {member.role}
+        {node.cargo}
       </div>
     </div>
   );
 }
 
-function OrgModal({ onClose }) {
-  const contentRef = useRef(null);
-  const [downloading, setDownloading] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    const onKey = (e) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
-  }, [onClose]);
-
-  const handleDownload = useCallback(async () => {
-    if (!contentRef.current || downloading) return;
-    setDownloading(true);
-    try {
-      const canvas = await html2canvas(contentRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-      });
-      const link = document.createElement('a');
-      link.download = 'organograma-bchiwale.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } finally {
-      setDownloading(false);
-    }
-  }, [downloading]);
-
-  const dg        = TEAM[0];
-  const directors = TEAM.slice(1, 6);
-  const staff     = TEAM.slice(6);
-
+function OrgTreeNode({ node }) {
+  const children = node.subordinados || [];
   return (
-    <div
-      className="fixed inset-0 z-[200] flex items-start justify-center overflow-y-auto"
-      style={{ background: 'rgba(10,14,22,0.80)', backdropFilter: 'blur(6px)' }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div
-        ref={contentRef}
-        className="relative bg-white w-full max-w-5xl mx-4 my-10 pb-12 pt-10 px-10"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Organograma completo"
-      >
-        {/* Actions row */}
-        <div className="absolute top-5 right-6 flex items-center gap-4">
-          <button
-            onClick={handleDownload}
-            disabled={downloading}
-            className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
-                       text-charcoal/40 hover:text-cyan transition-colors disabled:opacity-40"
-            aria-label="Baixar organigrama como imagem"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            {downloading ? 'A guardar…' : 'Baixar PNG'}
-          </button>
-          <button
-            onClick={onClose}
-            className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 hover:text-charcoal transition-colors"
-            aria-label="Fechar organigrama"
-          >
-            Fechar ×
-          </button>
-        </div>
-
-        <p className="eyebrow text-center mb-1">ESTRUTURA ORGANIZACIONAL</p>
-        <h2 className="section-title text-center mb-12">Organograma <em>Completo</em></h2>
-
-        {/* ── Level 1: DG ── */}
-        <div className="flex justify-center mb-0">
-          <div className="flex flex-col items-center">
-            <img src={dg.photo} alt={dg.name}
-              className="rounded-full object-cover mb-3"
-              style={{ width: 96, height: 96, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 3 }}
-            />
-            <div className="font-heading font-semibold text-charcoal text-sm text-center leading-snug">{dg.name}</div>
-            <div className="font-mono text-[9px] tracking-[0.15em] uppercase mt-0.5 mb-3" style={{ color: '#00AEEF' }}>{dg.role}</div>
-            <p className="font-body text-gray-text text-xs leading-relaxed text-center max-w-[200px]">{dg.bio}</p>
-          </div>
-        </div>
-
-        {/* Stem */}
-        <div className="flex justify-center" aria-hidden="true">
-          <div className="w-px bg-charcoal/10" style={{ height: 40 }} />
-        </div>
-
-        {/* Horizontal bar */}
-        <div className="relative" aria-hidden="true" style={{ height: 1 }}>
-          <div className="absolute bg-charcoal/10" style={{ height: 1, left: '10%', right: '10%' }} />
-        </div>
-
-        {/* Stems down to directors */}
-        <div className="relative" aria-hidden="true" style={{ height: 32 }}>
-          {directors.map((_, i) => (
-            <div key={i} className="absolute w-px bg-charcoal/10"
-              style={{ left: `${10 + i * 16}%`, top: 0, bottom: 0 }}
-            />
+    <li>
+      <OrgCard node={node} />
+      {children.length > 0 && (
+        <ul>
+          {children.map((child) => (
+            <OrgTreeNode key={child.cargo} node={child} />
           ))}
-        </div>
-
-        {/* ── Level 2: Directors ── */}
-        <div className="grid grid-cols-5 gap-4 mb-10">
-          {directors.map((m) => (
-            <div key={m.initials} className="flex flex-col items-center text-center">
-              <img src={m.photo} alt={m.name}
-                className="rounded-full object-cover mb-3"
-                style={{ width: 72, height: 72, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 2 }}
-              />
-              <div className="font-heading font-semibold text-charcoal leading-tight" style={{ fontSize: '0.72rem' }}>{m.name}</div>
-              <div className="font-mono text-[9px] tracking-[0.13em] uppercase mt-0.5 mb-2" style={{ color: '#00AEEF' }}>{m.role}</div>
-              <p className="font-body text-gray-text leading-relaxed" style={{ fontSize: '0.65rem' }}>{m.bio}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="w-full h-px bg-charcoal/8 mb-8" aria-hidden="true" />
-
-        {/* ── Level 3: Staff ── */}
-        <div className="flex justify-center gap-12">
-          {staff.map((m) => (
-            <div key={m.initials} className="flex flex-col items-center text-center max-w-[180px]">
-              <img src={m.photo} alt={m.name}
-                className="rounded-full object-cover mb-3"
-                style={{ width: 64, height: 64, outline: '1px solid rgba(26,26,46,0.08)', outlineOffset: 2 }}
-              />
-              <div className="font-heading font-semibold text-charcoal leading-tight" style={{ fontSize: '0.72rem' }}>{m.name}</div>
-              <div className="font-mono text-[9px] tracking-[0.13em] uppercase mt-0.5 mb-2" style={{ color: '#00AEEF' }}>{m.role}</div>
-              <p className="font-body text-gray-text leading-relaxed" style={{ fontSize: '0.65rem' }}>{m.bio}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+        </ul>
+      )}
+    </li>
   );
 }
 
 function OrgChart() {
-  const [modalOpen, setModalOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const sectionRef = useRef(null);
 
@@ -358,98 +230,39 @@ function OrgChart() {
     }
   }, [downloading]);
 
-  const dg        = TEAM[0];
-  const directors = TEAM.slice(1, 6);
-  const staff     = TEAM.slice(6);
-
   return (
-    <>
-      <section ref={sectionRef} className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
-        <div className="container">
-          <header className="text-center mb-14">
-            <p className="eyebrow">ESTRUTURA ORGANIZACIONAL</p>
-            <h2 className="section-title" id="org-title">Organograma <em>Institucional</em></h2>
-          </header>
+    <section ref={sectionRef} className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
+      <div className="container">
+        <header className="text-center mb-14">
+          <p className="eyebrow">ESTRUTURA ORGANIZACIONAL</p>
+          <h2 className="section-title" id="org-title">Organograma <em>Institucional</em></h2>
+          <p className="section-subtitle mx-auto">Conselho de Administração B-CHIWALE · Cod. B.CH-001</p>
+        </header>
 
-          {/* ── Level 1: DG ── */}
-          <div className="flex flex-col items-center">
-            <OrgNode member={dg} size="lg" />
-            <div className="w-px bg-charcoal/10 mt-3" style={{ height: 36 }} aria-hidden="true" />
-          </div>
-
-          {/* ── Horizontal bar ── */}
-          <div className="relative mx-auto" style={{ maxWidth: 820 }} aria-hidden="true">
-            <div className="absolute bg-charcoal/10" style={{ height: 1, top: 0, left: '9%', right: '9%' }} />
-            {/* Stems down from bar */}
-            <div className="relative" style={{ height: 32 }}>
-              {directors.map((_, i) => (
-                <div key={i} className="absolute w-px bg-charcoal/10"
-                  style={{ left: `${9 + i * 18.25}%`, top: 0, bottom: 0 }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* ── Level 2: Directors ── */}
-          <div className="flex justify-center">
-            <div className="grid grid-cols-5 gap-4" style={{ maxWidth: 820 }}>
-              {directors.map((m) => (
-                <div key={m.initials} className="flex justify-center">
-                  <OrgNode member={m} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Level 3: Staff (compact indicator) ── */}
-          <div className="flex justify-center mt-8 gap-8">
-            {staff.map((m) => (
-              <div key={m.initials} className="flex items-center gap-2.5 opacity-60">
-                <img src={m.photo} alt={m.name}
-                  className="rounded-full object-cover"
-                  style={{ width: 36, height: 36 }}
-                />
-                <div>
-                  <div className="font-heading font-semibold text-charcoal" style={{ fontSize: '0.65rem' }}>{m.name}</div>
-                  <div className="font-mono tracking-[0.12em] uppercase" style={{ fontSize: '0.55rem', color: '#00AEEF' }}>{m.role}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Actions row */}
-          <div className="flex justify-center items-center gap-6 mt-12">
-            <button
-              onClick={() => setModalOpen(true)}
-              className="flex items-center gap-2 font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40
-                         hover:text-charcoal transition-colors duration-300 border-b border-charcoal/20 hover:border-charcoal pb-0.5"
-            >
-              Ver organigrama completo
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2 2h8v8M10 2 2 10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-            </button>
-
-            <span className="w-px h-4 bg-charcoal/15" aria-hidden="true" />
-
-            <button
-              onClick={handleDownload}
-              disabled={downloading}
-              className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
-                         text-charcoal/40 hover:text-cyan transition-colors duration-300 disabled:opacity-40"
-              aria-label="Baixar organigrama como imagem PNG"
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {downloading ? 'A guardar…' : 'Baixar PNG'}
-            </button>
+        <div className="overflow-x-auto pb-2">
+          <div className="org-tree min-w-fit mx-auto">
+            <ul>
+              <OrgTreeNode node={ORG_CHART} />
+            </ul>
           </div>
         </div>
-      </section>
 
-      {modalOpen && <OrgModal onClose={() => setModalOpen(false)} />}
-    </>
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
+                       text-charcoal/40 hover:text-cyan transition-colors duration-300 disabled:opacity-40"
+            aria-label="Baixar organigrama como imagem PNG"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {downloading ? 'A guardar…' : 'Baixar PNG'}
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
