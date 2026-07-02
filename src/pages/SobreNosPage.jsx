@@ -82,7 +82,7 @@ function DGMessage() {
                 "Quando fundámos a B-CHIWALE em 2017, tínhamos uma convicção firme: Angola precisa de empresas
                 de geociências que combinem rigor técnico de classe mundial com conhecimento profundo do nosso
                 território. Oito anos depois, continuamos a trabalhar com essa mesma convicção — tendo
-                contribuído para projectos em todas as 18 províncias angolanas."
+                contribuído para projectos em todas as 21 províncias angolanas."
               </p>
               <p className="font-body text-charcoal italic text-lg leading-relaxed pl-4 mb-6">
                 "A nossa riqueza mineral é imensa. Falta cartografá-la, quantificá-la e transformá-la em
@@ -153,24 +153,12 @@ function Numbers() {
   return (
     <section className="bg-charcoal border-t border-white/5" aria-label="Em números">
       <div className="container">
-        <header className="text-center pt-16 pb-4">
+        <header className="text-center py-32">
           <p className="eyebrow" style={{ color: '#00AEEF' }}>EM NÚMEROS</p>
           <h2 className="font-heading font-semibold text-white text-3xl md:text-4xl tracking-tight mt-2">
             Resultados que <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>falam.</em>
           </h2>
         </header>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-t border-white/8 mt-8">
-          {STATS.map((stat, i) => (
-            <StatItem
-              key={stat.label}
-              value={stat.value}
-              suffix={stat.suffix}
-              label={stat.label}
-              detail={stat.detail}
-              delay={i * 100}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -719,7 +707,7 @@ function Certifications() {
 export default function SobreNosPage() {
   usePageMeta(
     'Sobre Nós — História, Equipa e Certificações',
-    'Conheça a B-CHIWALE: fundada em 2017, certificada ISO 9001 e ISO 45001, com mais de 100 profissionais em geociências e 18 províncias de actuação em Angola.',
+    'Conheça a B-CHIWALE: fundada em 2017, certificada ISO 9001 e ISO 45001, com mais de 100 profissionais em geociências e 21 províncias de actuação em Angola.',
     'https://bchiwale.ao/sobre-nos'
   );
   return (

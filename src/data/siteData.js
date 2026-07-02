@@ -55,7 +55,7 @@ export const STATS = [
   { value: 100, suffix: '+', label: 'Profissionais', detail: 'Equipa multidisciplinar' },
   { value: 8, suffix: '+', label: 'Anos de Experiência', detail: 'Desde 2017' },
   { value: 5, suffix: '', label: 'Certificações', detail: 'ISO 9001 · ISO 45001 · ABNT' },
-  { value: 18, suffix: '', label: 'Províncias', detail: 'Cobertura nacional' },
+  { value: 21, suffix: '', label: 'Províncias', detail: 'Cobertura nacional' },
 ];
 
 export const SERVICES = [
@@ -429,7 +429,7 @@ export const TIMELINE = [
   { year: '2021', text: 'Projectos de referência em 3 províncias angolanas. Parcerias académicas estabelecidas com universidades.', badge: null, type: 'normal' },
   { year: '2022', text: 'Lançamento do serviço de Exploração de Águas Subterrâneas. Área de Ambiente expandida.', badge: null, type: 'normal' },
   { year: '2023', text: 'Consultoria completa de direitos mineiros junto do MIREMPET. Equipa ultrapassa 50 profissionais.', badge: '✦ 50+', type: 'milestone' },
-  { year: '2024', text: 'Consolidação como empresa de referência nacional. Expansão para 18 províncias.', badge: null, type: 'normal' },
+  { year: '2024', text: 'Consolidação como empresa de referência nacional. Expansão para 21 províncias.', badge: null, type: 'normal' },
   { year: '2025 →', text: 'Expansão para mercados regionais africanos. Novo website lançado. A história continua.', badge: 'ACTIVO', type: 'active' },
 ];
 
@@ -605,7 +605,7 @@ export const HERO_SLIDES = [
     src: '/images/banner3.jpg',
     alt: 'Levantamento de campo — Angola',
     line1: '50+ projectos.',
-    line2: '18 províncias.',
+    line2: '21 províncias.',
     primary:   { label: 'Ver Portfólio',      href: '/portfolio' },
     secondary: { label: 'Solicitar Proposta', href: '/contacto' },
   },

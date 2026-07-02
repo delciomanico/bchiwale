@@ -300,7 +300,7 @@ export default function CarreirasPage() {
           </header>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: '⬡', title: 'Projectos de Referência', desc: 'Trabalhe em projectos de impacto nacional em 18 províncias angolanas.' },
+              { icon: '⬡', title: 'Projectos de Referência', desc: 'Trabalhe em projectos de impacto nacional em 21 províncias angolanas.' },
               { icon: '↑', title: 'Progressão Acelerada', desc: 'Planos de carreira claros com avaliações semestrais e promoções baseadas em mérito.' },
               { icon: '◎', title: 'Formação Contínua', desc: 'Acesso a webinars, certificações e programas de formação técnica interna.' },
               { icon: '✦', title: 'Equipa Multidisciplinar', desc: 'Colabore com geólogos, geofísicos, engenheiros e especialistas ambientais.' },

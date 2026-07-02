@@ -11,7 +11,7 @@ import { usePageMeta } from '../hooks/usePageMeta';
 export default function HomePage() {
   usePageMeta(
     'Geologia, Geofísica e Engenharia Geotécnica em Angola',
-    'Empresa angolana certificada de geociências: Geologia, Geofísica, Engenharia Geotécnica, Topografia e Consultoria Mineira desde 2017. ISO 9001 · ISO 45001 · JORC · 18 províncias.',
+    'Empresa angolana certificada de geociências: Geologia, Geofísica, Engenharia Geotécnica, Topografia e Consultoria Mineira desde 2017. ISO 9001 · ISO 45001 · JORC · 21 províncias.',
     'https://bchiwale.ao/'
   );
   return (

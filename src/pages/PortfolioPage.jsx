@@ -116,11 +116,11 @@ export default function PortfolioPage() {
             Casos de <em className="italic" style={{ color: '#00AEEF' }}>Estudo</em>
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Mais de 50 projectos concluídos em 18 províncias angolanas. Uma selecção representativa do nosso trabalho.
+            Mais de 50 projectos concluídos em 21 províncias angolanas. Uma selecção representativa do nosso trabalho.
           </p>
           {/* Count indicators */}
           <div className="flex gap-8 mt-10">
-            {[['50+', 'Projectos'], ['18', 'Províncias'], ['7', 'Serviços']].map(([n, l]) => (
+            {[['50+', 'Projectos'], ['21', 'Províncias'], ['7', 'Serviços']].map(([n, l]) => (
               <div key={l}>
                 <div className="font-heading font-light text-white text-2xl leading-none">{n}</div>
                 <div className="font-mono text-[10px] text-white/35 tracking-[0.18em] uppercase mt-1">{l}</div>

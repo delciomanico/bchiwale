@@ -44,7 +44,7 @@ export const HERO_SLIDES_EN = [
     src: '/images/banner3.jpg',
     alt: 'Field survey — Angola',
     line1: '50+ projects.',
-    line2: '18 provinces.',
+    line2: '21 provinces.',
     primary:   { label: 'View Portfolio',      href: '/portfolio' },
     secondary: { label: 'Request a Proposal',  href: '/contacto' },
   },
@@ -55,7 +55,7 @@ export const STATS_EN = [
   { value: 100, suffix: '+', label: 'Professionals',         detail: 'Multidisciplinary team' },
   { value: 8,   suffix: '+', label: 'Years of Experience',   detail: 'Since 2017' },
   { value: 5,   suffix: '',  label: 'Certifications',        detail: 'ISO 9001 · ISO 45001 · ABNT' },
-  { value: 18,  suffix: '',  label: 'Provinces',             detail: 'National coverage' },
+  { value: 21,  suffix: '',  label: 'Provinces',             detail: 'National coverage' },
 ];
 
 export const SERVICES_EN = [
@@ -495,7 +495,7 @@ export const TIMELINE_EN = [
   { year: '2021', text: 'Reference projects across 3 Angolan provinces. Academic partnerships established with universities.', badge: null, type: 'normal' },
   { year: '2022', text: 'Launch of Groundwater Exploration service. Environmental division expanded.', badge: null, type: 'normal' },
   { year: '2023', text: 'Complete mining rights consultancy with MIREMPET. Team exceeds 50 professionals.', badge: '✦ 50+', type: 'milestone' },
-  { year: '2024', text: 'Consolidation as national reference company. Expansion to 18 provinces.', badge: null, type: 'normal' },
+  { year: '2024', text: 'Consolidation as national reference company. Expansion to 21 provinces.', badge: null, type: 'normal' },
   { year: '2025 →', text: 'Expansion into African regional markets. New website launched. The story continues.', badge: 'ACTIVE', type: 'active' },
 ];
 
