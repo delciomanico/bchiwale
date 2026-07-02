@@ -7,13 +7,16 @@ export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
     <>
       {/* Internal page hero */}
       <section
-        className="min-h-[calc(40vh+72px)] flex items-end pb-16"
-        style={{
-          background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
-          borderBottom: '3px solid #00AEEF', paddingTop: '72px',
-        }}
+        className="relative min-h-[calc(40vh+72px)] flex items-end pb-16"
+        style={{ borderBottom: '3px solid #00AEEF', paddingTop: '72px' }}
       >
-        <div className="container">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: 'url(/images/mission.jpg)' }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
+        <div className="relative z-10 container">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40 tracking-widest3">
