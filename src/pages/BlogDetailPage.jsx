@@ -51,15 +51,30 @@ export default function BlogDetailPage() {
   return (
     <>
       <section
-        className="min-h-[calc(40vh+72px)] flex items-end pb-16"
+        className="relative min-h-[calc(40vh+72px)] flex items-end pb-16"
         style={{
-          background: 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
           borderBottom: '1px solid rgba(0,174,239,0.2)',
           paddingTop: '72px',
         }}
         aria-labelledby="article-title"
       >
-        <div className="container">
+        {post.image && (
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${post.image})` }}
+            aria-hidden="true"
+          />
+        )}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: post.image
+              ? 'rgba(10,14,22,0.78)'
+              : 'linear-gradient(135deg, #1A1A2E 60%, #0d1829 100%)',
+          }}
+          aria-hidden="true"
+        />
+        <div className="relative z-10 container">
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
               <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
