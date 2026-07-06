@@ -200,13 +200,13 @@ export const ORG_CHART = {
   cargo: 'Presidente do Conselho de Administração',
   nome: 'Severino Nambuengue Chiwale',
   iniciais: 'SC',
-  photo: null,
+  photo: '/images/team1.jpg',
   subordinados: [
     {
       cargo: 'Administradora Executiva — Área Administrativa e Financeira',
       nome: 'Bernadeth de Nazaré',
       iniciais: 'BN',
-      photo: null,
+      photo: '/images/team/bernadeth-nazare.jpg',
       subordinados: [
         {
           cargo: 'Direcção de R.H',
@@ -231,10 +231,10 @@ export const ORG_CHART = {
       cargo: 'Administradora Executiva — Área de Geociências',
       nome: 'Samba Clotilde Franga Eduardo André',
       iniciais: 'SA',
-      photo: null,
+      photo: '/images/team/samba-clotilde.jpg',
       subordinados: [
-        { cargo: 'Director para Área de Geociências', nome: 'Gilberto Armando Viegas', iniciais: 'GV', photo: null, subordinados: [] },
-        { cargo: 'Coordenador para Área de Geociências', nome: 'Sebastião Malungo Miguel António', iniciais: 'SM', photo: null, subordinados: [] },
+        { cargo: 'Director para Área de Geociências', nome: 'Gilberto Armando Viegas', iniciais: 'GV', photo: '/images/team/gilberto-viegas.jpg', subordinados: [] },
+        { cargo: 'Coordenador para Área de Geociências', nome: 'Sebastião Malungo Miguel António', iniciais: 'SM', photo: '/images/team/sebastiao-antonio.jpg', subordinados: [] },
       ],
     },
   ],

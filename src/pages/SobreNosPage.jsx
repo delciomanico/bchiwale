@@ -48,28 +48,16 @@ function DGMessage() {
     <section className="section-pad bg-white" id="mensagem-dg" aria-labelledby="dg-title">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* DG portrait placeholder */}
+          {/* DG portrait */}
           <div
-            className="relative flex flex-col items-center justify-center text-center p-12"
-            style={{ background: '#0d1829', borderTop: '1px solid rgba(0,174,239,0.25)', minHeight: '380px' }}
-            aria-hidden="true"
+            className="relative overflow-hidden"
+            style={{ borderTop: '1px solid rgba(0,174,239,0.25)', minHeight: '380px' }}
           >
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(0,174,239,0.03) 24px, rgba(0,174,239,0.03) 25px)'
-            }} />
-            <div
-              className="relative z-10 w-28 h-28 rounded-full flex items-center justify-center mb-6"
-              style={{ backgroundColor: '#1A1A2E', border: '1px solid rgba(0,174,239,0.2)' }}
-            >
-              <span className="font-heading font-semibold text-white text-3xl tracking-tight">SC</span>
-            </div>
-            <div className="relative z-10 font-heading font-semibold text-white text-lg mb-1">Severino Chiwale</div>
-            <div className="relative z-10 font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mt-1">
-              Director-Geral &amp; Fundador
-            </div>
-            <div className="relative z-10 font-mono text-[10px] text-white/25 tracking-[0.15em] mt-3">
-              B-CHIWALE · EST. 2017
-            </div>
+            <img
+              src="/images/team/severino-escritorio.jpg"
+              alt="Severino Chiwale, Director-Geral e Fundador da B-CHIWALE"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
 
           {/* Quote */}
