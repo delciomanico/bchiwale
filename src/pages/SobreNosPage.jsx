@@ -497,7 +497,11 @@ function Certifications() {
             <div key={i} className="flex items-center shrink-0">
               {/* Item */}
               <div className="flex items-center gap-4 px-14">
-                <CertBadge />
+                {cert.logo ? (
+                  <img src={cert.logo} alt={`Logótipo ${cert.code}`} className="w-9 h-9 object-contain" />
+                ) : (
+                  <CertBadge />
+                )}
                 <div>
                   <div className="font-heading font-semibold text-charcoal tracking-tight" style={{ fontSize: '1rem', lineHeight: 1.2 }}>
                     {cert.code}

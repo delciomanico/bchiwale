@@ -1176,11 +1176,11 @@ export const MVV_CARDS = [
 ];
 
 export const CERTIFICATIONS = [
-  { code: 'ISO 9001',  label: 'Gestão da Qualidade', year: '2019' },
-  { code: 'ISO 45001', label: 'Saúde e Segurança',   year: '2019' },
-  { code: 'ABNT',      label: 'Normas Técnicas',      year: '2020' },
-  { code: 'JORC',      label: 'Recursos Minerais',    year: '2021' },
-  { code: 'NI 43-101', label: 'Divulgação Mineral',   year: '2021' },
+  { code: 'ISO 9001',  label: 'Gestão da Qualidade', year: '2019', logo: '/images/certifications/iso9001.svg' },
+  { code: 'ISO 45001', label: 'Saúde e Segurança',   year: '2019', logo: '/images/certifications/iso45001.svg' },
+  { code: 'ABNT',      label: 'Normas Técnicas',      year: '2020', logo: '/images/certifications/abnt.png' },
+  { code: 'JORC',      label: 'Recursos Minerais',    year: '2021', logo: null },
+  { code: 'NI 43-101', label: 'Divulgação Mineral',   year: '2021', logo: null },
 ];
 
 export const CERT_BADGES = ['ISO 9001', 'ISO 45001', 'ABNT', 'JORC', 'NI 43-101'];
