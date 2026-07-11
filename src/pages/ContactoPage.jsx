@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CONTACT, SERVICES } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 function PinIcon() {
@@ -36,6 +36,7 @@ function ClockIcon() {
 }
 
 export default function ContactoPage() {
+  const { CONTACT, SERVICES } = useSiteData();
   usePageMeta(
     'Contacto — Solicite uma Proposta',
     'Contacte a B-CHIWALE para uma proposta de geologia, geofísica, geotecnia ou consultoria mineira. +244 924 073 147 · geral@bchiwale.ao · Luanda, Angola.',

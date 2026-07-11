@@ -1,17 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  PORTFOLIO_ITEMS,
-  EXTRA_PORTFOLIO_ITEMS,
-  PORTFOLIO_SERVICE_FILTERS,
-  PORTFOLIO_PROVINCE_FILTERS,
-  PORTFOLIO_PERIOD_FILTERS,
-} from '../data/siteData';
-
-const ALL_PROJECTS = [
-  ...PORTFOLIO_ITEMS.map((p, i) => ({ ...p, period: ['2024', '2023', '2023', '2022', '2024', '2024'][i] })),
-  ...EXTRA_PORTFOLIO_ITEMS,
-];
+import { useSiteData } from '../contexts/ContentContext';
 
 function ProjectCard({ project, index }) {
   const accent = index % 2 === 0 ? '#00AEEF' : '#F5C200';
@@ -45,7 +34,7 @@ function ProjectCard({ project, index }) {
         <div className="flex items-center justify-between gap-2">
           {/* Tag — now plain mono text via global .tag-cyan */}
           <span className="tag-cyan">{project.service}</span>
-          <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.15em]">{project.period}</span>
+          <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.15em]">{project.year}</span>
         </div>
         <h3 className="font-heading font-semibold text-charcoal text-base leading-snug tracking-tight">{project.title}</h3>
         <p className="font-body text-gray-text text-xs leading-relaxed flex-1">{project.description}</p>
@@ -87,14 +76,15 @@ function FilterSelect({ label, value, onChange, options }) {
 }
 
 export default function PortfolioPage() {
+  const { PORTFOLIO_ITEMS, PORTFOLIO_SERVICE_FILTERS, PORTFOLIO_PROVINCE_FILTERS, PORTFOLIO_PERIOD_FILTERS } = useSiteData();
   const [activeService, setActiveService] = useState('Todos');
   const [activeProvince, setActiveProvince] = useState('Todas');
   const [activePeriod, setActivePeriod] = useState('Todos');
 
-  const filtered = ALL_PROJECTS.filter((p) => {
+  const filtered = PORTFOLIO_ITEMS.filter((p) => {
     const svcMatch = activeService === 'Todos' || p.service === activeService;
     const prvMatch = activeProvince === 'Todas' || p.province === activeProvince;
-    const perMatch = activePeriod === 'Todos' || p.period === activePeriod;
+    const perMatch = activePeriod === 'Todos' || p.year === activePeriod;
     return svcMatch && prvMatch && perMatch;
   });
 

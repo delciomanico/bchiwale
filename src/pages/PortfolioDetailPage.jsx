@@ -1,9 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
-import { PORTFOLIO_ITEMS } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 import NotFoundPage from './NotFoundPage';
 
 export default function PortfolioDetailPage() {
   const { slug } = useParams();
+  const { PORTFOLIO_ITEMS } = useSiteData();
   const item = PORTFOLIO_ITEMS.find((p) => p.slug === slug);
 
   if (!item) return <NotFoundPage />;
@@ -70,39 +71,48 @@ export default function PortfolioDetailPage() {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             <div className="lg:col-span-2 space-y-12">
-              <div>
-                <p className="eyebrow">O DESAFIO</p>
-                <p className="font-body text-charcoal/75 text-base leading-relaxed mt-3">{item.challenge}</p>
-              </div>
-              <div className="hairline" aria-hidden="true" />
-              <div>
-                <p className="eyebrow">A NOSSA ABORDAGEM</p>
-                <p className="font-body text-charcoal/75 text-base leading-relaxed mt-3">{item.solution}</p>
-              </div>
+              {item.challenge && (
+                <div>
+                  <p className="eyebrow">O DESAFIO</p>
+                  <p className="font-body text-charcoal/75 text-base leading-relaxed mt-3">{item.challenge}</p>
+                </div>
+              )}
+              {item.challenge && item.solution && <div className="hairline" aria-hidden="true" />}
+              {item.solution && (
+                <div>
+                  <p className="eyebrow">A NOSSA ABORDAGEM</p>
+                  <p className="font-body text-charcoal/75 text-base leading-relaxed mt-3">{item.solution}</p>
+                </div>
+              )}
+              {!item.challenge && !item.solution && (
+                <p className="font-body text-charcoal/75 text-base leading-relaxed">{item.description}</p>
+              )}
             </div>
 
-            <div>
-              <div
-                className="p-8"
-                style={{ background: '#F7F7F7', border: '1px solid rgba(26,26,46,0.10)' }}
-              >
-                <p className="eyebrow">RESULTADOS</p>
-                <ul className="mt-4 space-y-4" role="list">
-                  {item.results.map((result, i) => (
-                    <li key={i} className="flex gap-3 items-start">
-                      <span
-                        className="shrink-0 font-mono leading-tight mt-0.5"
-                        style={{ color: '#00AEEF', fontSize: '1rem' }}
-                        aria-hidden="true"
-                      >
-                        ✓
-                      </span>
-                      <span className="font-body text-charcoal/75 text-sm leading-relaxed">{result}</span>
-                    </li>
-                  ))}
-                </ul>
+            {item.results && item.results.length > 0 && (
+              <div>
+                <div
+                  className="p-8"
+                  style={{ background: '#F7F7F7', border: '1px solid rgba(26,26,46,0.10)' }}
+                >
+                  <p className="eyebrow">RESULTADOS</p>
+                  <ul className="mt-4 space-y-4" role="list">
+                    {item.results.map((result, i) => (
+                      <li key={i} className="flex gap-3 items-start">
+                        <span
+                          className="shrink-0 font-mono leading-tight mt-0.5"
+                          style={{ color: '#00AEEF', fontSize: '1rem' }}
+                          aria-hidden="true"
+                        >
+                          ✓
+                        </span>
+                        <span className="font-body text-charcoal/75 text-sm leading-relaxed">{result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

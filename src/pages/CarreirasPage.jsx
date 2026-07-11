@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { JOBS, JOB_DEPARTMENTS } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 
 // Tag class mapping — plain mono text after global update
 const DEPT_TAG = {
@@ -248,6 +248,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function CarreirasPage() {
+  const { JOBS, JOB_DEPARTMENTS } = useSiteData();
   const [activeDept, setActiveDept] = useState('Todos');
   const [applyJob, setApplyJob] = useState(null);
 

@@ -1,6 +1,7 @@
-import { CONTACT } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 
 export default function WhatsAppFloat() {
+  const { CONTACT } = useSiteData();
   return (
     <a
       href={CONTACT.whatsapp}

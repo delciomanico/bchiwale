@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { SERVICES } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { SERVICES_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 // ── Services — editorial index, no cards, no icons ──
 // Each row is a full-width link. Hovering scales in a cyan left-bar
@@ -61,6 +60,7 @@ function ServiceRow({ service, index }) {
 
 export default function Services() {
   const { t, loc } = useLang();
+  const { SERVICES, SERVICES_EN } = useSiteData();
   const services = loc(SERVICES, SERVICES_EN);
 
   return (

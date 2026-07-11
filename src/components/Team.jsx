@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TEAM } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { TEAM_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 const PER_PAGE = 4; // 2 columns × 2 rows
 
@@ -105,6 +104,7 @@ function TeamCard({ member }) {
 
 export default function Team() {
   const { loc } = useLang();
+  const { TEAM, TEAM_EN } = useSiteData();
   const team = loc(TEAM, TEAM_EN);
   const [page, setPage] = useState(0);
   const totalPages = Math.ceil(team.length / PER_PAGE);

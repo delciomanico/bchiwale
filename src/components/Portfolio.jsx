@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { PORTFOLIO_ITEMS } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { PORTFOLIO_ITEMS_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 function PortfolioCard({ item, delay = 0, viewLabel }) {
   return (
@@ -70,6 +69,7 @@ function PortfolioCard({ item, delay = 0, viewLabel }) {
 
 export default function Portfolio() {
   const { t, loc } = useLang();
+  const { PORTFOLIO_ITEMS, PORTFOLIO_ITEMS_EN } = useSiteData();
   const items = loc(PORTFOLIO_ITEMS, PORTFOLIO_ITEMS_EN);
 
   return (

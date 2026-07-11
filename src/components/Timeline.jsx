@@ -1,6 +1,5 @@
-import { TIMELINE } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { TIMELINE_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 function TimelineDot({ type }) {
   if (type === 'active') {
@@ -94,6 +93,7 @@ function TimelineContent({ item }) {
 
 export default function Timeline() {
   const { loc } = useLang();
+  const { TIMELINE, TIMELINE_EN } = useSiteData();
   const timeline = loc(TIMELINE, TIMELINE_EN);
   return (
     <section className="section-pad" id="historia" aria-labelledby="timeline-title">

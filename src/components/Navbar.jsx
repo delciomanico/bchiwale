@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { SERVICES_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 function ChevronDown({ className = 'w-3.5 h-3.5' }) {
@@ -141,6 +140,7 @@ function MegaSobre({ struct, onClose }) {
 
 function MegaServicos({ struct, onClose }) {
   const { t, loc } = useLang();
+  const { SERVICES, SERVICES_EN } = useSiteData();
   const services = loc(SERVICES, SERVICES_EN);
   const megaServices = services.map((s, i) => ({
     num: String(i + 1).padStart(2, '0'),
@@ -422,7 +422,7 @@ function SimpleDropdown({ items, isOpen, onClose }) {
 }
 
 // ─── Search index ─────────────────────────────────────────────────────────────
-const SEARCH_INDEX = [
+const SEARCH_PAGES = [
   { type: 'Páginas',   label: 'Home',               subtitle: 'Página inicial',                     href: '/' },
   { type: 'Páginas',   label: 'Sobre Nós',           subtitle: 'História, equipa e certificações',   href: '/sobre-nos' },
   { type: 'Páginas',   label: 'Portfolio',            subtitle: 'Mais de 50 projectos concluídos',   href: '/portfolio' },
@@ -431,35 +431,41 @@ const SEARCH_INDEX = [
   { type: 'Páginas',   label: 'Recursos',             subtitle: 'Downloads e documentos',            href: '/recursos' },
   { type: 'Páginas',   label: 'Contacto',             subtitle: 'Fale connosco',                     href: '/contacto' },
   { type: 'Páginas',   label: 'Carreiras',            subtitle: 'Trabalhe connosco',                 href: '/carreiras' },
-  ...SERVICES.map((s) => ({
-    type: 'Serviços',
-    label: s.title,
-    subtitle: s.description,
-    href: s.href,
-    keywords: (s.subtechniques || []).join(' ') + ' ' + (s.tags || []).map((t) => t.label).join(' '),
-  })),
-  ...PORTFOLIO_ITEMS.map((p) => ({
-    type: 'Projectos',
-    label: p.title,
-    subtitle: `${p.service} · ${p.province}`,
-    href: `/portfolio/${p.slug}`,
-    keywords: `${p.description} ${p.challenge || ''} ${p.solution || ''}`,
-  })),
-  ...BLOG_POSTS.map((b) => ({
-    type: 'Artigos',
-    label: b.title,
-    subtitle: `${b.category} · ${b.date}`,
-    href: `/blog/${b.slug}`,
-    keywords: `${b.excerpt} ${(b.tags || []).join(' ')}`,
-  })),
-  ...TEAM.map((m) => ({
-    type: 'Equipa',
-    label: m.name,
-    subtitle: m.role,
-    href: '/sobre-nos#equipa',
-    keywords: `${m.bio} ${(m.specialties || []).join(' ')}`,
-  })),
 ];
+
+function buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }) {
+  return [
+    ...SEARCH_PAGES,
+    ...SERVICES.map((s) => ({
+      type: 'Serviços',
+      label: s.title,
+      subtitle: s.description,
+      href: s.href,
+      keywords: (s.subtechniques || []).join(' ') + ' ' + (s.tags || []).map((t) => t.label).join(' '),
+    })),
+    ...PORTFOLIO_ITEMS.map((p) => ({
+      type: 'Projectos',
+      label: p.title,
+      subtitle: `${p.service} · ${p.province}`,
+      href: `/portfolio/${p.slug}`,
+      keywords: `${p.description} ${p.challenge || ''} ${p.solution || ''}`,
+    })),
+    ...BLOG_POSTS.map((b) => ({
+      type: 'Artigos',
+      label: b.title,
+      subtitle: `${b.category} · ${b.date}`,
+      href: `/blog/${b.slug}`,
+      keywords: `${b.excerpt} ${(b.tags || []).join(' ')}`,
+    })),
+    ...TEAM.map((m) => ({
+      type: 'Equipa',
+      label: m.name,
+      subtitle: m.role,
+      href: '/sobre-nos#equipa',
+      keywords: `${m.bio} ${(m.specialties || []).join(' ')}`,
+    })),
+  ];
+}
 
 // ─── Nav items (language-independent keys) ────────────────────────────────────
 const NAV_ITEMS = [
@@ -512,6 +518,7 @@ function Highlight({ text, query }) {
 // ─── Main component ────────────────────────────────────────────────────────────
 export default function Navbar() {
   const { lang, setLang, t, loc } = useLang();
+  const { SERVICES, SERVICES_EN, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM } = useSiteData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [openMega, setOpenMega] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -536,15 +543,20 @@ export default function Navbar() {
     { label: t('nav.popular_5'), href: '/contacto' },
   ];
 
+  const searchIndex = useMemo(
+    () => buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }),
+    [SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM]
+  );
+
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return SEARCH_INDEX.filter((item) =>
+    return searchIndex.filter((item) =>
       item.label.toLowerCase().includes(q) ||
       item.subtitle?.toLowerCase().includes(q) ||
       item.keywords?.toLowerCase().includes(q)
     ).slice(0, 20);
-  }, [query]);
+  }, [query, searchIndex]);
 
   const grouped = useMemo(() => {
     return searchResults.reduce((acc, item) => {

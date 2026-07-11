@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GALLERY_ITEMS, GALLERY_CATEGORIES } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 
 function GalleryTile({ item, onClick }) {
   return (
@@ -151,6 +151,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function GaleriaPage() {
+  const { GALLERY_ITEMS, GALLERY_CATEGORIES } = useSiteData();
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [lightboxItem, setLightboxItem] = useState(null);
 

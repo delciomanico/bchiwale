@@ -1,7 +1,6 @@
-import { STATS } from '../data/siteData';
 import { useStatCounter } from '../hooks/useStatCounter';
 import { useLang } from '../contexts/LangContext';
-import { STATS_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 function StatItem({ value, suffix, label, detail, delay = 0 }) {
   const { count, ref } = useStatCounter(value);
@@ -23,6 +22,7 @@ function StatItem({ value, suffix, label, detail, delay = 0 }) {
 
 export default function StatsStrip() {
   const { t, loc } = useLang();
+  const { STATS, STATS_EN } = useSiteData();
   const stats = loc(STATS, STATS_EN);
 
   return (

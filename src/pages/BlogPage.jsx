@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS, ALL_BLOG_POSTS, BLOG_CATEGORIES } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 
 const CAT_TAG_CLASS = {
   Geologia: 'tag-cyan',
@@ -96,6 +96,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function BlogPage() {
+  const { ALL_BLOG_POSTS, BLOG_CATEGORIES } = useSiteData();
   const [activeCategory, setActiveCategory] = useState('Todos');
   const featuredPost = ALL_BLOG_POSTS.find((p) => p.featured);
   const regularPosts = ALL_BLOG_POSTS.filter((p) => !p.featured);

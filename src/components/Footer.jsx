@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { FOOTER_SERVICES, FOOTER_COMPANY, CONTACT, CERT_BADGES } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { FOOTER_SERVICES_EN, FOOTER_COMPANY_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 function PinIcon() {
   return (
@@ -51,6 +50,7 @@ function LinkedInIcon() {
 
 export default function Footer() {
   const { t, loc } = useLang();
+  const { FOOTER_SERVICES, FOOTER_SERVICES_EN, FOOTER_COMPANY, FOOTER_COMPANY_EN, CONTACT, CERT_BADGES } = useSiteData();
   const footerServices = loc(FOOTER_SERVICES, FOOTER_SERVICES_EN);
   const footerCompany  = loc(FOOTER_COMPANY,  FOOTER_COMPANY_EN);
 

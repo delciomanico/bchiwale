@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { SERVICES, SERVICE_DETAIL, SERVICE_SLUG_MAP } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 import { ServiceIcon } from '../components/ServiceIcons';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function ServicoDetailPage() {
   const { slug } = useParams();
+  const { SERVICES, SERVICE_DETAIL, SERVICE_SLUG_MAP } = useSiteData();
   const serviceIndex = SERVICE_SLUG_MAP[slug];
   const service = serviceIndex !== undefined ? SERVICES[serviceIndex] : null;
   const detail = SERVICE_DETAIL[slug];

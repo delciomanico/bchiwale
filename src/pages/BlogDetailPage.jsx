@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BLOG_POSTS } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 import NotFoundPage from './NotFoundPage';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -36,6 +36,7 @@ function BodyBlock({ block }) {
 
 export default function BlogDetailPage() {
   const { slug } = useParams();
+  const { BLOG_POSTS } = useSiteData();
   const post = BLOG_POSTS.find((p) => p.slug === slug);
 
   usePageMeta(

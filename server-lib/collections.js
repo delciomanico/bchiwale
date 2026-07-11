@@ -1,0 +1,88 @@
+// Shared config describing each CRUD collection: DB table, primary key,
+// writable columns, and which of those columns hold JSON values.
+export const COLLECTIONS = {
+  services: {
+    table: 'services',
+    idColumn: 'slug',
+    idIsText: true,
+    orderColumn: 'order_index',
+    columns: [
+      'order_index', 'title_pt', 'title_en', 'description_pt', 'description_en',
+      'tags_pt', 'tags_en', 'subtechniques_pt', 'subtechniques_en', 'icon_id', 'image',
+      'methodology_pt', 'methodology_en', 'norms_pt', 'norms_en', 'faqs_pt', 'faqs_en',
+    ],
+    jsonColumns: [
+      'tags_pt', 'tags_en', 'subtechniques_pt', 'subtechniques_en',
+      'methodology_pt', 'methodology_en', 'norms_pt', 'norms_en', 'faqs_pt', 'faqs_en',
+    ],
+  },
+  team: {
+    table: 'team_members',
+    idColumn: 'id',
+    idIsText: false,
+    orderColumn: 'order_index',
+    columns: [
+      'order_index', 'initials', 'photo', 'linkedin', 'years_exp',
+      'name_pt', 'name_en', 'role_pt', 'role_en', 'bio_pt', 'bio_en',
+      'specialties_pt', 'specialties_en', 'education_pt', 'education_en',
+      'languages_pt', 'languages_en',
+    ],
+    jsonColumns: ['specialties_pt', 'specialties_en', 'languages_pt', 'languages_en'],
+  },
+  portfolio: {
+    table: 'portfolio_items',
+    idColumn: 'slug',
+    idIsText: true,
+    orderColumn: 'order_index',
+    columns: [
+      'order_index', 'service_pt', 'service_en', 'province', 'year', 'image',
+      'title_pt', 'title_en', 'description_pt', 'description_en',
+      'client_pt', 'client_en', 'area_pt', 'area_en', 'duration_pt', 'duration_en',
+      'challenge_pt', 'challenge_en', 'solution_pt', 'solution_en',
+      'results_pt', 'results_en', 'gallery',
+    ],
+    jsonColumns: ['results_pt', 'results_en', 'gallery'],
+  },
+  blog: {
+    table: 'blog_posts',
+    idColumn: 'slug',
+    idIsText: true,
+    orderColumn: 'order_index',
+    columns: [
+      'order_index', 'cat_type', 'category_pt', 'category_en', 'date_pt', 'date_en', 'date_time',
+      'title_pt', 'title_en', 'excerpt_pt', 'excerpt_en', 'image',
+      'author_pt', 'author_en', 'read_time_pt', 'read_time_en',
+      'tags_pt', 'tags_en', 'featured', 'body_pt', 'body_en',
+    ],
+    jsonColumns: ['tags_pt', 'tags_en', 'body_pt', 'body_en'],
+  },
+  gallery: {
+    table: 'gallery_items',
+    idColumn: 'id',
+    idIsText: false,
+    orderColumn: 'order_index',
+    columns: ['order_index', 'cat', 'province', 'accent', 'bg', 'image', 'title_pt', 'title_en'],
+    jsonColumns: [],
+  },
+  testimonials: {
+    table: 'testimonials',
+    idColumn: 'id',
+    idIsText: false,
+    orderColumn: 'order_index',
+    columns: ['order_index', 'initials', 'text_pt', 'text_en', 'name_pt', 'name_en', 'meta_pt', 'meta_en'],
+    jsonColumns: [],
+  },
+  jobs: {
+    table: 'jobs',
+    idColumn: 'id',
+    idIsText: false,
+    orderColumn: 'order_index',
+    columns: [
+      'order_index', 'is_open', 'dept_pt', 'dept_en', 'title_pt', 'title_en',
+      'location_pt', 'location_en', 'type_pt', 'type_en', 'level_pt', 'level_en',
+      'posted_pt', 'posted_en', 'description_pt', 'description_en',
+      'requirements_pt', 'requirements_en',
+    ],
+    jsonColumns: ['requirements_pt', 'requirements_en'],
+  },
+};

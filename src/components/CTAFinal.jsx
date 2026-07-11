@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { CONTACT } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
+import { useSiteData } from '../contexts/ContentContext';
 
 export default function CTAFinal() {
   const { t } = useLang();
+  const { CONTACT } = useSiteData();
   return (
     <section className="section-tall bg-charcoal" aria-labelledby="cta-title">
       <div className="container">

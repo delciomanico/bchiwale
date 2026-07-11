@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { HERO_SLIDES } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { HERO_SLIDES_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 const SLIDE_INTERVAL = 9500;
 const FADE_MS        = 2200;
@@ -30,6 +29,7 @@ function Cursor() {
 
 export default function Hero() {
   const { loc } = useLang();
+  const { HERO_SLIDES, HERO_SLIDES_EN } = useSiteData();
   const slides = loc(HERO_SLIDES, HERO_SLIDES_EN);
   const [current,        setCurrent]        = useState(0);
   const [contentVisible, setContentVisible] = useState(true);

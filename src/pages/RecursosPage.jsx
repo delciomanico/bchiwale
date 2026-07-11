@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { DOWNLOADS, TOOLS } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 
 export default function RecursosPage() {
+  const { DOWNLOADS, TOOLS } = useSiteData();
   return (
     <>
       {/* Page hero */}

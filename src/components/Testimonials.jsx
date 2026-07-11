@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { TESTIMONIALS } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { TESTIMONIALS_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 // ── Testimonials — single centered quote, rotates every 6s ──
 export default function Testimonials() {
   const { t, loc } = useLang();
+  const { TESTIMONIALS, TESTIMONIALS_EN } = useSiteData();
   const testimonials = loc(TESTIMONIALS, TESTIMONIALS_EN);
   const [active, setActive] = useState(0);
   const [fading, setFading] = useState(false);

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { BLOG_POSTS } from '../data/siteData';
 import { useLang } from '../contexts/LangContext';
-import { BLOG_POSTS_EN } from '../i18n/dataEN';
+import { useSiteData } from '../contexts/ContentContext';
 
 function ArticleCard({ post, index, readLabel, readPrefix }) {
   return (
@@ -58,6 +57,7 @@ function ArticleCard({ post, index, readLabel, readPrefix }) {
 
 export default function Blog() {
   const { t, loc } = useLang();
+  const { BLOG_POSTS, BLOG_POSTS_EN } = useSiteData();
   const posts = loc(BLOG_POSTS, BLOG_POSTS_EN);
 
   return (

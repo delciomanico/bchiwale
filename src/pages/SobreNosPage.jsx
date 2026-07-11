@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { TEAM, STATS, MVV_CARDS, CERTIFICATIONS, ORG_CHART } from '../data/siteData';
+import { useSiteData } from '../contexts/ContentContext';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 import html2canvas from 'html2canvas';
@@ -94,6 +94,7 @@ function DGMessage() {
 
 // ── MVV ─────────────────────────────────────────────────────────
 function MVV() {
+  const { MVV_CARDS } = useSiteData();
   return (
     <section className="section-pad bg-white border-t border-charcoal/8" id="missao" aria-labelledby="mvv-title">
       <div className="container">
@@ -219,6 +220,7 @@ function OrgTreeNode({ node }) {
 }
 
 function OrgChart() {
+  const { ORG_CHART } = useSiteData();
   const [downloading, setDownloading] = useState(false);
   const sectionRef = useRef(null);
 
@@ -393,6 +395,7 @@ function TeamModal({ member, onClose }) {
 }
 
 function TeamSection() {
+  const { TEAM } = useSiteData();
   const [selectedMember, setSelectedMember] = useState(null);
 
   return (
@@ -463,6 +466,7 @@ function CertBadge() {
 }
 
 function Certifications() {
+  const { CERTIFICATIONS } = useSiteData();
   const track = [...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS];
 
   return (

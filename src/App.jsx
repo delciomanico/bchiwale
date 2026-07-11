@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
+import { useContentStatus } from './contexts/ContentContext';
 
 import HomePage from './pages/HomePage';
 import SobreNosPage from './pages/SobreNosPage';
@@ -16,7 +17,29 @@ import ContactoPage from './pages/ContactoPage';
 import CarreirasPage from './pages/CarreirasPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-export default function App() {
+import AdminApp from './admin/AdminApp';
+
+function PublicApp() {
+  const { loading, error } = useContentStatus();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#1A1A2E' }}>
+        <div className="font-mono text-xs tracking-[0.2em] text-white/60 animate-pulse">A CARREGAR...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 text-center" style={{ background: '#1A1A2E' }}>
+        <p className="font-body text-white/70 text-sm max-w-sm">
+          Não foi possível carregar o conteúdo do site. Recarregue a página ou tente novamente mais tarde.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -40,6 +63,15 @@ export default function App() {
         <Route path="carreiras" element={<CarreirasPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/admin/*" element={<AdminApp />} />
+      <Route path="/*" element={<PublicApp />} />
     </Routes>
   );
 }

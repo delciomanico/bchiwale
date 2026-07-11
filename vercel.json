@@ -1,5 +1,8 @@
 {
   "rewrites": [
+    { "source": "/api/admin/settings/:key", "destination": "/api/admin/settings?key=:key" },
+    { "source": "/api/admin/:collection/:id", "destination": "/api/admin/collection?collection=:collection&id=:id" },
+    { "source": "/api/admin/:collection", "destination": "/api/admin/collection?collection=:collection" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
