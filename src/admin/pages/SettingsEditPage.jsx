@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../lib/api';
+import { deleteBlobIfManaged } from '../lib/blobCleanup';
 import VideoUploadField from '../fields/VideoUploadField';
 
 function AboutVideoEditPage() {
   const [row, setRow] = useState(null);
   const [url, setUrl] = useState('');
+  const [initialUrl, setInitialUrl] = useState('');
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -14,6 +16,7 @@ function AboutVideoEditPage() {
     api.get('/api/admin/settings/about_video').then((data) => {
       setRow(data);
       setUrl(data.value_pt || '');
+      setInitialUrl(data.value_pt || '');
     }).catch((e) => setError(e.message));
   }, []);
 
@@ -24,6 +27,10 @@ function AboutVideoEditPage() {
     setSaving(true);
     try {
       await api.put('/api/admin/settings/about_video', { value_pt: url, value_en: null });
+      if (initialUrl && initialUrl !== url) {
+        await deleteBlobIfManaged(initialUrl);
+      }
+      setInitialUrl(url);
       setSaved(true);
     } catch (err) {
       setError(err.message);

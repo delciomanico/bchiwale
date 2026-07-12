@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ADMIN_COLLECTIONS } from './collections.config';
 import { api } from './lib/api';
+import { cleanupReplacedImages } from './lib/blobCleanup';
 import FieldRenderer from './fields/FieldRenderer';
 
 export default function CollectionEditPage() {
@@ -9,6 +10,7 @@ export default function CollectionEditPage() {
   const config = ADMIN_COLLECTIONS[collection];
   const isNew = id === 'new';
   const [values, setValues] = useState(isNew ? {} : null);
+  const [initialValues, setInitialValues] = useState(isNew ? {} : null);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +18,11 @@ export default function CollectionEditPage() {
   useEffect(() => {
     if (!config || isNew) return;
     setValues(null);
-    api.get(`${config.apiBase}/${encodeURIComponent(id)}`).then(setValues).catch((e) => setError(e.message));
+    setInitialValues(null);
+    api.get(`${config.apiBase}/${encodeURIComponent(id)}`).then((data) => {
+      setValues(data);
+      setInitialValues(data);
+    }).catch((e) => setError(e.message));
   }, [collection, id]);
 
   if (!config) return <p className="text-sm text-red-600">Colecção desconhecida.</p>;
@@ -36,6 +42,7 @@ export default function CollectionEditPage() {
         await api.post(config.apiBase, values);
       } else {
         await api.put(`${config.apiBase}/${encodeURIComponent(id)}`, values);
+        await cleanupReplacedImages(config.fields, initialValues, values);
       }
       navigate(`/admin/${collection}`);
     } catch (err) {
