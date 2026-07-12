@@ -255,6 +255,8 @@ export function adaptSiteData(payload) {
     JOB_DEPARTMENTS: settingValue(settings, 'job_departments', []),
     DOWNLOADS: settingValue(settings, 'downloads', []),
     TOOLS: settingValue(settings, 'tools', []),
+
+    ABOUT_VIDEO: settingValue(settings, 'about_video', '/about-video.mp4'),
   };
 }
 

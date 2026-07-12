@@ -13,9 +13,12 @@ export default withErrorHandling(async (req, res) => {
     body: req.body,
     request: req,
     onBeforeGenerateToken: async () => ({
-      allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/gif'],
+      allowedContentTypes: [
+        'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/gif',
+        'video/mp4', 'video/webm', 'video/ogg',
+      ],
       addRandomSuffix: true,
-      maximumSizeInBytes: 15 * 1024 * 1024,
+      maximumSizeInBytes: 200 * 1024 * 1024,
     }),
     onUploadCompleted: async () => {},
   });

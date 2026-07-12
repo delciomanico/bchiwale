@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../contexts/LangContext';
+import { useSiteData } from '../contexts/ContentContext';
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 
@@ -38,7 +39,7 @@ function CollapseIcon() {
 
 /* ── Video player ───────────────────────────────────────────────────── */
 
-function VideoPlayer() {
+function VideoPlayer({ src }) {
   const videoRef   = useRef(null);
   const wrapperRef = useRef(null);
   const { t } = useLang();
@@ -88,7 +89,7 @@ function VideoPlayer() {
     >
       <video
         ref={videoRef}
-        src="/about-video.mp4"
+        src={src}
         playsInline
         onEnded={() => { setPlaying(false); setStarted(false); }}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -174,6 +175,7 @@ function VideoPlayer() {
 
 export default function About() {
   const { t } = useLang();
+  const { ABOUT_VIDEO } = useSiteData();
   return (
     <section
       className="section-tall bg-gray-light"
@@ -190,7 +192,7 @@ export default function About() {
 
           {/* Left — video */}
           <div className="reveal">
-            <VideoPlayer />
+            <VideoPlayer src={ABOUT_VIDEO || '/about-video.mp4'} />
           </div>
 
           {/* Right — quote + body + pillars + CTA */}

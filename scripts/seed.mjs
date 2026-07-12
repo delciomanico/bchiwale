@@ -266,6 +266,7 @@ async function seedSettings() {
     ['job_departments', 'Vagas — Departamentos', PT.JOB_DEPARTMENTS, null],
     ['downloads', 'Recursos — Downloads', PT.DOWNLOADS, null],
     ['tools', 'Recursos — Ferramentas', PT.TOOLS, null],
+    ['about_video', 'Vídeo da Secção Sobre (Homepage)', '/about-video.mp4', null],
   ];
   for (const [key, label, valuePt, valueEn] of entries) {
     await client.query(
