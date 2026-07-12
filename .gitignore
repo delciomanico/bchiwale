@@ -28,3 +28,4 @@ dist-ssr
 # Raw/original camera photos — not used directly by the site, kept locally only
 raw-photos/
 .env*.local
+.env*
