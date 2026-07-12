@@ -20,6 +20,7 @@ export default function CollectionEditPage() {
   }, [collection, id]);
 
   if (!config) return <p className="text-sm text-red-600">Colecção desconhecida.</p>;
+  if (error && !values) return <p className="text-sm text-red-600">{error}</p>;
   if (!values) return <p className="text-sm text-slate-500">A carregar…</p>;
 
   function set(key, value) {

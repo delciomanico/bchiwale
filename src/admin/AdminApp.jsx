@@ -23,7 +23,6 @@ export default function AdminApp() {
         <Route path="settings" element={<SettingsListPage />} />
         <Route path="settings/:key" element={<SettingsEditPage />} />
         <Route path=":collection" element={<CollectionListPage />} />
-        <Route path=":collection/new" element={<CollectionEditPage />} />
         <Route path=":collection/:id" element={<CollectionEditPage />} />
       </Route>
     </Routes>
