@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.env*
+.vercel
+.claude
+raw-photos
+api
+server-lib
+# Conteúdo agora vem do Dynamix-CMS (Media Library): não vai na imagem
+public/images
+public/about-video.mp4
+public/WhatsApp*

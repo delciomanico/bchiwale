@@ -1,8 +1,10 @@
 // PlaceholderPage — reusable scaffold for pages not yet fully built.
 // Shows a styled page hero + coming-soon message matching the design system.
 import { Link } from 'react-router-dom';
+import { useSiteData } from '../contexts/ContentContext';
 
 export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
+  const { SITE_IMAGES } = useSiteData();
   return (
     <>
       {/* Internal page hero */}
@@ -12,7 +14,7 @@ export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/mission.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_default})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

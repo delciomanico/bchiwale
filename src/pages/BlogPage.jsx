@@ -96,7 +96,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function BlogPage() {
-  const { ALL_BLOG_POSTS, BLOG_CATEGORIES } = useSiteData();
+  const { ALL_BLOG_POSTS, BLOG_CATEGORIES, SITE_IMAGES } = useSiteData();
   const [activeCategory, setActiveCategory] = useState('Todos');
   const featuredPost = ALL_BLOG_POSTS.find((p) => p.featured);
   const regularPosts = ALL_BLOG_POSTS.filter((p) => !p.featured);
@@ -117,7 +117,7 @@ export default function BlogPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/service1.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_blog})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

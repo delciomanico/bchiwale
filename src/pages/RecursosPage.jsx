@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
 
 export default function RecursosPage() {
-  const { DOWNLOADS, TOOLS } = useSiteData();
+  const { DOWNLOADS, TOOLS, SITE_IMAGES } = useSiteData();
   return (
     <>
       {/* Page hero */}
@@ -15,7 +15,7 @@ export default function RecursosPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/gallery4.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_recursos})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

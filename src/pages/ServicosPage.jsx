@@ -65,7 +65,7 @@ function ServiceCard({ service, index }) {
 }
 
 export default function ServicosPage() {
-  const { SERVICES } = useSiteData();
+  const { SERVICES, SITE_IMAGES } = useSiteData();
   usePageMeta(
     'Serviços de Geociências em Angola',
     'Sete serviços integrados: Geologia e Prospecção Mineral, Geofísica Aplicada, Engenharia Geotécnica, Topografia, Ambiente, Águas Subterrâneas e Consultoria Mineira.',
@@ -83,7 +83,7 @@ export default function ServicosPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/geofisico.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_servicos})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

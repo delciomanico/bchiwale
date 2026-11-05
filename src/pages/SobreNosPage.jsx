@@ -8,6 +8,7 @@ import { usePageMeta } from '../hooks/usePageMeta';
 
 // ── Internal hero ────────────────────────────────────────────────
 function PageHero() {
+  const { SITE_IMAGES } = useSiteData();
   return (
     <section
       className="relative min-h-[calc(44vh+72px)] flex items-end pb-16"
@@ -18,7 +19,7 @@ function PageHero() {
     >
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(/images/project-main.jpg)' }}
+        style={{ backgroundImage: `url(${SITE_IMAGES.hero_sobre})` }}
         aria-hidden="true"
       />
       <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
@@ -44,6 +45,7 @@ function PageHero() {
 
 // ── DG Message ──────────────────────────────────────────────────
 function DGMessage() {
+  const { SITE_IMAGES } = useSiteData();
   return (
     <section className="section-pad bg-white" id="mensagem-dg" aria-labelledby="dg-title">
       <div className="container">
@@ -54,7 +56,7 @@ function DGMessage() {
             style={{ borderTop: '1px solid rgba(0,174,239,0.25)', minHeight: '380px' }}
           >
             <img
-              src="/images/team/severino-escritorio.jpg"
+              src={SITE_IMAGES.director_photo}
               alt="Severino Chiwale, Director-Geral e Fundador da B-CHIWALE"
               className="absolute inset-0 w-full h-full object-cover"
             />

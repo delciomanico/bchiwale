@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { adaptSiteData } from './adaptSiteData';
+import { loadSiteData } from '../lib/dynamix';
 
 const ContentContext = createContext(null);
 
@@ -8,14 +9,15 @@ export function ContentProvider({ children }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch('/api/public/site-data')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load site data');
-        return res.json();
-      })
+    loadSiteData()
       .then((payload) => {
         if (cancelled) return;
-        setState({ data: adaptSiteData(payload), loading: false, error: null });
+        const data = adaptSiteData(payload);
+        // Favicon vem do Dynamix (o <link> estático do index.html fica só como reserva até carregar)
+        if (data.SITE_IMAGES?.icon) {
+          document.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"]').forEach((l) => { l.href = data.SITE_IMAGES.icon; });
+        }
+        setState({ data, loading: false, error: null });
       })
       .catch((err) => {
         if (cancelled) return;

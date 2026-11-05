@@ -76,7 +76,7 @@ function FilterSelect({ label, value, onChange, options }) {
 }
 
 export default function PortfolioPage() {
-  const { PORTFOLIO_ITEMS, PORTFOLIO_SERVICE_FILTERS, PORTFOLIO_PROVINCE_FILTERS, PORTFOLIO_PERIOD_FILTERS } = useSiteData();
+  const { PORTFOLIO_ITEMS, PORTFOLIO_SERVICE_FILTERS, PORTFOLIO_PROVINCE_FILTERS, PORTFOLIO_PERIOD_FILTERS, SITE_IMAGES } = useSiteData();
   const [activeService, setActiveService] = useState('Todos');
   const [activeProvince, setActiveProvince] = useState('Todas');
   const [activePeriod, setActivePeriod] = useState('Todos');
@@ -100,7 +100,7 @@ export default function PortfolioPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/caminion.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_portfolio})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

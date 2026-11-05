@@ -36,7 +36,7 @@ function ClockIcon() {
 }
 
 export default function ContactoPage() {
-  const { CONTACT, SERVICES } = useSiteData();
+  const { CONTACT, SERVICES, SITE_IMAGES } = useSiteData();
   usePageMeta(
     'Contacto — Solicite uma Proposta',
     'Contacte a B-CHIWALE para uma proposta de geologia, geofísica, geotecnia ou consultoria mineira. +244 924 073 147 · geral@bchiwale.ao · Luanda, Angola.',
@@ -95,7 +95,7 @@ export default function ContactoPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/project2.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_contacto})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

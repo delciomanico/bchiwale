@@ -151,7 +151,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function GaleriaPage() {
-  const { GALLERY_ITEMS, GALLERY_CATEGORIES } = useSiteData();
+  const { GALLERY_ITEMS, GALLERY_CATEGORIES, SITE_IMAGES } = useSiteData();
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [lightboxItem, setLightboxItem] = useState(null);
 
@@ -171,7 +171,7 @@ export default function GaleriaPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/chiwale-section.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_galeria})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

@@ -248,7 +248,7 @@ function FilterBtn({ label, active, onClick }) {
 }
 
 export default function CarreirasPage() {
-  const { JOBS, JOB_DEPARTMENTS } = useSiteData();
+  const { JOBS, JOB_DEPARTMENTS, SITE_IMAGES } = useSiteData();
   const [activeDept, setActiveDept] = useState('Todos');
   const [applyJob, setApplyJob] = useState(null);
 
@@ -268,7 +268,7 @@ export default function CarreirasPage() {
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/images/gallery7.jpg)' }}
+          style={{ backgroundImage: `url(${SITE_IMAGES.hero_carreiras})` }}
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />

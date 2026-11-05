@@ -256,7 +256,8 @@ export function adaptSiteData(payload) {
     DOWNLOADS: settingValue(settings, 'downloads', []),
     TOOLS: settingValue(settings, 'tools', []),
 
-    ABOUT_VIDEO: settingValue(settings, 'about_video', '/about-video.mp4'),
+    ABOUT_VIDEO: settingValue(settings, 'about_video', ''),
+    SITE_IMAGES: settingValue(settings, 'site_images', {}),
   };
 }
 

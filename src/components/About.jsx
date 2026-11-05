@@ -192,7 +192,7 @@ export default function About() {
 
           {/* Left — video */}
           <div className="reveal">
-            <VideoPlayer src={ABOUT_VIDEO || '/about-video.mp4'} />
+            <VideoPlayer src={ABOUT_VIDEO} />
           </div>
 
           {/* Right — quote + body + pillars + CTA */}

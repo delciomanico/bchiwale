@@ -518,7 +518,7 @@ function Highlight({ text, query }) {
 // ─── Main component ────────────────────────────────────────────────────────────
 export default function Navbar() {
   const { lang, setLang, t, loc } = useLang();
-  const { SERVICES, SERVICES_EN, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM } = useSiteData();
+  const { SERVICES, SERVICES_EN, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM, SITE_IMAGES } = useSiteData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [openMega, setOpenMega] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -647,7 +647,7 @@ export default function Navbar() {
               {/* Logo */}
               <Link to="/" className="flex items-center gap-3 shrink-0 z-10" aria-label="B-CHIWALE — Página inicial">
                 <img
-                  src="/logo.png"
+                  src={SITE_IMAGES.logo}
                   alt="B-CHIWALE"
                   className="h-10 w-auto object-contain"
                   onError={(e) => { e.target.style.display = 'none'; }}
@@ -895,7 +895,7 @@ export default function Navbar() {
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-mid bg-charcoal">
-          <img src="/logo.png" alt="B-CHIWALE" className="h-8 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+          <img src={SITE_IMAGES.logo} alt="B-CHIWALE" className="h-8 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
           <button className="p-1 text-white/60 hover:text-white" onClick={() => setDrawerOpen(false)} aria-label={t('nav.mobile_close')}>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
