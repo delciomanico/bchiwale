@@ -20,6 +20,7 @@ Em *Environment* (lidas no arranque do container; mudar = reiniciar, sem rebuild
 ```
 DYNAMIX_API_URL=https://<cms>/api/v1
 DYNAMIX_PROJECT=bchiwale        # opcional
+WEB3FORMS_KEY=...               # opcional; sem ela o formulário de contacto não envia (lida no arranque)
 ```
 
 O domínio do site tem de estar em `allowedOrigins` do projeto no Dynamix (CORS).

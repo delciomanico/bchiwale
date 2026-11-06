@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function RecursosPage() {
   const { DOWNLOADS, TOOLS, SITE_IMAGES } = useSiteData();
+  const { t } = useLang();
+  usePageMeta(t('meta.recursos_title'), t('meta.recursos_description'), '/recursos');
   return (
     <>
       {/* Page hero */}
@@ -20,29 +25,29 @@ export default function RecursosPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Recursos</li>
+              <li className="text-white/60" aria-current="page">{t('recursos.breadcrumb')}</li>
             </ol>
           </nav>
           <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-            Centro de <em className="italic" style={{ color: '#00AEEF' }}>Recursos</em>
+            <Rich text={t('recursos.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Ferramentas e downloads técnicos para projectos de geociências.
+            {t('recursos.hero_subtitle')}
           </p>
         </div>
       </section>
 
       {/* Quick links nav — white, hairline border */}
-      <nav className="bg-white border-b border-charcoal/8 py-4" aria-label="Secções desta página">
+      <nav className="bg-white border-b border-charcoal/8 py-4" aria-label={t('recursos.sections_label')}>
         <div className="container">
           <div className="flex flex-wrap gap-6">
             {[
-              ['#downloads', 'Centro de Downloads'],
-              ['#ferramentas', 'Ferramentas Técnicas'],
+              ['#downloads', t('recursos.downloads_eyebrow')],
+              ['#ferramentas', t('recursos.tools_eyebrow')],
             ].map(([href, label]) => (
               <a
                 key={href}
@@ -62,10 +67,10 @@ export default function RecursosPage() {
       <section id="downloads" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="dl-title">
         <div className="container">
           <header className="mb-10">
-            <p className="eyebrow">CENTRO DE DOWNLOADS</p>
-            <h2 className="section-title" id="dl-title">Documentos <em>técnicos</em></h2>
+            <p className="eyebrow">{t('recursos.downloads_eyebrow')}</p>
+            <h2 className="section-title" id="dl-title"><Rich text={t('recursos.downloads_title')} /></h2>
             <p className="section-subtitle mt-2">
-              Guias, templates e documentação regulatória de utilidade para projectos de geociências.
+              {t('recursos.downloads_subtitle')}
             </p>
           </header>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -95,16 +100,16 @@ export default function RecursosPage() {
                   <Link
                     to="/contacto"
                     className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
-                    aria-label={`Solicitar ${doc.title}`}
+                    aria-label={`${t('recursos.request')} ${doc.title}`}
                   >
-                    Solicitar <span aria-hidden="true">→</span>
+                    {t('recursos.request')} <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
           <p className="font-body text-gray-text text-xs mt-8 text-center leading-relaxed">
-            Para aceder aos documentos, contacte a nossa equipa. Alguns ficheiros requerem autenticação.
+            {t('recursos.downloads_note')}
           </p>
         </div>
       </section>
@@ -113,10 +118,10 @@ export default function RecursosPage() {
       <section id="ferramentas" className="section-pad bg-white border-t border-charcoal/8" aria-labelledby="tools-title">
         <div className="container">
           <header className="mb-10">
-            <p className="eyebrow">FERRAMENTAS TÉCNICAS</p>
-            <h2 className="section-title" id="tools-title">Referências de <em>campo</em></h2>
+            <p className="eyebrow">{t('recursos.tools_eyebrow_caps')}</p>
+            <h2 className="section-title" id="tools-title"><Rich text={t('recursos.tools_title')} /></h2>
             <p className="section-subtitle mt-2">
-              Recursos de referência rápida para técnicos e geólogos no terreno.
+              {t('recursos.tools_subtitle')}
             </p>
           </header>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl">
@@ -135,14 +140,14 @@ export default function RecursosPage() {
                     to="/contacto"
                     className="font-mono text-[10px] text-cyan hover:underline mt-3 inline-block tracking-[0.12em]"
                   >
-                    Solicitar acesso <span aria-hidden="true">→</span>
+                    {t('recursos.request_access')} <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
           <p className="font-body text-gray-text text-xs mt-8 max-w-lg leading-relaxed">
-            As ferramentas interactivas estão em desenvolvimento. Para acesso antecipado, contacte-nos.
+            {t('recursos.tools_note')}
           </p>
         </div>
       </section>
@@ -151,7 +156,7 @@ export default function RecursosPage() {
       <section className="py-16 text-center bg-charcoal border-t border-white/5">
         <div className="container">
           <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mb-6">
-            Não encontrou o que <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>procurava?</em>
+            <Rich text={t('recursos.cta_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link
@@ -159,13 +164,13 @@ export default function RecursosPage() {
               className="font-body font-medium text-white border-b border-white
                          hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
             >
-              Contactar a equipa <span aria-hidden="true">↗</span>
+              {t('recursos.cta_contact')} <span aria-hidden="true">↗</span>
             </Link>
             <Link
               to="/blog"
               className="font-mono text-[13px] text-white/40 hover:text-white transition-colors tracking-wide"
             >
-              Ver artigos técnicos
+              {t('recursos.cta_articles')}
             </Link>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../contexts/LangContext';
+import Rich from './Rich';
 import { useSiteData } from '../contexts/ContentContext';
 
 const PER_PAGE = 4; // 2 columns × 2 rows
@@ -30,6 +31,7 @@ function ChevronRight() {
 }
 
 function TeamCard({ member }) {
+  const { t } = useLang();
   return (
     <div
       className="flex bg-white overflow-hidden"
@@ -81,7 +83,7 @@ function TeamCard({ member }) {
         >
           <a
             href={member.linkedin}
-            aria-label={`LinkedIn de ${member.name}`}
+            aria-label={`${t('team.linkedin_of')} ${member.name}`}
             className="text-charcoal/30 hover:text-cyan transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
@@ -93,7 +95,7 @@ function TeamCard({ member }) {
             className="font-body text-charcoal/40 hover:text-cyan transition-colors duration-200"
             style={{ fontSize: '11px', letterSpacing: '0.06em' }}
           >
-            Ver perfil →
+            {t('team.view_profile')}
           </Link>
         </div>
 
@@ -103,7 +105,7 @@ function TeamCard({ member }) {
 }
 
 export default function Team() {
-  const { loc } = useLang();
+  const { loc, t } = useLang();
   const { TEAM, TEAM_EN } = useSiteData();
   const team = loc(TEAM, TEAM_EN);
   const [page, setPage] = useState(0);
@@ -121,13 +123,13 @@ export default function Team() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <p className="eyebrow-muted mb-4">AS PESSOAS POR DETRÁS DO RIGOR</p>
+            <p className="eyebrow-muted mb-4">{t('team.eyebrow')}</p>
             <h2 className="section-title-xl" id="team-title">
-              A nossa <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>equipa.</em>
+              <Rich text={t('team.title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
             </h2>
           </div>
           <Link to="/sobre-nos#equipa" className="hero-link shrink-0 self-start md:self-auto">
-            Ver equipa completa <span aria-hidden="true">↗</span>
+            {t('team.view_all')} <span aria-hidden="true">↗</span>
           </Link>
         </div>
 
@@ -135,7 +137,7 @@ export default function Team() {
         <div
           className="grid grid-cols-1 md:grid-cols-2 gap-5"
           role="list"
-          aria-label="Equipa B-CHIWALE"
+          aria-label={t('team.label')}
         >
           {visible.map((member) => (
             <div key={member.initials} role="listitem">
@@ -154,7 +156,7 @@ export default function Team() {
                 <button
                   key={i}
                   onClick={() => setPage(i)}
-                  aria-label={`Página ${i + 1}`}
+                  aria-label={`${t('team.page')} ${i + 1}`}
                   style={{
                     width:           i === page ? '24px' : '6px',
                     height:          '6px',
@@ -174,7 +176,7 @@ export default function Team() {
               <button
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
                 disabled={page === 0}
-                aria-label="Anterior"
+                aria-label={t('team.prev')}
                 className="flex items-center justify-center border border-gray-mid text-charcoal
                            disabled:opacity-25 hover:border-cyan hover:text-cyan transition-colors duration-200"
                 style={{ width: '38px', height: '38px' }}
@@ -184,7 +186,7 @@ export default function Team() {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                 disabled={page === totalPages - 1}
-                aria-label="Seguinte"
+                aria-label={t('team.next')}
                 className="flex items-center justify-center border border-gray-mid text-charcoal
                            disabled:opacity-25 hover:border-cyan hover:text-cyan transition-colors duration-200"
                 style={{ width: '38px', height: '38px' }}

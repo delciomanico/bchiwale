@@ -1,4 +1,5 @@
 import { useLang } from '../contexts/LangContext';
+import Rich from './Rich';
 import { useSiteData } from '../contexts/ContentContext';
 
 function TimelineDot({ type }) {
@@ -92,7 +93,7 @@ function TimelineContent({ item }) {
 }
 
 export default function Timeline() {
-  const { loc } = useLang();
+  const { loc, t } = useLang();
   const { TIMELINE, TIMELINE_EN } = useSiteData();
   const timeline = loc(TIMELINE, TIMELINE_EN);
   return (
@@ -100,16 +101,16 @@ export default function Timeline() {
       <div className="container max-w-3xl">
         <header className="text-center mb-14">
           <div className="section-rule mx-auto" aria-hidden="true" />
-          <p className="eyebrow">A NOSSA HISTÓRIA</p>
+          <p className="eyebrow">{t('timeline.eyebrow')}</p>
           <h2 className="section-title" id="timeline-title">
-            Oito anos de camadas a <em>sedimentar.</em>
+            <Rich text={t('timeline.title')} />
           </h2>
         </header>
 
         <div
           className="relative"
           role="list"
-          aria-label="Marcos históricos"
+          aria-label={t('timeline.label')}
         >
           {/* Vertical centre line */}
           <div

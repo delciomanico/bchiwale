@@ -7,13 +7,11 @@ import Testimonials from '../components/Testimonials';
 import Blog from '../components/Blog';
 import CTAFinal from '../components/CTAFinal';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { useLang } from '../contexts/LangContext';
 
 export default function HomePage() {
-  usePageMeta(
-    'Geologia, Geofísica e Engenharia Geotécnica em Angola',
-    'Empresa angolana certificada de geociências: Geologia, Geofísica, Engenharia Geotécnica, Topografia e Consultoria Mineira desde 2017. ISO 9001 · ISO 45001 · JORC · 21 províncias.',
-    'https://bchiwale.ao/'
-  );
+  const { t } = useLang();
+  usePageMeta(t('meta.default_title'), t('meta.home_description'), '/');
   return (
     <>
       <Hero />

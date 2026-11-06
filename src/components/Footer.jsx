@@ -67,7 +67,7 @@ export default function Footer() {
           {/* Column 1 — Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="font-heading font-extrabold text-white text-xl tracking-tight mb-1">
-              B-CHIWALE
+              {t('common.brand')}
             </div>
             <div className="font-mono text-xs text-cyan/70 tracking-widest3 mb-4 leading-snug">
               {t('footer.brand_tagline')}
@@ -180,7 +180,7 @@ export default function Footer() {
             <span className="font-body text-white/30 text-xs">
               {t('footer.copyright')}
             </span>
-            <nav className="flex items-center gap-5" aria-label="Links legais">
+            <nav className="flex items-center gap-5" aria-label={t('footer.legal_label')}>
               {[t('footer.privacy'), t('footer.terms'), t('footer.sitemap')].map((link) => (
                 <a
                   key={link}

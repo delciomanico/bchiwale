@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 // Tag class mapping — plain mono text after global update
 const DEPT_TAG = {
@@ -21,6 +24,7 @@ const LEVEL_TAG = {
 };
 
 function JobCard({ job, index, onApply }) {
+  const { t } = useLang();
   const [open, setOpen] = useState(false);
   return (
     <article
@@ -63,7 +67,7 @@ function JobCard({ job, index, onApply }) {
           aria-expanded={open}
           aria-controls={`job-req-${job.id}`}
         >
-          {open ? 'Ocultar requisitos' : 'Ver requisitos'}
+          {open ? t('carreiras.hide_req') : t('carreiras.show_req')}
           <span aria-hidden="true" className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▾</span>
         </button>
 
@@ -87,13 +91,13 @@ function JobCard({ job, index, onApply }) {
             className="font-body font-medium text-charcoal border-b border-charcoal/25
                        hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]"
           >
-            Candidatar-se <span aria-hidden="true">→</span>
+            {t('carreiras.apply')} <span aria-hidden="true">→</span>
           </button>
           <Link
             to="/contacto"
             className="font-mono text-[11px] text-charcoal/40 hover:text-charcoal transition-colors"
           >
-            Mais informações
+            {t('carreiras.more_info')}
           </Link>
         </div>
       </div>
@@ -103,6 +107,8 @@ function JobCard({ job, index, onApply }) {
 
 // Application modal
 function ApplyModal({ job, onClose }) {
+  const { t } = useLang();
+  const hrEmail = t('carreiras.hr_email');
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ nome: '', email: '', linkedin: '', mensagem: '' });
 
@@ -121,7 +127,7 @@ function ApplyModal({ job, onClose }) {
       style={{ backgroundColor: 'rgba(10,10,20,0.90)' }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Candidatura: ${job.title}`}
+      aria-label={`${t('carreiras.application')}: ${job.title}`}
       onClick={onClose}
     >
       <div
@@ -131,13 +137,13 @@ function ApplyModal({ job, onClose }) {
         {/* Modal header */}
         <div className="bg-charcoal border-b border-white/10 p-6 flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mb-1">CANDIDATURA</p>
+            <p className="font-mono text-[10px] text-cyan tracking-[0.18em] uppercase mb-1">{t('carreiras.application_caps')}</p>
             <h3 className="font-heading font-semibold text-white text-lg leading-snug">{job.title}</h3>
           </div>
           <button
             onClick={onClose}
             className="text-white/35 hover:text-white transition-colors font-mono text-sm"
-            aria-label="Fechar"
+            aria-label={t('common.close')}
           >
             ×
           </button>
@@ -146,17 +152,17 @@ function ApplyModal({ job, onClose }) {
         {sent ? (
           <div className="p-10 text-center">
             <div className="font-mono text-3xl text-cyan mb-4" aria-hidden="true">✓</div>
-            <h4 className="font-heading font-semibold text-charcoal text-lg mb-2">Candidatura enviada!</h4>
+            <h4 className="font-heading font-semibold text-charcoal text-lg mb-2">{t('carreiras.sent_title')}</h4>
             <p className="font-body text-gray-text text-sm max-w-xs mx-auto leading-relaxed">
-              O nosso departamento de RH analisará o seu perfil e entrará em contacto.
+              {t('carreiras.sent_body')}
             </p>
-            <button className="btn-primary mt-6" onClick={onClose}>FECHAR</button>
+            <button className="btn-primary mt-6" onClick={onClose}>{t('common.close_caps')}</button>
           </div>
         ) : (
           <form className="p-7 space-y-4" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="appl-nome" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                Nome completo *
+                {t('contacto.name')}
               </label>
               <input
                 id="appl-nome"
@@ -167,12 +173,12 @@ function ApplyModal({ job, onClose }) {
                 onChange={handleChange}
                 className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                            focus:outline-none focus:border-cyan transition-colors"
-                placeholder="O seu nome completo"
+                placeholder={t('carreiras.name_ph')}
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="appl-email" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                Email *
+                {t('contacto.email')}
               </label>
               <input
                 id="appl-email"
@@ -183,12 +189,12 @@ function ApplyModal({ job, onClose }) {
                 onChange={handleChange}
                 className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                            focus:outline-none focus:border-cyan transition-colors"
-                placeholder="email@exemplo.ao"
+                placeholder={t('carreiras.email_ph')}
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="appl-linkedin" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                LinkedIn / Portfólio
+                {t('carreiras.linkedin')}
               </label>
               <input
                 id="appl-linkedin"
@@ -198,12 +204,12 @@ function ApplyModal({ job, onClose }) {
                 onChange={handleChange}
                 className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                            focus:outline-none focus:border-cyan transition-colors"
-                placeholder="https://linkedin.com/in/..."
+                placeholder={t('carreiras.linkedin_ph')}
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="appl-mensagem" className="font-mono text-[10px] text-charcoal tracking-[0.18em] uppercase">
-                Carta de motivação
+                {t('carreiras.cover')}
               </label>
               <textarea
                 id="appl-mensagem"
@@ -213,16 +219,16 @@ function ApplyModal({ job, onClose }) {
                 onChange={handleChange}
                 className="border border-charcoal/15 px-4 py-3 font-body text-sm text-charcoal
                            resize-none focus:outline-none focus:border-cyan transition-colors"
-                placeholder="Por que razão quer fazer parte da B-CHIWALE?"
+                placeholder={t('carreiras.cover_ph')}
               />
             </div>
             <p className="font-body text-xs text-gray-text leading-relaxed">
-              Também pode enviar o seu CV para{' '}
-              <a href="mailto:rh@bchiwale.ao" className="text-cyan hover:underline">rh@bchiwale.ao</a>
-              {' '}com o nome da vaga no assunto.
+              {t('carreiras.cv_hint')}{' '}
+              <a href={`mailto:${hrEmail}`} className="text-cyan hover:underline">{hrEmail}</a>
+              {' '}{t('carreiras.cv_hint_end')}
             </p>
             <button type="submit" className="btn-primary w-full">
-              ENVIAR CANDIDATURA <span aria-hidden="true">→</span>
+              {t('carreiras.submit')} <span aria-hidden="true">→</span>
             </button>
           </form>
         )}
@@ -249,10 +255,13 @@ function FilterBtn({ label, active, onClick }) {
 
 export default function CarreirasPage() {
   const { JOBS, JOB_DEPARTMENTS, SITE_IMAGES } = useSiteData();
-  const [activeDept, setActiveDept] = useState('Todos');
+  const { t } = useLang();
+  const hrEmail = t('carreiras.hr_email');
+  usePageMeta(t('meta.carreiras_title'), t('meta.carreiras_description'), '/carreiras');
+  const [activeDept, setActiveDept] = useState(JOB_DEPARTMENTS[0]);
   const [applyJob, setApplyJob] = useState(null);
 
-  const filtered = activeDept === 'Todos'
+  const filtered = activeDept === JOB_DEPARTMENTS[0]
     ? JOBS
     : JOBS.filter((j) => j.dept === activeDept);
 
@@ -273,21 +282,21 @@ export default function CarreirasPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Carreiras</li>
+              <li className="text-white/60" aria-current="page">{t('carreiras.breadcrumb')}</li>
             </ol>
           </nav>
           <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-            Faça parte da <em className="italic" style={{ color: '#00AEEF' }}>B-CHIWALE</em>
+            <Rich text={t('carreiras.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Junte-se a uma equipa de mais de 100 profissionais que estão a definir o futuro das geociências em Angola.
+            {t('carreiras.hero_subtitle')}
           </p>
           <div className="flex gap-10 mt-10">
-            {[['6', 'Vagas abertas'], ['100+', 'Profissionais'], ['8+', 'Anos de crescimento']].map(([n, l]) => (
+            {[[String(JOBS.length), t('carreiras.stat_jobs')], [t('carreiras.stat2_value'), t('carreiras.stat2_label')], [t('carreiras.stat3_value'), t('carreiras.stat3_label')]].map(([n, l]) => (
               <div key={l}>
                 <div className="font-heading font-light text-white text-2xl leading-none">{n}</div>
                 <div className="font-mono text-[10px] text-white/35 tracking-[0.18em] uppercase mt-1">{l}</div>
@@ -301,16 +310,11 @@ export default function CarreirasPage() {
       <section className="section-pad bg-white border-b border-charcoal/8" aria-labelledby="why-title">
         <div className="container">
           <header className="mb-10">
-            <p className="eyebrow">PORQUÊ TRABALHAR CONNOSCO</p>
-            <h2 className="section-title" id="why-title">Uma carreira com <em>impacto real</em></h2>
+            <p className="eyebrow">{t('carreiras.why_eyebrow')}</p>
+            <h2 className="section-title" id="why-title"><Rich text={t('carreiras.why_title')} /></h2>
           </header>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { icon: '⬡', title: 'Projectos de Referência', desc: 'Trabalhe em projectos de impacto nacional em 21 províncias angolanas.' },
-              { icon: '↑', title: 'Progressão Acelerada', desc: 'Planos de carreira claros com avaliações semestrais e promoções baseadas em mérito.' },
-              { icon: '◎', title: 'Formação Contínua', desc: 'Acesso a webinars, certificações e programas de formação técnica interna.' },
-              { icon: '✦', title: 'Equipa Multidisciplinar', desc: 'Colabore com geólogos, geofísicos, engenheiros e especialistas ambientais.' },
-            ].map((v, i) => (
+            {[1, 2, 3, 4].map((n) => ({ icon: ['⬡', '↑', '◎', '✦'][n - 1], title: t(`carreiras.why${n}_title`), desc: t(`carreiras.why${n}_desc`) })).map((v, i) => (
               <div
                 key={v.title}
                 className="reveal flex flex-col gap-3"
@@ -329,12 +333,12 @@ export default function CarreirasPage() {
       <section className="section-pad bg-white" aria-labelledby="jobs-title">
         <div className="container">
           <header className="mb-8">
-            <p className="eyebrow">OPORTUNIDADES</p>
-            <h2 className="section-title" id="jobs-title">Vagas <em>abertas</em></h2>
+            <p className="eyebrow">{t('carreiras.jobs_eyebrow')}</p>
+            <h2 className="section-title" id="jobs-title"><Rich text={t('carreiras.jobs_title')} /></h2>
           </header>
 
           {/* Department filters */}
-          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por departamento">
+          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label={t('carreiras.filter_label')}>
             {JOB_DEPARTMENTS.map((dept) => (
               <FilterBtn
                 key={dept}
@@ -348,7 +352,7 @@ export default function CarreirasPage() {
           {/* Jobs grid */}
           {filtered.length === 0 ? (
             <div className="text-center py-20">
-              <p className="font-body text-gray-text">Não há vagas abertas neste departamento de momento.</p>
+              <p className="font-body text-gray-text">{t('carreiras.no_jobs')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -364,25 +368,24 @@ export default function CarreirasPage() {
       <section className="py-14 bg-white border-t border-charcoal/8">
         <div className="container grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <p className="eyebrow">CANDIDATURA ESPONTÂNEA</p>
+            <p className="eyebrow">{t('carreiras.spont_eyebrow')}</p>
             <h2 className="font-heading font-semibold text-charcoal text-2xl tracking-tight mt-1 mb-3">
-              Não encontrou a vaga <em>certa?</em>
+              <Rich text={t('carreiras.spont_title')} />
             </h2>
             <p className="font-body text-gray-text text-sm leading-relaxed">
-              Envie o seu CV e carta de motivação para o nosso email de RH. Guardamos os perfis durante 12 meses
-              e contactamo-lo quando surgir uma vaga adequada.
+              {t('carreiras.spont_body')}
             </p>
           </div>
           <div className="flex flex-col gap-4 md:items-end">
             <a
-              href="mailto:rh@bchiwale.ao?subject=Candidatura Espontânea"
+              href={`mailto:${hrEmail}?subject=${encodeURIComponent(t('carreiras.spont_subject'))}`}
               className="font-body font-medium text-charcoal border-b border-charcoal/25
                          hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
             >
-              Enviar CV espontâneo <span aria-hidden="true">→</span>
+              {t('carreiras.spont_cta')} <span aria-hidden="true">→</span>
             </a>
             <p className="font-mono text-[11px] text-charcoal/35">
-              <a href="mailto:rh@bchiwale.ao" className="hover:text-cyan transition-colors">rh@bchiwale.ao</a>
+              <a href={`mailto:${hrEmail}`} className="hover:text-cyan transition-colors">{hrEmail}</a>
             </p>
           </div>
         </div>

@@ -3,26 +3,30 @@ import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
 import { ServiceIcon } from '../components/ServiceIcons';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
 
 export default function ServicoDetailPage() {
   const { slug } = useParams();
-  const { SERVICES, SERVICE_DETAIL, SERVICE_SLUG_MAP } = useSiteData();
+  const { SERVICES: SERVICES_PT, SERVICES_EN, SERVICE_DETAIL, SERVICE_SLUG_MAP } = useSiteData();
+  const { t, loc } = useLang();
+  const SERVICES = loc(SERVICES_PT, SERVICES_EN);
   const serviceIndex = SERVICE_SLUG_MAP[slug];
   const service = serviceIndex !== undefined ? SERVICES[serviceIndex] : null;
   const detail = SERVICE_DETAIL[slug];
 
   usePageMeta(
-    service ? service.title : 'Serviço',
-    service ? `${service.description} Empresa certificada B-CHIWALE — Angola.` : undefined,
-    service ? `https://bchiwale.ao/servicos/${slug}` : undefined
+    service ? service.title : t('servico.fallback_title'),
+    service ? `${service.description} ${t('servico.meta_suffix')}` : undefined,
+    service ? `/servicos/${slug}` : undefined
   );
 
   // Fallback for unknown slug
   if (!service) {
     return (
       <div className="section-pad text-center container">
-        <h1 className="section-title mb-4">Serviço não encontrado.</h1>
-        <Link to="/servicos" className="btn-primary">VER TODOS OS SERVIÇOS</Link>
+        <h1 className="section-title mb-4">{t('servico.not_found')}</h1>
+        <Link to="/servicos" className="btn-primary">{t('servico.view_all')}</Link>
       </div>
     );
   }
@@ -53,11 +57,11 @@ export default function ServicoDetailPage() {
           aria-hidden="true"
         />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40 tracking-widest3">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li><Link to="/servicos" className="hover:text-cyan transition-colors">Serviços</Link></li>
+              <li><Link to="/servicos" className="hover:text-cyan transition-colors">{t('servicos.breadcrumb')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
               <li className="text-white/60" aria-current="page">{service.title}</li>
             </ol>
@@ -84,9 +88,9 @@ export default function ServicoDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
               <div className="section-rule" aria-hidden="true" />
-              <p className="eyebrow">ÂMBITO DO SERVIÇO</p>
+              <p className="eyebrow">{t('servico.scope_eyebrow')}</p>
               <h2 className="section-title mt-1 mb-8" id="subtec-title">
-                O que <em>abrangemos</em>
+                <Rich text={t('servico.scope_title')} />
               </h2>
               <ul className="space-y-4">
                 {service.subtechniques.map((tech) => (
@@ -104,8 +108,8 @@ export default function ServicoDetailPage() {
             {detail?.norms && (
               <div className="bg-gray-light border border-gray-mid p-8">
                 <div className="section-rule" aria-hidden="true" />
-                <p className="eyebrow">NORMAS E PADRÕES</p>
-                <h3 className="font-heading font-bold text-charcoal text-xl mt-1 mb-6">Conformidade técnica</h3>
+                <p className="eyebrow">{t('servico.norms_eyebrow')}</p>
+                <h3 className="font-heading font-bold text-charcoal text-xl mt-1 mb-6">{t('servico.norms_title')}</h3>
                 <ul className="space-y-3">
                   {detail.norms.map((norm) => (
                     <li key={norm} className="flex items-center gap-3 font-body text-sm text-charcoal">
@@ -126,8 +130,8 @@ export default function ServicoDetailPage() {
           <div className="container">
             <header className="text-center mb-14">
               <div className="section-rule mx-auto" aria-hidden="true" />
-              <p className="eyebrow">COMO TRABALHAMOS</p>
-              <h2 className="section-title" id="method-title">Metodologia de <em>trabalho</em></h2>
+              <p className="eyebrow">{t('servico.method_eyebrow')}</p>
+              <h2 className="section-title" id="method-title"><Rich text={t('servico.method_title')} /></h2>
             </header>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {detail.methodology.map((step, i) => (
@@ -152,8 +156,8 @@ export default function ServicoDetailPage() {
           <div className="container max-w-3xl">
             <header className="text-center mb-12">
               <div className="section-rule mx-auto" aria-hidden="true" />
-              <p className="eyebrow">PERGUNTAS FREQUENTES</p>
-              <h2 className="section-title" id="faq-title">Dúvidas <em>comuns</em></h2>
+              <p className="eyebrow">{t('servico.faq_eyebrow')}</p>
+              <h2 className="section-title" id="faq-title"><Rich text={t('servico.faq_title')} /></h2>
             </header>
             <div className="space-y-4">
               {detail.faqs.map((faq, i) => (
@@ -183,23 +187,23 @@ export default function ServicoDetailPage() {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white border border-gray-mid border-l-4 border-l-cyan p-8">
-              <p className="eyebrow">VER NA PRÁTICA</p>
-              <h3 className="font-heading font-bold text-charcoal text-xl mt-1 mb-3">Casos de estudo relacionados</h3>
+              <p className="eyebrow">{t('servico.cases_eyebrow')}</p>
+              <h3 className="font-heading font-bold text-charcoal text-xl mt-1 mb-3">{t('servico.cases_title')}</h3>
               <p className="font-body text-gray-text text-sm leading-relaxed mb-5">
-                Consulte projectos reais onde aplicámos este serviço — com resultados quantificados.
+                {t('servico.cases_body')}
               </p>
               <Link to="/portfolio" className="btn-link">
-                VER PORTFOLIO <span aria-hidden="true">→</span>
+                {t('servico.cases_cta')} <span aria-hidden="true">→</span>
               </Link>
             </div>
             <div className="bg-charcoal border-t-4 border-cyan p-8">
-              <p className="eyebrow text-cyan">SOLICITAR ESTE SERVIÇO</p>
-              <h3 className="font-heading font-bold text-white text-xl mt-1 mb-3">Fale com a nossa equipa</h3>
+              <p className="eyebrow text-cyan">{t('servico.request_eyebrow')}</p>
+              <h3 className="font-heading font-bold text-white text-xl mt-1 mb-3">{t('servico.request_title')}</h3>
               <p className="font-body text-white/60 text-sm leading-relaxed mb-5">
-                Descreva o seu projecto e receba uma proposta técnica e financeira em 24–48 horas.
+                {t('servico.request_body')}
               </p>
               <Link to="/contacto" className="btn-primary">
-                SOLICITAR PROPOSTA <span aria-hidden="true">→</span>
+                {t('servico.request_cta')} <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

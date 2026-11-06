@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
 import NotFoundPage from './NotFoundPage';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
 
 function BodyBlock({ block }) {
   if (block.type === 'paragraph') {
@@ -37,12 +39,13 @@ function BodyBlock({ block }) {
 export default function BlogDetailPage() {
   const { slug } = useParams();
   const { BLOG_POSTS } = useSiteData();
+  const { t } = useLang();
   const post = BLOG_POSTS.find((p) => p.slug === slug);
 
   usePageMeta(
     post?.title,
     post?.excerpt,
-    post ? `https://bchiwale.ao/blog/${slug}` : undefined
+    post ? `/blog/${slug}` : undefined
   );
 
   if (!post) return <NotFoundPage />;
@@ -76,11 +79,11 @@ export default function BlogDetailPage() {
           aria-hidden="true"
         />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li><Link to="/blog" className="hover:text-cyan transition-colors">Blog</Link></li>
+              <li><Link to="/blog" className="hover:text-cyan transition-colors">{t('blog_detail.breadcrumb')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
               <li className="text-white/60" aria-current="page">{post.category}</li>
             </ol>
@@ -97,7 +100,7 @@ export default function BlogDetailPage() {
             <span aria-hidden="true">·</span>
             <time dateTime={post.dateTime}>{post.date}</time>
             <span aria-hidden="true">·</span>
-            <span>{post.readTime} leitura</span>
+            <span>{post.readTime} {t('blog_page.read_time')}</span>
             {post.tags && post.tags.map((tag) => (
               <Fragment key={tag}>
                 <span aria-hidden="true">·</span>
@@ -121,7 +124,7 @@ export default function BlogDetailPage() {
       <div
         className="py-12"
         style={{ background: '#ffffff', borderTop: '1px solid rgba(26,26,46,0.10)' }}
-        aria-label="Sobre o autor"
+        aria-label={t('blog_detail.author_label')}
       >
         <div className="container">
           <div className="max-w-3xl mx-auto flex items-center gap-6">
@@ -135,10 +138,10 @@ export default function BlogDetailPage() {
             <div>
               <div className="font-heading font-semibold text-charcoal text-base">{post.author}</div>
               <div className="font-mono text-[10px] tracking-[0.18em] uppercase mt-0.5 mb-2" style={{ color: '#00AEEF' }}>
-                Equipa B-CHIWALE
+                {t('blog_detail.author_role')}
               </div>
               <p className="font-body text-charcoal/55 text-sm leading-relaxed">
-                Produzido pela equipa técnica da B-CHIWALE — especialistas em geociências e engenharia mineral em Angola.
+                {t('blog_detail.author_bio')}
               </p>
             </div>
           </div>
@@ -152,7 +155,7 @@ export default function BlogDetailPage() {
           aria-labelledby="related-title"
         >
           <div className="container">
-            <p className="eyebrow" id="related-title">LEITURA RECOMENDADA</p>
+            <p className="eyebrow" id="related-title">{t('blog_detail.related')}</p>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
               {related.map((rel) => (
                 <Link
@@ -160,7 +163,7 @@ export default function BlogDetailPage() {
                   to={`/blog/${rel.slug}`}
                   className="group flex gap-4 items-start transition-colors"
                   style={{ border: '1px solid rgba(26,26,46,0.10)', padding: '1rem' }}
-                  aria-label={`Ler: ${rel.title}`}
+                  aria-label={`${t('blog_detail.read')} ${rel.title}`}
                 >
                   <div
                     className="shrink-0 overflow-hidden"
@@ -192,15 +195,15 @@ export default function BlogDetailPage() {
       <section
         className="py-20 border-t border-white/5"
         style={{ background: '#1A1A2E' }}
-        aria-label="Contacto"
+        aria-label={t('contacto.breadcrumb')}
       >
         <div className="container text-center">
-          <p className="eyebrow" style={{ color: '#00AEEF' }}>CONSULTORIA TÉCNICA</p>
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>{t('blog_detail.cta_eyebrow')}</p>
           <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mt-2 mb-8">
-            Precisa de consultoria <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>técnica?</em>
+            <Rich text={t('blog_detail.cta_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
           <Link to="/contacto" className="btn-primary">
-            FALE CONNOSCO →
+            {t('blog_detail.cta_button')}
           </Link>
         </div>
       </section>

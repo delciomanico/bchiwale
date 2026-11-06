@@ -6,11 +6,12 @@
 // Por defeito escreve em ../Dynamix-CMS/apps/api/src/seeds/bchiwale/data.json.
 // As chaves de cada linha são os mesmos nomes de coluna que o site já usa
 // (title_pt, title_en, …), por isso o adaptador do site não muda de forma.
-import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as PT from '../src/data/siteData.js';
 import * as EN from '../src/i18n/dataEN.js';
+import { strings } from '../src/i18n/strings.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const out = process.argv[2]
@@ -128,10 +129,32 @@ const settings = [
     hero_galeria: '/images/chiwale-section.jpg', hero_blog: '/images/service1.jpg', hero_recursos: '/images/gallery4.jpg',
     hero_carreiras: '/images/gallery7.jpg', hero_contacto: '/images/project2.jpg', hero_default: '/images/mission.jpg',
     director_photo: '/images/team/severino-escritorio.jpg',
+    // imagens dos menus (mega-menu do Navbar)
+    mega_servicos: '/images/chiwale-section.jpg', mega_portfolio_1: '/images/project1.jpg', mega_portfolio_2: '/images/project2.jpg',
+    mega_blog_1: '/images/service1.jpg', mega_blog_2: '/images/service-baner.jpg',
   }, null],
 ].map(([key, label, value_pt, value_en]) => clean({ slug: key, label, value_pt, value_en }));
 
-const data = { services, team, portfolio, blog, gallery, testimonials, jobs, settings };
+// ── Textos da interface (botões, títulos, rótulos, SEO…) ─────────────────────────────
+// Base: src/i18n/strings.js (menu, rodapé, secções da home); extras: scripts/ui-extra.json (resto das páginas).
+// Cada texto é uma linha {key:'nav.home', value_pt, value_en}; o slug é a chave sem pontuação.
+const flat = (obj, prefix = '', acc = {}) => {
+  for (const [k, v] of Object.entries(obj)) {
+    if (v && typeof v === 'object') flat(v, prefix + k + '.', acc);
+    else acc[prefix + k] = v;
+  }
+  return acc;
+};
+const flatPt = flat(strings.pt);
+const flatEn = flat(strings.en);
+const extra = JSON.parse(readFileSync(path.join(__dirname, 'ui-extra.json'), 'utf8'));
+const uiMap = new Map();
+for (const key of Object.keys(flatPt)) uiMap.set(key, { pt: flatPt[key], en: flatEn[key] });
+for (const [key, v] of Object.entries(extra)) uiMap.set(key, v);
+const slugify = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+const uiTexts = [...uiMap.entries()].map(([key, v]) => clean({ slug: slugify(key), key, value_pt: v.pt, value_en: v.en }));
+
+const data = { services, team, portfolio, blog, gallery, testimonials, jobs, settings, 'ui-texts': uiTexts };
 
 // slugs únicos por coleção — o Dynamix exige (componente, slug) único
 for (const [name, rows] of Object.entries(data)) {

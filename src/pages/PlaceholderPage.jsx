@@ -2,9 +2,11 @@
 // Shows a styled page hero + coming-soon message matching the design system.
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
 
 export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
   const { SITE_IMAGES } = useSiteData();
+  const { t } = useLang();
   return (
     <>
       {/* Internal page hero */}
@@ -20,11 +22,11 @@ export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40 tracking-widest3">
               <li>
                 <Link to="/" className="hover:text-cyan transition-colors">
-                  Home
+                  {t('common.home')}
                 </Link>
               </li>
               <li aria-hidden="true" className="text-white/20">
@@ -52,18 +54,17 @@ export default function PlaceholderPage({ title, subtitle, breadcrumb }) {
       <section className="section-pad">
         <div className="container max-w-2xl text-center">
           <div className="section-rule mx-auto" aria-hidden="true" />
-          <p className="eyebrow">EM CONSTRUÇÃO</p>
-          <h2 className="section-title mt-2">Esta página está a ser preparada.</h2>
+          <p className="eyebrow">{t('placeholder.eyebrow')}</p>
+          <h2 className="section-title mt-2">{t('placeholder.title')}</h2>
           <p className="section-subtitle mx-auto mt-4">
-            O conteúdo completo desta secção será publicado em breve. Entretanto, contacte-nos
-            para qualquer questão.
+            {t('placeholder.body')}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
             <Link to="/contacto" className="btn-primary">
-              CONTACTAR-NOS
+              {t('common.contact_us')}
             </Link>
             <Link to="/" className="btn-secondary">
-              VOLTAR AO INÍCIO
+              {t('common.back_home')}
             </Link>
           </div>
         </div>

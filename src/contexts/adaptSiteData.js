@@ -206,10 +206,27 @@ function mapJobs(rows) {
   return { JOBS };
 }
 
+// Textos da interface: linhas {key:'nav.home', value_pt, value_en} → { pt:{nav:{home}}, en:{…} }
+function mapUiTexts(rows) {
+  const ui = { pt: {}, en: {} };
+  for (const r of rows) {
+    for (const lang of ['pt', 'en']) {
+      const v = r[`value_${lang}`];
+      if (v == null || v === '' || !r.key) continue;
+      const parts = r.key.split('.');
+      let node = ui[lang];
+      parts.slice(0, -1).forEach((p) => { node = node[p] = node[p] || {}; });
+      node[parts[parts.length - 1]] = v;
+    }
+  }
+  return ui;
+}
+
 export function adaptSiteData(payload) {
   const settings = payload.settings || {};
 
   return {
+    UI_STRINGS: mapUiTexts(payload.ui_texts || []),
     ...mapServices(payload.services || []),
     ...mapTeam(payload.team || []),
     ...mapPortfolio(payload.portfolio || []),

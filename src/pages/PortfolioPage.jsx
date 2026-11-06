@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 function ProjectCard({ project, index }) {
+  const { t } = useLang();
   const accent = index % 2 === 0 ? '#00AEEF' : '#F5C200';
   return (
     <article
@@ -43,9 +47,9 @@ function ProjectCard({ project, index }) {
           <Link
             to={`/portfolio/${project.slug}`}
             className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
-            aria-label={`Ver detalhe do projecto: ${project.title}`}
+            aria-label={`${t('portfolio_page.view_detail')} ${project.title}`}
           >
-            Ver projecto <span aria-hidden="true">→</span>
+            {t('portfolio_page.view_project')} <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>
@@ -77,14 +81,20 @@ function FilterSelect({ label, value, onChange, options }) {
 
 export default function PortfolioPage() {
   const { PORTFOLIO_ITEMS, PORTFOLIO_SERVICE_FILTERS, PORTFOLIO_PROVINCE_FILTERS, PORTFOLIO_PERIOD_FILTERS, SITE_IMAGES } = useSiteData();
-  const [activeService, setActiveService] = useState('Todos');
-  const [activeProvince, setActiveProvince] = useState('Todas');
-  const [activePeriod, setActivePeriod] = useState('Todos');
+  const { t } = useLang();
+  usePageMeta(t('meta.portfolio_title'), t('meta.portfolio_description'), '/portfolio');
+  // O primeiro valor de cada lista de filtros (editável no CMS) é o "Todos"
+  const ALL_SVC = PORTFOLIO_SERVICE_FILTERS[0];
+  const ALL_PRV = PORTFOLIO_PROVINCE_FILTERS[0];
+  const ALL_PER = PORTFOLIO_PERIOD_FILTERS[0];
+  const [activeService, setActiveService] = useState(ALL_SVC);
+  const [activeProvince, setActiveProvince] = useState(ALL_PRV);
+  const [activePeriod, setActivePeriod] = useState(ALL_PER);
 
   const filtered = PORTFOLIO_ITEMS.filter((p) => {
-    const svcMatch = activeService === 'Todos' || p.service === activeService;
-    const prvMatch = activeProvince === 'Todas' || p.province === activeProvince;
-    const perMatch = activePeriod === 'Todos' || p.year === activePeriod;
+    const svcMatch = activeService === ALL_SVC || p.service === activeService;
+    const prvMatch = activeProvince === ALL_PRV || p.province === activeProvince;
+    const perMatch = activePeriod === ALL_PER || p.year === activePeriod;
     return svcMatch && prvMatch && perMatch;
   });
 
@@ -105,22 +115,22 @@ export default function PortfolioPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Portfolio</li>
+              <li className="text-white/60" aria-current="page">{t('portfolio_page.breadcrumb')}</li>
             </ol>
           </nav>
           <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-            Casos de <em className="italic" style={{ color: '#00AEEF' }}>Estudo</em>
+            <Rich text={t('portfolio_page.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Mais de 50 projectos concluídos em 21 províncias angolanas. Uma selecção representativa do nosso trabalho.
+            {t('portfolio_page.hero_subtitle')}
           </p>
           {/* Count indicators */}
           <div className="flex gap-8 mt-10">
-            {[['50+', 'Projectos'], ['21', 'Províncias'], ['7', 'Serviços']].map(([n, l]) => (
+            {[1, 2, 3].map((n) => [t(`portfolio_page.stat${n}_value`), t(`portfolio_page.stat${n}_label`)]).map(([n, l]) => (
               <div key={l}>
                 <div className="font-heading font-light text-white text-2xl leading-none">{n}</div>
                 <div className="font-mono text-[10px] text-white/35 tracking-[0.18em] uppercase mt-1">{l}</div>
@@ -135,19 +145,19 @@ export default function PortfolioPage() {
         <div className="container">
           <div className="flex flex-wrap gap-5">
             <FilterSelect
-              label="Por Serviço"
+              label={t('portfolio_page.by_service')}
               value={activeService}
               onChange={setActiveService}
               options={PORTFOLIO_SERVICE_FILTERS}
             />
             <FilterSelect
-              label="Por Província"
+              label={t('portfolio_page.by_province')}
               value={activeProvince}
               onChange={setActiveProvince}
               options={PORTFOLIO_PROVINCE_FILTERS}
             />
             <FilterSelect
-              label="Por Período"
+              label={t('portfolio_page.by_period')}
               value={activePeriod}
               onChange={setActivePeriod}
               options={PORTFOLIO_PERIOD_FILTERS}
@@ -163,10 +173,10 @@ export default function PortfolioPage() {
             <div className="text-center py-24">
               <p className="font-body text-gray-text text-lg mb-6">Nenhum projecto corresponde aos filtros seleccionados.</p>
               <button
-                onClick={() => { setActiveService('Todos'); setActiveProvince('Todas'); setActivePeriod('Todos'); }}
+                onClick={() => { setActiveService(ALL_SVC); setActiveProvince(ALL_PRV); setActivePeriod(ALL_PER); }}
                 className="btn-primary"
               >
-                LIMPAR FILTROS
+                {t('portfolio_page.clear_caps')}
               </button>
             </div>
           ) : (
@@ -175,12 +185,12 @@ export default function PortfolioPage() {
                 <p className="font-body text-gray-text text-sm">
                   <span className="font-semibold text-charcoal">{filtered.length}</span> projecto{filtered.length !== 1 ? 's' : ''}
                 </p>
-                {(activeService !== 'Todos' || activeProvince !== 'Todas' || activePeriod !== 'Todos') && (
+                {(activeService !== ALL_SVC || activeProvince !== ALL_PRV || activePeriod !== ALL_PER) && (
                   <button
-                    onClick={() => { setActiveService('Todos'); setActiveProvince('Todas'); setActivePeriod('Todos'); }}
+                    onClick={() => { setActiveService(ALL_SVC); setActiveProvince(ALL_PRV); setActivePeriod(ALL_PER); }}
                     className="font-mono text-[10px] text-charcoal/40 hover:text-charcoal transition-colors tracking-[0.15em] uppercase"
                   >
-                    Limpar filtros ×
+                    {t('portfolio_page.clear')}
                   </button>
                 )}
               </div>
@@ -198,10 +208,10 @@ export default function PortfolioPage() {
       <section className="py-16 text-center bg-charcoal border-t border-white/5">
         <div className="container">
           <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mb-3">
-            Tem um projecto <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>semelhante?</em>
+            <Rich text={t('portfolio_page.cta_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
           <p className="font-body text-white/45 text-base mb-8 max-w-md mx-auto leading-relaxed">
-            Conte-nos os detalhes e receba uma proposta técnica personalizada.
+            {t('portfolio_page.cta_body')}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link
@@ -209,13 +219,13 @@ export default function PortfolioPage() {
               className="font-body font-medium text-white border-b border-white
                          hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
             >
-              Solicitar proposta <span aria-hidden="true">↗</span>
+              {t('servicos.cta_proposal')} <span aria-hidden="true">↗</span>
             </Link>
             <Link
               to="/servicos"
               className="font-mono text-[13px] text-white/40 hover:text-white transition-colors tracking-wide"
             >
-              Ver serviços
+              {t('sobre.next_services')}
             </Link>
           </div>
         </div>

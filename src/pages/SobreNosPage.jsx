@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
 import { useStatCounter } from '../hooks/useStatCounter';
 import Timeline from '../components/Timeline';
 import html2canvas from 'html2canvas';
@@ -9,6 +11,7 @@ import { usePageMeta } from '../hooks/usePageMeta';
 // ── Internal hero ────────────────────────────────────────────────
 function PageHero() {
   const { SITE_IMAGES } = useSiteData();
+  const { t } = useLang();
   return (
     <section
       className="relative min-h-[calc(44vh+72px)] flex items-end pb-16"
@@ -24,19 +27,18 @@ function PageHero() {
       />
       <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
       <div className="relative z-10 container">
-        <nav aria-label="Breadcrumb" className="mb-6">
+        <nav aria-label={t('common.breadcrumb')} className="mb-6">
           <ol className="flex items-center gap-2 font-mono text-xs text-white/40 tracking-widest3">
-            <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+            <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
             <li aria-hidden="true" className="text-white/20">/</li>
-            <li className="text-white/60" aria-current="page">Sobre Nós</li>
+            <li className="text-white/60" aria-current="page">{t('sobre.breadcrumb')}</li>
           </ol>
         </nav>
         <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-          Sobre a{' '}
-          <em className="italic" style={{ color: '#00AEEF' }}>B-CHIWALE</em>
+          <Rich text={t('sobre.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
         </h1>
         <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-          Oito anos a mapear o subsolo angolano com rigor técnico e compromisso com o progresso sustentável.
+          {t('sobre.hero_subtitle')}
         </p>
       </div>
     </section>
@@ -46,6 +48,7 @@ function PageHero() {
 // ── DG Message ──────────────────────────────────────────────────
 function DGMessage() {
   const { SITE_IMAGES } = useSiteData();
+  const { t } = useLang();
   return (
     <section className="section-pad bg-white" id="mensagem-dg" aria-labelledby="dg-title">
       <div className="container">
@@ -57,16 +60,16 @@ function DGMessage() {
           >
             <img
               src={SITE_IMAGES.director_photo}
-              alt="Severino Chiwale, Director-Geral e Fundador da B-CHIWALE"
+              alt={t('sobre.dg_photo_alt')}
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
 
           {/* Quote */}
           <div>
-            <p className="eyebrow">MENSAGEM DO DIRECTOR-GERAL</p>
+            <p className="eyebrow">{t('sobre.dg_eyebrow')}</p>
             <h2 className="section-title mt-2 mb-6" id="dg-title">
-              Angola merece <em>excelência.</em>
+              <Rich text={t('sobre.dg_title')} />
             </h2>
             <blockquote className="relative">
               <span
@@ -74,17 +77,13 @@ function DGMessage() {
                 aria-hidden="true"
               >"</span>
               <p className="font-body text-charcoal italic text-lg leading-relaxed pt-6 pl-4 mb-4">
-                "Quando fundámos a B-CHIWALE em 2017, tínhamos uma convicção firme: Angola precisa de empresas
-                de geociências que combinem rigor técnico de classe mundial com conhecimento profundo do nosso
-                território. Oito anos depois, continuamos a trabalhar com essa mesma convicção — tendo
-                contribuído para projectos em todas as 21 províncias angolanas."
+                "{t('sobre.dg_quote1')}"
               </p>
               <p className="font-body text-charcoal italic text-lg leading-relaxed pl-4 mb-6">
-                "A nossa riqueza mineral é imensa. Falta cartografá-la, quantificá-la e transformá-la em
-                progresso sustentável. É isso que a B-CHIWALE faz — todos os dias, em campo."
+                "{t('sobre.dg_quote2')}"
               </p>
               <cite className="block pl-4 font-mono text-[10px] text-charcoal/35 tracking-[0.15em] not-italic uppercase">
-                — Severino Chiwale, Director-Geral &amp; Fundador
+                {t('sobre.dg_author')}
               </cite>
             </blockquote>
           </div>
@@ -96,13 +95,15 @@ function DGMessage() {
 
 // ── MVV ─────────────────────────────────────────────────────────
 function MVV() {
-  const { MVV_CARDS } = useSiteData();
+  const { MVV_CARDS: MVV_PT, MVV_CARDS_EN } = useSiteData();
+  const { t, loc } = useLang();
+  const MVV_CARDS = loc(MVV_PT, MVV_CARDS_EN);
   return (
     <section className="section-pad bg-white border-t border-charcoal/8" id="missao" aria-labelledby="mvv-title">
       <div className="container">
         <header className="text-center mb-12">
-          <p className="eyebrow">MISSÃO, VISÃO E VALORES</p>
-          <h2 className="section-title" id="mvv-title">O que nos <em>define.</em></h2>
+          <p className="eyebrow">{t('sobre.mvv_eyebrow')}</p>
+          <h2 className="section-title" id="mvv-title"><Rich text={t('sobre.mvv_title')} /></h2>
         </header>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {MVV_CARDS.map((card, i) => (
@@ -146,13 +147,14 @@ function StatItem({ value, suffix, label, detail, delay = 0 }) {
 }
 
 function Numbers() {
+  const { t } = useLang();
   return (
-    <section className="bg-charcoal border-t border-white/5" aria-label="Em números">
+    <section className="bg-charcoal border-t border-white/5" aria-label={t('sobre.numbers_label')}>
       <div className="container">
         <header className="text-center py-32">
-          <p className="eyebrow" style={{ color: '#00AEEF' }}>EM NÚMEROS</p>
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>{t('sobre.numbers_eyebrow')}</p>
           <h2 className="font-heading font-semibold text-white text-3xl md:text-4xl tracking-tight mt-2">
-            Resultados que <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>falam.</em>
+            <Rich text={t('sobre.numbers_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
         </header>
       </div>
@@ -222,6 +224,7 @@ function OrgTreeNode({ node }) {
 }
 
 function OrgChart() {
+  const { t } = useLang();
   const { ORG_CHART } = useSiteData();
   const [downloading, setDownloading] = useState(false);
   const sectionRef = useRef(null);
@@ -249,9 +252,9 @@ function OrgChart() {
     <section ref={sectionRef} className="section-pad bg-white border-t border-charcoal/8" id="organograma" aria-labelledby="org-title">
       <div className="container">
         <header className="text-center mb-14">
-          <p className="eyebrow">ESTRUTURA ORGANIZACIONAL</p>
-          <h2 className="section-title" id="org-title">Organograma <em>Institucional</em></h2>
-          <p className="section-subtitle mx-auto">Conselho de Administração B-CHIWALE · Cod. B.CH-001</p>
+          <p className="eyebrow">{t('sobre.org_eyebrow')}</p>
+          <h2 className="section-title" id="org-title"><Rich text={t('sobre.org_title')} /></h2>
+          <p className="section-subtitle mx-auto">{t('sobre.org_subtitle')}</p>
         </header>
 
         <div className="overflow-x-auto pb-2">
@@ -268,12 +271,12 @@ function OrgChart() {
             disabled={downloading}
             className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.18em] uppercase
                        text-charcoal/40 hover:text-cyan transition-colors duration-300 disabled:opacity-40"
-            aria-label="Baixar organigrama como imagem PNG"
+            aria-label={t('sobre.org_download_label')}
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M6 1v7M3.5 5.5 6 8l2.5-2.5M1 10h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            {downloading ? 'A guardar…' : 'Baixar PNG'}
+            {downloading ? t('sobre.org_saving') : t('sobre.org_download')}
           </button>
         </div>
       </div>
@@ -282,6 +285,7 @@ function OrgChart() {
 }
 
 function TeamModal({ member, onClose }) {
+  const { t } = useLang();
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -299,7 +303,7 @@ function TeamModal({ member, onClose }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Perfil de ${member.name}`}
+      aria-label={`${t('sobre.profile_of')} ${member.name}`}
     >
       <div className="bg-white w-full max-w-lg overflow-y-auto" style={{ maxHeight: '90vh' }}>
         <div
@@ -328,7 +332,7 @@ function TeamModal({ member, onClose }) {
             </div>
             {member.yearsExp && (
               <div className="font-mono text-[10px] text-charcoal/40 tracking-[0.15em]">
-                {member.yearsExp} anos de experiência
+                {member.yearsExp} {t('sobre.years_exp')}
               </div>
             )}
           </div>
@@ -339,14 +343,14 @@ function TeamModal({ member, onClose }) {
 
           {member.education && (
             <div>
-              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">FORMAÇÃO</p>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">{t('sobre.education')}</p>
               <p className="font-body text-charcoal/70 text-sm">{member.education}</p>
             </div>
           )}
 
           {member.specialties && member.specialties.length > 0 && (
             <div>
-              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-3">ESPECIALIDADES</p>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-3">{t('sobre.specialties')}</p>
               <ul className="space-y-2">
                 {member.specialties.map((spec) => (
                   <li key={spec} className="flex items-center gap-2.5">
@@ -364,7 +368,7 @@ function TeamModal({ member, onClose }) {
 
           {member.languages && member.languages.length > 0 && (
             <div>
-              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">IDIOMAS</p>
+              <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal/40 mb-2">{t('sobre.languages')}</p>
               <p className="font-body text-charcoal/70 text-sm">{member.languages.join(' · ')}</p>
             </div>
           )}
@@ -388,7 +392,7 @@ function TeamModal({ member, onClose }) {
             onClick={onClose}
             className="font-mono text-[11px] tracking-[0.18em] uppercase text-charcoal/40 hover:text-charcoal transition-colors"
           >
-            Fechar
+            {t('common.close')}
           </button>
         </div>
       </div>
@@ -397,15 +401,17 @@ function TeamModal({ member, onClose }) {
 }
 
 function TeamSection() {
-  const { TEAM } = useSiteData();
+  const { TEAM: TEAM_PT, TEAM_EN } = useSiteData();
+  const { t, loc } = useLang();
+  const TEAM = loc(TEAM_PT, TEAM_EN);
   const [selectedMember, setSelectedMember] = useState(null);
 
   return (
     <section className="section-pad bg-white border-t border-charcoal/8" id="equipa" aria-labelledby="team-sobre-title">
       <div className="container">
         <header className="text-center mb-12">
-          <p className="eyebrow">AS PESSOAS POR DETRÁS DO RIGOR</p>
-          <h2 className="section-title" id="team-sobre-title">A nossa <em>Equipa</em></h2>
+          <p className="eyebrow">{t('team.eyebrow')}</p>
+          <h2 className="section-title" id="team-sobre-title"><Rich text={t('sobre.team_title')} /></h2>
         </header>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
           {TEAM.map((member, i) => (
@@ -438,7 +444,7 @@ function TeamSection() {
                     onClick={() => setSelectedMember(member)}
                     className="font-mono text-[11px] text-charcoal/35 hover:text-cyan transition-colors"
                   >
-                    Ver perfil →
+                    {t('team.view_profile')}
                   </button>
                 </div>
               </div>
@@ -469,6 +475,7 @@ function CertBadge() {
 
 function Certifications() {
   const { CERTIFICATIONS } = useSiteData();
+  const { t } = useLang();
   const track = [...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS];
 
   return (
@@ -479,16 +486,16 @@ function Certifications() {
     >
       {/* Header */}
       <div className="container py-16 text-center">
-        <p className="eyebrow">QUALIDADE E CONFORMIDADE</p>
+        <p className="eyebrow">{t('sobre.cert_eyebrow')}</p>
         <h2 className="section-title" id="cert-title">
-          As nossas <em>Certificações</em>
+          <Rich text={t('sobre.cert_title')} />
         </h2>
       </div>
 
       {/* Marquee strip */}
       <div
         className="overflow-hidden border-t border-charcoal/6 py-8"
-        aria-label="Certificações em marquee"
+        aria-label={t('sobre.cert_label')}
         onMouseEnter={e => e.currentTarget.querySelector('.cert-track').style.animationPlayState = 'paused'}
         onMouseLeave={e => e.currentTarget.querySelector('.cert-track').style.animationPlayState = 'running'}
       >
@@ -504,7 +511,7 @@ function Certifications() {
               {/* Item */}
               <div className="flex items-center gap-4 px-14">
                 {cert.logo ? (
-                  <img src={cert.logo} alt={`Logótipo ${cert.code}`} className="w-9 h-9 object-contain" />
+                  <img src={cert.logo} alt={`${t('sobre.logo_of')} ${cert.code}`} className="w-9 h-9 object-contain" />
                 ) : (
                   <CertBadge />
                 )}
@@ -539,11 +546,8 @@ function Certifications() {
 
 // ── Page ─────────────────────────────────────────────────────────
 export default function SobreNosPage() {
-  usePageMeta(
-    'Sobre Nós — História, Equipa e Certificações',
-    'Conheça a B-CHIWALE: fundada em 2017, certificada ISO 9001 e ISO 45001, com mais de 100 profissionais em geociências e 21 províncias de actuação em Angola.',
-    'https://bchiwale.ao/sobre-nos'
-  );
+  const { t } = useLang();
+  usePageMeta(t('meta.sobre_title'), t('meta.sobre_description'), '/sobre-nos');
   return (
     <>
       <PageHero />
@@ -557,9 +561,9 @@ export default function SobreNosPage() {
       {/* CTA */}
       <section className="py-20 text-center bg-charcoal border-t border-white/5">
         <div className="container">
-          <p className="eyebrow" style={{ color: '#00AEEF' }}>PRÓXIMO PASSO</p>
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>{t('sobre.next_eyebrow')}</p>
           <h2 className="font-heading font-semibold text-white text-3xl md:text-4xl tracking-tight mt-2 mb-6">
-            Conheça os nossos <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>serviços.</em>
+            <Rich text={t('sobre.next_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link
@@ -567,13 +571,13 @@ export default function SobreNosPage() {
               className="font-body font-medium text-white border-b border-white
                          hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
             >
-              Ver serviços <span aria-hidden="true">↗</span>
+              {t('sobre.next_services')} <span aria-hidden="true">↗</span>
             </Link>
             <Link
               to="/contacto"
               className="font-mono text-[13px] text-white/40 hover:text-white transition-colors tracking-wide"
             >
-              Contactar-nos
+              {t('sobre.next_contact')}
             </Link>
           </div>
         </div>

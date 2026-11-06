@@ -1,36 +1,32 @@
 import { useEffect } from 'react';
+import { useLang } from '../contexts/LangContext';
 
-const BASE = 'B-CHIWALE';
+// Título, descrição e canonical da página (vêm do CMS: textos `meta.*`).
+// `path` é o caminho do site ('/servicos'); o domínio vem de `meta.site_url`.
+export function usePageMeta(title, description, path) {
+  const { t } = useLang();
+  const BASE = t('common.brand');
+  const defaultTitle = `${BASE} | ${t('meta.default_title')}`;
+  const canonical = path != null ? `${t('meta.site_url').replace(/\/+$/, '')}${path}` : undefined;
 
-export function usePageMeta(title, description, canonical) {
   useEffect(() => {
-    // Title
-    document.title = title ? `${title} | ${BASE}` : `${BASE} | Geologia, Geofísica e Engenharia Geotécnica em Angola`;
+    document.title = title ? `${title} | ${BASE}` : defaultTitle;
 
-    // Description
-    const descEl = document.querySelector('meta[name="description"]');
-    if (descEl && description) descEl.setAttribute('content', description);
-
-    // OG title/description
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle && title) ogTitle.setAttribute('content', `${title} | ${BASE}`);
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc && description) ogDesc.setAttribute('content', description);
-
-    // Canonical
+    const setContent = (sel, value) => {
+      const el = document.querySelector(sel);
+      if (el && value) el.setAttribute('content', value);
+    };
+    setContent('meta[name="description"]', description);
+    setContent('meta[property="og:title"]', title && `${title} | ${BASE}`);
+    setContent('meta[property="og:description"]', description);
+    setContent('meta[property="og:url"]', canonical);
+    setContent('meta[name="twitter:title"]', title && `${title} | ${BASE}`);
+    setContent('meta[name="twitter:description"]', description);
     const canonEl = document.querySelector('link[rel="canonical"]');
     if (canonEl && canonical) canonEl.setAttribute('href', canonical);
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl && canonical) ogUrl.setAttribute('content', canonical);
-
-    // Twitter
-    const twTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twTitle && title) twTitle.setAttribute('content', `${title} | ${BASE}`);
-    const twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (twDesc && description) twDesc.setAttribute('content', description);
 
     return () => {
-      document.title = `${BASE} | Geologia, Geofísica e Engenharia Geotécnica em Angola`;
+      document.title = defaultTitle;
     };
-  }, [title, description, canonical]);
+  }, [title, description, canonical, BASE, defaultTitle]);
 }

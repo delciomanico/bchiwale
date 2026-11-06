@@ -43,23 +43,21 @@ const MEGA_STRUCT = {
   },
   servicos: {
     type: 'servicos',
-    image: 'https://bchiwale.ao/wp-content/uploads/2025/04/chiwale1section.webp',
-    imageAlt: 'Geólogos B-CHIWALE em trabalho de campo',
   },
   portfolio: {
     type: 'portfolio',
     filterHrefs: ['/portfolio', '/portfolio?filter=servico', '/portfolio?filter=provincia', '/portfolio?filter=periodo'],
     featured: [
-      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project-1.jpg', href: '/portfolio', province: 'Luanda' },
-      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/project2.jpg',  href: '/portfolio', province: 'Malanje' },
+      { href: '/portfolio', province: 'Luanda' },
+      { href: '/portfolio', province: 'Malanje' },
     ],
   },
   blog: {
     type: 'blog',
     categoryHrefs: ['/blog?cat=tecnico', '/blog?cat=webinars', '/blog?cat=guias', '/blog?cat=noticias'],
     recent: [
-      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service1.jpg',     href: '/blog' },
-      { image: 'https://bchiwale.ao/wp-content/uploads/2024/06/service-baner.jpg', href: '/blog' },
+      { href: '/blog' },
+      { href: '/blog' },
     ],
   },
 };
@@ -140,7 +138,7 @@ function MegaSobre({ struct, onClose }) {
 
 function MegaServicos({ struct, onClose }) {
   const { t, loc } = useLang();
-  const { SERVICES, SERVICES_EN } = useSiteData();
+  const { SERVICES, SERVICES_EN, SITE_IMAGES } = useSiteData();
   const services = loc(SERVICES, SERVICES_EN);
   const megaServices = services.map((s, i) => ({
     num: String(i + 1).padStart(2, '0'),
@@ -200,8 +198,8 @@ function MegaServicos({ struct, onClose }) {
       <div className="flex flex-col">
         <div className="relative overflow-hidden flex-1" style={{ minHeight: '220px' }}>
           <img
-            src={struct.image}
-            alt={struct.imageAlt}
+            src={SITE_IMAGES.mega_servicos}
+            alt={t('nav.mega_servicos_image_alt')}
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
@@ -226,6 +224,7 @@ function MegaServicos({ struct, onClose }) {
 
 function MegaPortfolio({ struct, onClose }) {
   const { t } = useLang();
+  const { SITE_IMAGES } = useSiteData();
   const filters = [
     { label: t('nav.mega_portfolio_all'),      desc: t('nav.mega_portfolio_all_desc'),      href: struct.filterHrefs[0] },
     { label: t('nav.mega_portfolio_service'),  desc: t('nav.mega_portfolio_service_desc'),  href: struct.filterHrefs[1] },
@@ -267,14 +266,14 @@ function MegaPortfolio({ struct, onClose }) {
         <div className="grid grid-cols-2 gap-5">
           {struct.featured.map((p, i) => (
             <Link
-              key={p.image}
+              key={p.province}
               to={p.href}
               onClick={onClose}
               className="group block border border-gray-mid overflow-hidden hover:shadow-card-hover transition-shadow duration-200"
             >
               <div className="relative overflow-hidden" style={{ height: '140px' }}>
                 <img
-                  src={p.image}
+                  src={SITE_IMAGES[`mega_portfolio_${i + 1}`]}
                   alt={featTitles[i]}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -313,6 +312,7 @@ function MegaPortfolio({ struct, onClose }) {
 
 function MegaBlog({ struct, onClose }) {
   const { t } = useLang();
+  const { SITE_IMAGES } = useSiteData();
   const categories = [
     { label: t('nav.mega_blog_tecnico'),  desc: t('nav.mega_blog_tecnico_desc'),  href: struct.categoryHrefs[0] },
     { label: t('nav.mega_blog_webinars'), desc: t('nav.mega_blog_webinars_desc'), href: struct.categoryHrefs[1] },
@@ -354,14 +354,14 @@ function MegaBlog({ struct, onClose }) {
         <div className="grid grid-cols-2 gap-5">
           {struct.recent.map((a, i) => (
             <Link
-              key={a.image}
+              key={i}
               to={a.href}
               onClick={onClose}
               className="group block border border-gray-mid overflow-hidden hover:shadow-card-hover transition-shadow duration-200"
             >
               <div className="relative overflow-hidden" style={{ height: '120px' }}>
                 <img
-                  src={a.image}
+                  src={SITE_IMAGES[`mega_blog_${i + 1}`]}
                   alt={recTitles[i]}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -423,42 +423,43 @@ function SimpleDropdown({ items, isOpen, onClose }) {
 
 // ─── Search index ─────────────────────────────────────────────────────────────
 const SEARCH_PAGES = [
-  { type: 'Páginas',   label: 'Home',               subtitle: 'Página inicial',                     href: '/' },
-  { type: 'Páginas',   label: 'Sobre Nós',           subtitle: 'História, equipa e certificações',   href: '/sobre-nos' },
-  { type: 'Páginas',   label: 'Portfolio',            subtitle: 'Mais de 50 projectos concluídos',   href: '/portfolio' },
-  { type: 'Páginas',   label: 'Blog & Conhecimento',  subtitle: 'Artigos técnicos e guias',          href: '/blog' },
-  { type: 'Páginas',   label: 'Galeria',              subtitle: 'Imagens de campo',                  href: '/galeria' },
-  { type: 'Páginas',   label: 'Recursos',             subtitle: 'Downloads e documentos',            href: '/recursos' },
-  { type: 'Páginas',   label: 'Contacto',             subtitle: 'Fale connosco',                     href: '/contacto' },
-  { type: 'Páginas',   label: 'Carreiras',            subtitle: 'Trabalhe connosco',                 href: '/carreiras' },
+  { id: 'home', href: '/' },
+  { id: 'sobre', href: '/sobre-nos' },
+  { id: 'portfolio', href: '/portfolio' },
+  { id: 'blog', href: '/blog' },
+  { id: 'galeria', href: '/galeria' },
+  { id: 'recursos', href: '/recursos' },
+  { id: 'contacto', href: '/contacto' },
+  { id: 'carreiras', href: '/carreiras' },
 ];
 
-function buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }) {
+function buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }, t) {
+  const g = (k) => t(`nav.search_group_${k}`);
   return [
-    ...SEARCH_PAGES,
+    ...SEARCH_PAGES.map((p) => ({ type: g('pages'), label: t(`nav.search_page_${p.id}`), subtitle: t(`nav.search_page_${p.id}_desc`), href: p.href })),
     ...SERVICES.map((s) => ({
-      type: 'Serviços',
+      type: g('services'),
       label: s.title,
       subtitle: s.description,
       href: s.href,
       keywords: (s.subtechniques || []).join(' ') + ' ' + (s.tags || []).map((t) => t.label).join(' '),
     })),
     ...PORTFOLIO_ITEMS.map((p) => ({
-      type: 'Projectos',
+      type: g('projects'),
       label: p.title,
       subtitle: `${p.service} · ${p.province}`,
       href: `/portfolio/${p.slug}`,
       keywords: `${p.description} ${p.challenge || ''} ${p.solution || ''}`,
     })),
     ...BLOG_POSTS.map((b) => ({
-      type: 'Artigos',
+      type: g('articles'),
       label: b.title,
       subtitle: `${b.category} · ${b.date}`,
       href: `/blog/${b.slug}`,
       keywords: `${b.excerpt} ${(b.tags || []).join(' ')}`,
     })),
     ...TEAM.map((m) => ({
-      type: 'Equipa',
+      type: g('team'),
       label: m.name,
       subtitle: m.role,
       href: '/sobre-nos#equipa',
@@ -544,8 +545,8 @@ export default function Navbar() {
   ];
 
   const searchIndex = useMemo(
-    () => buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }),
-    [SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM]
+    () => buildSearchIndex({ SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM }, t),
+    [SERVICES, PORTFOLIO_ITEMS, BLOG_POSTS, TEAM, t]
   );
 
   const searchResults = useMemo(() => {
@@ -639,16 +640,16 @@ export default function Navbar() {
               : `bg-white border-b border-gray-mid ${isScrolled ? 'shadow-nav' : ''}`
           }`}
           role="navigation"
-          aria-label="Navegação principal"
+          aria-label={t('nav.main_label')}
         >
           <div className="container">
             <div className="flex items-center justify-between h-[72px]">
 
               {/* Logo */}
-              <Link to="/" className="flex items-center gap-3 shrink-0 z-10" aria-label="B-CHIWALE — Página inicial">
+              <Link to="/" className="flex items-center gap-3 shrink-0 z-10" aria-label={t('nav.home_label')}>
                 <img
                   src={SITE_IMAGES.logo}
-                  alt="B-CHIWALE"
+                  alt={t('common.brand')}
                   className="h-10 w-auto object-contain"
                   onError={(e) => { e.target.style.display = 'none'; }}
                 />
@@ -891,11 +892,11 @@ export default function Navbar() {
         className={`fixed top-0 right-0 bottom-0 w-80 max-w-[90vw] bg-white z-50 overflow-y-auto
                     transform transition-transform duration-300 shadow-xl
                     ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}
-        aria-label="Menu móvel"
+        aria-label={t('nav.mobile_menu_label')}
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-mid bg-charcoal">
-          <img src={SITE_IMAGES.logo} alt="B-CHIWALE" className="h-8 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+          <img src={SITE_IMAGES.logo} alt={t('common.brand')} className="h-8 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
           <button className="p-1 text-white/60 hover:text-white" onClick={() => setDrawerOpen(false)} aria-label={t('nav.mobile_close')}>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -990,7 +991,7 @@ export default function Navbar() {
 
         {/* Language switcher — mobile */}
         <div className="px-5 pb-2 pt-0 flex items-center gap-3">
-          <span className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase">Lang:</span>
+          <span className="font-mono text-[10px] text-charcoal/35 tracking-widest3 uppercase">{t('nav.lang_label')}</span>
           <button
             onClick={() => setLang('pt')}
             className={`font-mono text-xs font-semibold transition-colors ${lang === 'pt' ? 'text-cyan' : 'text-charcoal/40 hover:text-charcoal'}`}

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const CAT_TAG_CLASS = {
   Geologia: 'tag-cyan',
@@ -40,6 +43,7 @@ function PostBg({ id, cat }) {
 
 // Borderless post card
 function PostCard({ post, index }) {
+  const { t } = useLang();
   return (
     <article
       className="reveal group bg-white flex flex-col transition-all duration-300
@@ -53,7 +57,7 @@ function PostCard({ post, index }) {
       <div className="p-7 flex flex-col flex-1 gap-3">
         <div className="flex items-center gap-4">
           <span className={CAT_TAG_CLASS[post.category] || 'tag-gray'}>{post.category}</span>
-          <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">{post.readTime} leitura</span>
+          <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">{post.readTime} {t('blog_page.read_time')}</span>
         </div>
         <h3
           id={`post-title-${post.id}`}
@@ -71,7 +75,7 @@ function PostCard({ post, index }) {
             to={`/blog/${post.slug}`}
             className="font-mono text-[10px] text-cyan hover:underline tracking-[0.12em]"
           >
-            Ler mais <span aria-hidden="true">→</span>
+            {t('blog_page.read_more')} <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>
@@ -97,11 +101,14 @@ function FilterBtn({ label, active, onClick }) {
 
 export default function BlogPage() {
   const { ALL_BLOG_POSTS, BLOG_CATEGORIES, SITE_IMAGES } = useSiteData();
-  const [activeCategory, setActiveCategory] = useState('Todos');
+  const { t } = useLang();
+  usePageMeta(t('meta.blog_title'), t('meta.blog_description'), '/blog');
+  const ALL_CAT = BLOG_CATEGORIES[0]; // primeiro valor da lista editável = "Todos"
+  const [activeCategory, setActiveCategory] = useState(ALL_CAT);
   const featuredPost = ALL_BLOG_POSTS.find((p) => p.featured);
   const regularPosts = ALL_BLOG_POSTS.filter((p) => !p.featured);
 
-  const filtered = activeCategory === 'Todos'
+  const filtered = activeCategory === ALL_CAT
     ? regularPosts
     : regularPosts.filter((p) => p.category === activeCategory);
 
@@ -122,18 +129,18 @@ export default function BlogPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Blog & Conhecimento</li>
+              <li className="text-white/60" aria-current="page">{t('blog_page.breadcrumb')}</li>
             </ol>
           </nav>
           <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-            Conhecimento <em className="italic" style={{ color: '#00AEEF' }}>Técnico</em>
+            <Rich text={t('blog_page.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Artigos técnicos, guias práticos e notícias do sector geociências e mineração em Angola.
+            {t('blog_page.hero_subtitle')}
           </p>
         </div>
       </section>
@@ -170,7 +177,7 @@ export default function BlogPage() {
                     {featuredPost.category}
                   </span>
                   <span className="font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">
-                    {featuredPost.readTime} leitura
+                    {featuredPost.readTime} {t('blog_page.read_time')}
                   </span>
                 </div>
                 <h2
@@ -189,7 +196,7 @@ export default function BlogPage() {
                     className="font-body font-medium text-charcoal border-b border-charcoal/25
                                hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]"
                   >
-                    Ler artigo <span aria-hidden="true">→</span>
+                    {t('blog.read_article_plain')} <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
@@ -199,10 +206,10 @@ export default function BlogPage() {
       )}
 
       {/* Category filters + grid */}
-      <section className="section-pad bg-white" aria-label="Todos os artigos">
+      <section className="section-pad bg-white" aria-label={t('blog_page.all_label')}>
         <div className="container">
           {/* Underline filter tabs */}
-          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label="Filtrar por categoria">
+          <div className="flex flex-wrap gap-6 mb-12" role="group" aria-label={t('blog_page.filter_label')}>
             {BLOG_CATEGORIES.map((cat) => (
               <FilterBtn
                 key={cat}
@@ -216,7 +223,7 @@ export default function BlogPage() {
           {/* Articles grid */}
           {filtered.length === 0 ? (
             <div className="text-center py-20">
-              <p className="font-body text-gray-text">Nenhum artigo nesta categoria ainda.</p>
+              <p className="font-body text-gray-text">{t('blog_page.empty')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -231,20 +238,19 @@ export default function BlogPage() {
       {/* Newsletter / CTA strip */}
       <section className="py-16 bg-charcoal border-t border-white/5">
         <div className="container text-center">
-          <p className="eyebrow" style={{ color: '#00AEEF' }}>MANTENHA-SE ACTUALIZADO</p>
+          <p className="eyebrow" style={{ color: '#00AEEF' }}>{t('blog_page.cta_eyebrow')}</p>
           <h2 className="font-heading font-semibold text-white text-2xl md:text-3xl tracking-tight mt-2 mb-3">
-            Novos artigos e <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>notícias do sector</em>
+            <Rich text={t('blog_page.cta_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h2>
           <p className="font-body text-white/45 text-sm mb-8 max-w-md mx-auto leading-relaxed">
-            Subscreva para receber alertas sobre novos artigos técnicos, guias e actualizações regulatórias
-            sobre mineração e geociências em Angola.
+            {t('blog_page.cta_body')}
           </p>
           <Link
             to="/contacto"
             className="font-body font-medium text-white border-b border-white
                        hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[15px]"
           >
-            Falar com a nossa equipa <span aria-hidden="true">↗</span>
+            {t('cta.contact_link')} <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>

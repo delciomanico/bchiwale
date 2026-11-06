@@ -9,11 +9,11 @@ import { ContentProvider } from './contexts/ContentContext.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <LangProvider>
-        <ContentProvider>
+      <ContentProvider>
+        <LangProvider>
           <App />
-        </ContentProvider>
-      </LangProvider>
+        </LangProvider>
+      </ContentProvider>
     </BrowserRouter>
   </StrictMode>
 );

@@ -1,0 +1,1234 @@
+{
+ "common.whatsapp_label": {
+  "pt": "Contactar B-CHIWALE via WhatsApp (abre em nova aba)",
+  "en": "Contact B-CHIWALE via WhatsApp (opens in a new tab)"
+ },
+ "common.back_home": {
+  "pt": "VOLTAR AO INÍCIO",
+  "en": "BACK TO HOME"
+ },
+ "common.contact_us": {
+  "pt": "CONTACTAR-NOS",
+  "en": "CONTACT US"
+ },
+ "common.home": {
+  "pt": "Home",
+  "en": "Home"
+ },
+ "common.breadcrumb": {
+  "pt": "Navegação estrutural",
+  "en": "Breadcrumb"
+ },
+ "notfound.title": {
+  "pt": "Página não encontrada.",
+  "en": "Page not found."
+ },
+ "notfound.subtitle": {
+  "pt": "A página que procura não existe ou foi movida.",
+  "en": "The page you are looking for does not exist or has been moved."
+ },
+ "placeholder.eyebrow": {
+  "pt": "EM CONSTRUÇÃO",
+  "en": "UNDER CONSTRUCTION"
+ },
+ "placeholder.title": {
+  "pt": "Esta página está a ser preparada.",
+  "en": "This page is being prepared."
+ },
+ "placeholder.body": {
+  "pt": "O conteúdo completo desta secção será publicado em breve. Entretanto, contacte-nos para qualquer questão.",
+  "en": "The full content of this section will be published soon. In the meantime, contact us with any question."
+ },
+ "newsletter.eyebrow": {
+  "pt": "NEWSLETTER",
+  "en": "NEWSLETTER"
+ },
+ "newsletter.title": {
+  "pt": "Insights técnicos directos\nno seu email.",
+  "en": "Technical insights delivered\nto your inbox."
+ },
+ "newsletter.body": {
+  "pt": "Receba insights técnicos sobre geologia e mineração em Angola.\nArtigos, legislação e novidades do sector — directamente no seu email.",
+  "en": "Get technical insights on geology and mining in Angola.\nArticles, legislation and industry news — straight to your inbox."
+ },
+ "newsletter.done_title": {
+  "pt": "Subscrito!",
+  "en": "Subscribed!"
+ },
+ "newsletter.done_body": {
+  "pt": "Obrigado. Receberá os próximos insights directamente no seu email.",
+  "en": "Thank you. You will receive the next insights directly in your inbox."
+ },
+ "newsletter.form_label": {
+  "pt": "Formulário de newsletter",
+  "en": "Newsletter form"
+ },
+ "newsletter.email_label": {
+  "pt": "O seu endereço de email",
+  "en": "Your email address"
+ },
+ "newsletter.placeholder": {
+  "pt": "O seu melhor email...",
+  "en": "Your best email..."
+ },
+ "newsletter.submit": {
+  "pt": "SUBSCREVER",
+  "en": "SUBSCRIBE"
+ },
+ "newsletter.privacy": {
+  "pt": "Sem spam. Cancele a qualquer momento. Respeitamos a sua privacidade.",
+  "en": "No spam. Cancel at any time. We respect your privacy."
+ },
+ "common.brand": {
+  "pt": "B-CHIWALE",
+  "en": "B-CHIWALE"
+ },
+ "hero.label": {
+  "pt": "Hero — B-CHIWALE Geociências",
+  "en": "Hero — B-CHIWALE Geosciences"
+ },
+ "hero.current_photo": {
+  "pt": "Foto actual",
+  "en": "Current photo"
+ },
+ "hero.photo": {
+  "pt": "Foto",
+  "en": "Photo"
+ },
+ "timeline.eyebrow": {
+  "pt": "A NOSSA HISTÓRIA",
+  "en": "OUR HISTORY"
+ },
+ "timeline.title": {
+  "pt": "Oito anos de camadas a *sedimentar.*",
+  "en": "Eight years of layers *settling.*"
+ },
+ "timeline.label": {
+  "pt": "Marcos históricos",
+  "en": "Historical milestones"
+ },
+ "footer.legal_label": {
+  "pt": "Links legais",
+  "en": "Legal links"
+ },
+ "nav.main_label": {
+  "pt": "Navegação principal",
+  "en": "Main navigation"
+ },
+ "nav.home_label": {
+  "pt": "B-CHIWALE — Página inicial",
+  "en": "B-CHIWALE — Home page"
+ },
+ "nav.mobile_menu_label": {
+  "pt": "Menu móvel",
+  "en": "Mobile menu"
+ },
+ "nav.lang_label": {
+  "pt": "Lang:",
+  "en": "Lang:"
+ },
+ "team.view_profile": {
+  "pt": "Ver perfil →",
+  "en": "View profile →"
+ },
+ "team.eyebrow": {
+  "pt": "AS PESSOAS POR DETRÁS DO RIGOR",
+  "en": "THE PEOPLE BEHIND THE RIGOUR"
+ },
+ "team.title": {
+  "pt": "A nossa *equipa.*",
+  "en": "Our *team.*"
+ },
+ "team.linkedin_of": {
+  "pt": "LinkedIn de",
+  "en": "LinkedIn of"
+ },
+ "team.label": {
+  "pt": "Equipa B-CHIWALE",
+  "en": "B-CHIWALE team"
+ },
+ "team.page": {
+  "pt": "Página",
+  "en": "Page"
+ },
+ "team.prev": {
+  "pt": "Anterior",
+  "en": "Previous"
+ },
+ "team.next": {
+  "pt": "Seguinte",
+  "en": "Next"
+ },
+ "common.close": {
+  "pt": "Fechar",
+  "en": "Close"
+ },
+ "meta.default_title": {
+  "pt": "Geologia, Geofísica e Engenharia Geotécnica em Angola",
+  "en": "Geology, Geophysics and Geotechnical Engineering in Angola"
+ },
+ "meta.site_url": {
+  "pt": "https://bchiwale.ao",
+  "en": "https://bchiwale.ao"
+ },
+ "meta.sobre_title": {
+  "pt": "Sobre Nós — História, Equipa e Certificações",
+  "en": "About Us — History, Team and Certifications"
+ },
+ "meta.sobre_description": {
+  "pt": "Conheça a B-CHIWALE: fundada em 2017, certificada ISO 9001 e ISO 45001, com mais de 100 profissionais em geociências e 21 províncias de actuação em Angola.",
+  "en": "Meet B-CHIWALE: founded in 2017, ISO 9001 and ISO 45001 certified, with over 100 geoscience professionals across 21 provinces in Angola."
+ },
+ "sobre.breadcrumb": {
+  "pt": "Sobre Nós",
+  "en": "About Us"
+ },
+ "sobre.hero_title": {
+  "pt": "Sobre a *B-CHIWALE*",
+  "en": "About *B-CHIWALE*"
+ },
+ "sobre.hero_subtitle": {
+  "pt": "Oito anos a mapear o subsolo angolano com rigor técnico e compromisso com o progresso sustentável.",
+  "en": "Eight years mapping Angola's subsurface with technical rigour and a commitment to sustainable progress."
+ },
+ "sobre.dg_photo_alt": {
+  "pt": "Severino Chiwale, Director-Geral e Fundador da B-CHIWALE",
+  "en": "Severino Chiwale, Managing Director and Founder of B-CHIWALE"
+ },
+ "sobre.dg_eyebrow": {
+  "pt": "MENSAGEM DO DIRECTOR-GERAL",
+  "en": "MESSAGE FROM THE MANAGING DIRECTOR"
+ },
+ "sobre.dg_title": {
+  "pt": "Angola merece *excelência.*",
+  "en": "Angola deserves *excellence.*"
+ },
+ "sobre.dg_quote1": {
+  "pt": "Quando fundámos a B-CHIWALE em 2017, tínhamos uma convicção firme: Angola precisa de empresas de geociências que combinem rigor técnico de classe mundial com conhecimento profundo do nosso território. Oito anos depois, continuamos a trabalhar com essa mesma convicção — tendo contribuído para projectos em todas as 21 províncias angolanas.",
+  "en": "When we founded B-CHIWALE in 2017 we held a firm conviction: Angola needs geoscience companies that combine world-class technical rigour with deep knowledge of our territory. Eight years later we still work with that same conviction — having contributed to projects in all 21 Angolan provinces."
+ },
+ "sobre.dg_quote2": {
+  "pt": "A nossa riqueza mineral é imensa. Falta cartografá-la, quantificá-la e transformá-la em progresso sustentável. É isso que a B-CHIWALE faz — todos os dias, em campo.",
+  "en": "Our mineral wealth is immense. It remains to be mapped, quantified and turned into sustainable progress. That is what B-CHIWALE does — every day, in the field."
+ },
+ "sobre.dg_author": {
+  "pt": "— Severino Chiwale, Director-Geral & Fundador",
+  "en": "— Severino Chiwale, Managing Director & Founder"
+ },
+ "sobre.mvv_eyebrow": {
+  "pt": "MISSÃO, VISÃO E VALORES",
+  "en": "MISSION, VISION AND VALUES"
+ },
+ "sobre.mvv_title": {
+  "pt": "O que nos *define.*",
+  "en": "What *defines* us."
+ },
+ "sobre.numbers_label": {
+  "pt": "Em números",
+  "en": "In numbers"
+ },
+ "sobre.numbers_eyebrow": {
+  "pt": "EM NÚMEROS",
+  "en": "BY THE NUMBERS"
+ },
+ "sobre.numbers_title": {
+  "pt": "Resultados que *falam.*",
+  "en": "Results that *speak.*"
+ },
+ "sobre.org_eyebrow": {
+  "pt": "ESTRUTURA ORGANIZACIONAL",
+  "en": "ORGANISATIONAL STRUCTURE"
+ },
+ "sobre.org_title": {
+  "pt": "Organograma *Institucional*",
+  "en": "*Institutional* Organisation Chart"
+ },
+ "sobre.org_subtitle": {
+  "pt": "Conselho de Administração B-CHIWALE · Cod. B.CH-001",
+  "en": "B-CHIWALE Board of Directors · Code B.CH-001"
+ },
+ "sobre.org_download_label": {
+  "pt": "Baixar organigrama como imagem PNG",
+  "en": "Download the organisation chart as a PNG image"
+ },
+ "sobre.org_saving": {
+  "pt": "A guardar…",
+  "en": "Saving…"
+ },
+ "sobre.org_download": {
+  "pt": "Baixar PNG",
+  "en": "Download PNG"
+ },
+ "sobre.profile_of": {
+  "pt": "Perfil de",
+  "en": "Profile of"
+ },
+ "sobre.years_exp": {
+  "pt": "anos de experiência",
+  "en": "years of experience"
+ },
+ "sobre.education": {
+  "pt": "FORMAÇÃO",
+  "en": "EDUCATION"
+ },
+ "sobre.specialties": {
+  "pt": "ESPECIALIDADES",
+  "en": "SPECIALTIES"
+ },
+ "sobre.languages": {
+  "pt": "IDIOMAS",
+  "en": "LANGUAGES"
+ },
+ "sobre.team_title": {
+  "pt": "A nossa *Equipa*",
+  "en": "Our *Team*"
+ },
+ "sobre.cert_eyebrow": {
+  "pt": "QUALIDADE E CONFORMIDADE",
+  "en": "QUALITY AND COMPLIANCE"
+ },
+ "sobre.cert_title": {
+  "pt": "As nossas *Certificações*",
+  "en": "Our *Certifications*"
+ },
+ "sobre.cert_label": {
+  "pt": "Certificações em marquee",
+  "en": "Certifications marquee"
+ },
+ "sobre.logo_of": {
+  "pt": "Logótipo",
+  "en": "Logo"
+ },
+ "sobre.next_eyebrow": {
+  "pt": "PRÓXIMO PASSO",
+  "en": "NEXT STEP"
+ },
+ "sobre.next_title": {
+  "pt": "Conheça os nossos *serviços.*",
+  "en": "Discover our *services.*"
+ },
+ "sobre.next_services": {
+  "pt": "Ver serviços",
+  "en": "View services"
+ },
+ "sobre.next_contact": {
+  "pt": "Contactar-nos",
+  "en": "Contact us"
+ },
+ "meta.contacto_title": {
+  "pt": "Contacto — Solicite uma Proposta",
+  "en": "Contact — Request a Proposal"
+ },
+ "meta.contacto_description": {
+  "pt": "Contacte a B-CHIWALE para uma proposta de geologia, geofísica, geotecnia ou consultoria mineira. +244 924 073 147 · geral@bchiwale.ao · Luanda, Angola.",
+  "en": "Contact B-CHIWALE for a geology, geophysics, geotechnics or mining consulting proposal. +244 924 073 147 · geral@bchiwale.ao · Luanda, Angola."
+ },
+ "contacto.breadcrumb": {
+  "pt": "Contacto",
+  "en": "Contact"
+ },
+ "contacto.email_subject": {
+  "pt": "Nova mensagem de",
+  "en": "New message from"
+ },
+ "contacto.error_send": {
+  "pt": "Erro ao enviar.",
+  "en": "Failed to send."
+ },
+ "contacto.error_retry": {
+  "pt": "Erro ao enviar. Tente novamente.",
+  "en": "Failed to send. Please try again."
+ },
+ "contacto.hero_title": {
+  "pt": "Fale *connosco.*",
+  "en": "Talk to *us.*"
+ },
+ "contacto.hero_subtitle": {
+  "pt": "A nossa equipa responde em 24 horas úteis.",
+  "en": "Our team replies within 24 business hours."
+ },
+ "contacto.form_title": {
+  "pt": "Envie uma mensagem",
+  "en": "Send a message"
+ },
+ "contacto.success_title": {
+  "pt": "Mensagem enviada!",
+  "en": "Message sent!"
+ },
+ "contacto.success_body": {
+  "pt": "Obrigado pelo contacto. A nossa equipa entrará em contacto consigo em breve.",
+  "en": "Thank you for getting in touch. Our team will contact you shortly."
+ },
+ "contacto.send_another": {
+  "pt": "Enviar outra mensagem",
+  "en": "Send another message"
+ },
+ "contacto.form_label": {
+  "pt": "Formulário de contacto",
+  "en": "Contact form"
+ },
+ "contacto.name": {
+  "pt": "Nome completo *",
+  "en": "Full name *"
+ },
+ "contacto.name_ph": {
+  "pt": "O seu nome",
+  "en": "Your name"
+ },
+ "contacto.email": {
+  "pt": "Email *",
+  "en": "Email *"
+ },
+ "contacto.email_ph": {
+  "pt": "email@empresa.com",
+  "en": "email@company.com"
+ },
+ "contacto.phone": {
+  "pt": "Telefone / WhatsApp",
+  "en": "Phone / WhatsApp"
+ },
+ "contacto.phone_ph": {
+  "pt": "+244 9XX XXX XXX",
+  "en": "+244 9XX XXX XXX"
+ },
+ "contacto.company": {
+  "pt": "Empresa",
+  "en": "Company"
+ },
+ "contacto.company_ph": {
+  "pt": "Nome da empresa",
+  "en": "Company name"
+ },
+ "contacto.service": {
+  "pt": "Serviço de interesse",
+  "en": "Service of interest"
+ },
+ "contacto.service_ph": {
+  "pt": "Seleccionar serviço...",
+  "en": "Select a service..."
+ },
+ "contacto.message": {
+  "pt": "Mensagem",
+  "en": "Message"
+ },
+ "contacto.message_ph": {
+  "pt": "Descreva brevemente o seu projecto...",
+  "en": "Briefly describe your project..."
+ },
+ "contacto.sending": {
+  "pt": "A ENVIAR...",
+  "en": "SENDING..."
+ },
+ "contacto.send": {
+  "pt": "ENVIAR MENSAGEM",
+  "en": "SEND MESSAGE"
+ },
+ "contacto.info_title": {
+  "pt": "Informações de contacto",
+  "en": "Contact information"
+ },
+ "contacto.address": {
+  "pt": "Morada",
+  "en": "Address"
+ },
+ "contacto.phone_label": {
+  "pt": "Telefone",
+  "en": "Phone"
+ },
+ "contacto.email_label": {
+  "pt": "Email",
+  "en": "Email"
+ },
+ "contacto.hours": {
+  "pt": "Horário",
+  "en": "Hours"
+ },
+ "contacto.whatsapp": {
+  "pt": "WhatsApp Directo",
+  "en": "Direct WhatsApp"
+ },
+ "common.close_caps": {
+  "pt": "FECHAR",
+  "en": "CLOSE"
+ },
+ "meta.carreiras_title": {
+  "pt": "Carreiras — Vagas Abertas",
+  "en": "Careers — Open Positions"
+ },
+ "meta.carreiras_description": {
+  "pt": "Junte-se à B-CHIWALE: vagas abertas em geologia, geofísica, geotecnia, topografia e ambiente em Angola.",
+  "en": "Join B-CHIWALE: open positions in geology, geophysics, geotechnics, surveying and environment in Angola."
+ },
+ "carreiras.breadcrumb": {
+  "pt": "Carreiras",
+  "en": "Careers"
+ },
+ "carreiras.hide_req": {
+  "pt": "Ocultar requisitos",
+  "en": "Hide requirements"
+ },
+ "carreiras.show_req": {
+  "pt": "Ver requisitos",
+  "en": "View requirements"
+ },
+ "carreiras.apply": {
+  "pt": "Candidatar-se",
+  "en": "Apply"
+ },
+ "carreiras.more_info": {
+  "pt": "Mais informações",
+  "en": "More information"
+ },
+ "carreiras.application": {
+  "pt": "Candidatura",
+  "en": "Application"
+ },
+ "carreiras.application_caps": {
+  "pt": "CANDIDATURA",
+  "en": "APPLICATION"
+ },
+ "carreiras.sent_title": {
+  "pt": "Candidatura enviada!",
+  "en": "Application sent!"
+ },
+ "carreiras.sent_body": {
+  "pt": "O nosso departamento de RH analisará o seu perfil e entrará em contacto.",
+  "en": "Our HR department will review your profile and get in touch."
+ },
+ "carreiras.name_ph": {
+  "pt": "O seu nome completo",
+  "en": "Your full name"
+ },
+ "carreiras.email_ph": {
+  "pt": "email@exemplo.ao",
+  "en": "email@example.ao"
+ },
+ "carreiras.linkedin": {
+  "pt": "LinkedIn / Portfólio",
+  "en": "LinkedIn / Portfolio"
+ },
+ "carreiras.linkedin_ph": {
+  "pt": "https://linkedin.com/in/...",
+  "en": "https://linkedin.com/in/..."
+ },
+ "carreiras.cover": {
+  "pt": "Carta de motivação",
+  "en": "Cover letter"
+ },
+ "carreiras.cover_ph": {
+  "pt": "Por que razão quer fazer parte da B-CHIWALE?",
+  "en": "Why do you want to be part of B-CHIWALE?"
+ },
+ "carreiras.hr_email": {
+  "pt": "rh@bchiwale.ao",
+  "en": "rh@bchiwale.ao"
+ },
+ "carreiras.cv_hint": {
+  "pt": "Também pode enviar o seu CV para",
+  "en": "You can also send your CV to"
+ },
+ "carreiras.cv_hint_end": {
+  "pt": "com o nome da vaga no assunto.",
+  "en": "with the job title in the subject line."
+ },
+ "carreiras.submit": {
+  "pt": "ENVIAR CANDIDATURA",
+  "en": "SUBMIT APPLICATION"
+ },
+ "carreiras.hero_title": {
+  "pt": "Faça parte da *B-CHIWALE*",
+  "en": "Be part of *B-CHIWALE*"
+ },
+ "carreiras.hero_subtitle": {
+  "pt": "Junte-se a uma equipa de mais de 100 profissionais que estão a definir o futuro das geociências em Angola.",
+  "en": "Join a team of over 100 professionals shaping the future of geosciences in Angola."
+ },
+ "carreiras.stat_jobs": {
+  "pt": "Vagas abertas",
+  "en": "Open positions"
+ },
+ "carreiras.stat2_value": {
+  "pt": "100+",
+  "en": "100+"
+ },
+ "carreiras.stat2_label": {
+  "pt": "Profissionais",
+  "en": "Professionals"
+ },
+ "carreiras.stat3_value": {
+  "pt": "8+",
+  "en": "8+"
+ },
+ "carreiras.stat3_label": {
+  "pt": "Anos de crescimento",
+  "en": "Years of growth"
+ },
+ "carreiras.why_eyebrow": {
+  "pt": "PORQUÊ TRABALHAR CONNOSCO",
+  "en": "WHY WORK WITH US"
+ },
+ "carreiras.why_title": {
+  "pt": "Uma carreira com *impacto real*",
+  "en": "A career with *real impact*"
+ },
+ "carreiras.why1_title": {
+  "pt": "Projectos de Referência",
+  "en": "Flagship Projects"
+ },
+ "carreiras.why1_desc": {
+  "pt": "Trabalhe em projectos de impacto nacional em 21 províncias angolanas.",
+  "en": "Work on nationally significant projects across 21 Angolan provinces."
+ },
+ "carreiras.why2_title": {
+  "pt": "Progressão Acelerada",
+  "en": "Fast Progression"
+ },
+ "carreiras.why2_desc": {
+  "pt": "Planos de carreira claros com avaliações semestrais e promoções baseadas em mérito.",
+  "en": "Clear career paths with six-monthly reviews and merit-based promotions."
+ },
+ "carreiras.why3_title": {
+  "pt": "Formação Contínua",
+  "en": "Continuous Training"
+ },
+ "carreiras.why3_desc": {
+  "pt": "Acesso a webinars, certificações e programas de formação técnica interna.",
+  "en": "Access to webinars, certifications and internal technical training programmes."
+ },
+ "carreiras.why4_title": {
+  "pt": "Equipa Multidisciplinar",
+  "en": "Multidisciplinary Team"
+ },
+ "carreiras.why4_desc": {
+  "pt": "Colabore com geólogos, geofísicos, engenheiros e especialistas ambientais.",
+  "en": "Collaborate with geologists, geophysicists, engineers and environmental specialists."
+ },
+ "carreiras.jobs_eyebrow": {
+  "pt": "OPORTUNIDADES",
+  "en": "OPPORTUNITIES"
+ },
+ "carreiras.jobs_title": {
+  "pt": "Vagas *abertas*",
+  "en": "*Open* positions"
+ },
+ "carreiras.filter_label": {
+  "pt": "Filtrar por departamento",
+  "en": "Filter by department"
+ },
+ "carreiras.no_jobs": {
+  "pt": "Não há vagas abertas neste departamento de momento.",
+  "en": "There are no open positions in this department at the moment."
+ },
+ "carreiras.spont_eyebrow": {
+  "pt": "CANDIDATURA ESPONTÂNEA",
+  "en": "SPONTANEOUS APPLICATION"
+ },
+ "carreiras.spont_title": {
+  "pt": "Não encontrou a vaga *certa?*",
+  "en": "Didn't find the *right* role?"
+ },
+ "carreiras.spont_body": {
+  "pt": "Envie o seu CV e carta de motivação para o nosso email de RH. Guardamos os perfis durante 12 meses e contactamo-lo quando surgir uma vaga adequada.",
+  "en": "Send your CV and cover letter to our HR email. We keep profiles for 12 months and contact you when a suitable role opens."
+ },
+ "carreiras.spont_subject": {
+  "pt": "Candidatura Espontânea",
+  "en": "Spontaneous Application"
+ },
+ "carreiras.spont_cta": {
+  "pt": "Enviar CV espontâneo",
+  "en": "Send a spontaneous CV"
+ },
+ "meta.servicos_title": {
+  "pt": "Serviços de Geociências em Angola",
+  "en": "Geoscience Services in Angola"
+ },
+ "meta.servicos_description": {
+  "pt": "Sete serviços integrados: Geologia e Prospecção Mineral, Geofísica Aplicada, Engenharia Geotécnica, Topografia, Ambiente, Águas Subterrâneas e Consultoria Mineira.",
+  "en": "Seven integrated services: Geology and Mineral Prospecting, Applied Geophysics, Geotechnical Engineering, Surveying, Environment, Groundwater and Mining Consulting."
+ },
+ "servicos.subtechniques": {
+  "pt": "Subtécnicas",
+  "en": "Sub-techniques"
+ },
+ "servicos.learn_more": {
+  "pt": "Saber mais sobre",
+  "en": "Learn more about"
+ },
+ "servicos.view": {
+  "pt": "Ver serviço",
+  "en": "View service"
+ },
+ "servicos.breadcrumb": {
+  "pt": "Serviços",
+  "en": "Services"
+ },
+ "servicos.hero_title": {
+  "pt": "7 Áreas de *Especialização*",
+  "en": "7 Areas of *Expertise*"
+ },
+ "servicos.hero_subtitle": {
+  "pt": "Cobrimos todas as fases do ciclo de exploração e desenvolvimento de recursos naturais em Angola.",
+  "en": "We cover every phase of the exploration and natural-resource development cycle in Angola."
+ },
+ "servicos.eyebrow": {
+  "pt": "O QUE FAZEMOS",
+  "en": "WHAT WE DO"
+ },
+ "servicos.title": {
+  "pt": "Todos os nossos *serviços*",
+  "en": "All our *services*"
+ },
+ "servicos.subtitle": {
+  "pt": "Seleccione uma área para conhecer metodologia, equipamentos e casos de estudo.",
+  "en": "Select an area to learn about methodology, equipment and case studies."
+ },
+ "servicos.cta_title": {
+  "pt": "Pronto para começar o seu *projecto?*",
+  "en": "Ready to start your *project?*"
+ },
+ "servicos.cta_proposal": {
+  "pt": "Solicitar proposta",
+  "en": "Request a proposal"
+ },
+ "servicos.cta_portfolio": {
+  "pt": "Ver portfolio",
+  "en": "View portfolio"
+ },
+ "servico.fallback_title": {
+  "pt": "Serviço",
+  "en": "Service"
+ },
+ "servico.meta_suffix": {
+  "pt": "Empresa certificada B-CHIWALE — Angola.",
+  "en": "Certified company B-CHIWALE — Angola."
+ },
+ "servico.not_found": {
+  "pt": "Serviço não encontrado.",
+  "en": "Service not found."
+ },
+ "servico.view_all": {
+  "pt": "VER TODOS OS SERVIÇOS",
+  "en": "VIEW ALL SERVICES"
+ },
+ "servico.scope_eyebrow": {
+  "pt": "ÂMBITO DO SERVIÇO",
+  "en": "SCOPE OF SERVICE"
+ },
+ "servico.scope_title": {
+  "pt": "O que *abrangemos*",
+  "en": "What we *cover*"
+ },
+ "servico.norms_eyebrow": {
+  "pt": "NORMAS E PADRÕES",
+  "en": "STANDARDS AND NORMS"
+ },
+ "servico.norms_title": {
+  "pt": "Conformidade técnica",
+  "en": "Technical compliance"
+ },
+ "servico.method_eyebrow": {
+  "pt": "COMO TRABALHAMOS",
+  "en": "HOW WE WORK"
+ },
+ "servico.method_title": {
+  "pt": "Metodologia de *trabalho*",
+  "en": "Working *methodology*"
+ },
+ "servico.faq_eyebrow": {
+  "pt": "PERGUNTAS FREQUENTES",
+  "en": "FREQUENTLY ASKED QUESTIONS"
+ },
+ "servico.faq_title": {
+  "pt": "Dúvidas *comuns*",
+  "en": "*Common* questions"
+ },
+ "servico.cases_eyebrow": {
+  "pt": "VER NA PRÁTICA",
+  "en": "SEE IT IN PRACTICE"
+ },
+ "servico.cases_title": {
+  "pt": "Casos de estudo relacionados",
+  "en": "Related case studies"
+ },
+ "servico.cases_body": {
+  "pt": "Consulte projectos reais onde aplicámos este serviço — com resultados quantificados.",
+  "en": "Browse real projects where we applied this service — with quantified results."
+ },
+ "servico.cases_cta": {
+  "pt": "VER PORTFOLIO",
+  "en": "VIEW PORTFOLIO"
+ },
+ "servico.request_eyebrow": {
+  "pt": "SOLICITAR ESTE SERVIÇO",
+  "en": "REQUEST THIS SERVICE"
+ },
+ "servico.request_title": {
+  "pt": "Fale com a nossa equipa",
+  "en": "Talk to our team"
+ },
+ "servico.request_body": {
+  "pt": "Descreva o seu projecto e receba uma proposta técnica e financeira em 24–48 horas.",
+  "en": "Describe your project and receive a technical and financial proposal within 24–48 hours."
+ },
+ "servico.request_cta": {
+  "pt": "SOLICITAR PROPOSTA",
+  "en": "REQUEST A PROPOSAL"
+ },
+ "meta.home_description": {
+  "pt": "Empresa angolana certificada de geociências: Geologia, Geofísica, Engenharia Geotécnica, Topografia e Consultoria Mineira desde 2017. ISO 9001 · ISO 45001 · JORC · 21 províncias.",
+  "en": "Certified Angolan geoscience company: Geology, Geophysics, Geotechnical Engineering, Surveying and Mining Consulting since 2017. ISO 9001 · ISO 45001 · JORC · 21 provinces."
+ },
+ "meta.portfolio_title": {
+  "pt": "Portfolio — Casos de Estudo",
+  "en": "Portfolio — Case Studies"
+ },
+ "meta.portfolio_description": {
+  "pt": "Mais de 50 projectos concluídos em 21 províncias angolanas: geologia, geofísica, geotecnia, topografia e ambiente.",
+  "en": "Over 50 completed projects across 21 Angolan provinces: geology, geophysics, geotechnics, surveying and environment."
+ },
+ "portfolio_page.view_detail": {
+  "pt": "Ver detalhe do projecto:",
+  "en": "View project details:"
+ },
+ "portfolio_page.view_project": {
+  "pt": "Ver projecto",
+  "en": "View project"
+ },
+ "portfolio_page.breadcrumb": {
+  "pt": "Portfolio",
+  "en": "Portfolio"
+ },
+ "portfolio_page.hero_title": {
+  "pt": "Casos de *Estudo*",
+  "en": "Case *Studies*"
+ },
+ "portfolio_page.hero_subtitle": {
+  "pt": "Mais de 50 projectos concluídos em 21 províncias angolanas. Uma selecção representativa do nosso trabalho.",
+  "en": "Over 50 projects completed across 21 Angolan provinces. A representative selection of our work."
+ },
+ "portfolio_page.stat1_value": {
+  "pt": "50+",
+  "en": "50+"
+ },
+ "portfolio_page.stat1_label": {
+  "pt": "Projectos",
+  "en": "Projects"
+ },
+ "portfolio_page.stat2_value": {
+  "pt": "21",
+  "en": "21"
+ },
+ "portfolio_page.stat2_label": {
+  "pt": "Províncias",
+  "en": "Provinces"
+ },
+ "portfolio_page.stat3_value": {
+  "pt": "7",
+  "en": "7"
+ },
+ "portfolio_page.stat3_label": {
+  "pt": "Serviços",
+  "en": "Services"
+ },
+ "portfolio_page.by_service": {
+  "pt": "Por Serviço",
+  "en": "By Service"
+ },
+ "portfolio_page.by_province": {
+  "pt": "Por Província",
+  "en": "By Province"
+ },
+ "portfolio_page.by_period": {
+  "pt": "Por Período",
+  "en": "By Period"
+ },
+ "portfolio_page.clear_caps": {
+  "pt": "LIMPAR FILTROS",
+  "en": "CLEAR FILTERS"
+ },
+ "portfolio_page.clear": {
+  "pt": "Limpar filtros ×",
+  "en": "Clear filters ×"
+ },
+ "portfolio_page.cta_title": {
+  "pt": "Tem um projecto *semelhante?*",
+  "en": "Have a *similar* project?"
+ },
+ "portfolio_page.cta_body": {
+  "pt": "Conte-nos os detalhes e receba uma proposta técnica personalizada.",
+  "en": "Tell us the details and receive a tailored technical proposal."
+ },
+ "portfolio_page.details_label": {
+  "pt": "Detalhes do projecto",
+  "en": "Project details"
+ },
+ "portfolio_page.client": {
+  "pt": "CLIENTE",
+  "en": "CLIENT"
+ },
+ "portfolio_page.year": {
+  "pt": "ANO",
+  "en": "YEAR"
+ },
+ "portfolio_page.area": {
+  "pt": "ÁREA",
+  "en": "AREA"
+ },
+ "portfolio_page.duration": {
+  "pt": "DURAÇÃO",
+  "en": "DURATION"
+ },
+ "portfolio_page.content_label": {
+  "pt": "Conteúdo do projecto",
+  "en": "Project content"
+ },
+ "portfolio_page.challenge": {
+  "pt": "O DESAFIO",
+  "en": "THE CHALLENGE"
+ },
+ "portfolio_page.approach": {
+  "pt": "A NOSSA ABORDAGEM",
+  "en": "OUR APPROACH"
+ },
+ "portfolio_page.results": {
+  "pt": "RESULTADOS",
+  "en": "RESULTS"
+ },
+ "portfolio_page.cta_button": {
+  "pt": "SOLICITAR PROPOSTA →",
+  "en": "REQUEST A PROPOSAL →"
+ },
+ "portfolio_page.back": {
+  "pt": "← Voltar ao portfolio",
+  "en": "← Back to portfolio"
+ },
+ "meta.blog_title": {
+  "pt": "Blog & Conhecimento Técnico",
+  "en": "Blog & Technical Knowledge"
+ },
+ "meta.blog_description": {
+  "pt": "Artigos técnicos, guias práticos e notícias do sector de geociências e mineração em Angola.",
+  "en": "Technical articles, practical guides and news from the geoscience and mining sector in Angola."
+ },
+ "blog_page.read_time": {
+  "pt": "leitura",
+  "en": "read"
+ },
+ "blog_page.read_more": {
+  "pt": "Ler mais",
+  "en": "Read more"
+ },
+ "blog.read_article_plain": {
+  "pt": "Ler artigo",
+  "en": "Read article"
+ },
+ "blog_page.breadcrumb": {
+  "pt": "Blog & Conhecimento",
+  "en": "Blog & Knowledge"
+ },
+ "blog_page.hero_title": {
+  "pt": "Conhecimento *Técnico*",
+  "en": "Technical *Knowledge*"
+ },
+ "blog_page.hero_subtitle": {
+  "pt": "Artigos técnicos, guias práticos e notícias do sector geociências e mineração em Angola.",
+  "en": "Technical articles, practical guides and news from the geoscience and mining sector in Angola."
+ },
+ "blog_page.all_label": {
+  "pt": "Todos os artigos",
+  "en": "All articles"
+ },
+ "blog_page.filter_label": {
+  "pt": "Filtrar por categoria",
+  "en": "Filter by category"
+ },
+ "blog_page.empty": {
+  "pt": "Nenhum artigo nesta categoria ainda.",
+  "en": "No articles in this category yet."
+ },
+ "blog_page.cta_eyebrow": {
+  "pt": "MANTENHA-SE ACTUALIZADO",
+  "en": "STAY UP TO DATE"
+ },
+ "blog_page.cta_title": {
+  "pt": "Novos artigos e *notícias do sector*",
+  "en": "New articles and *industry news*"
+ },
+ "blog_page.cta_body": {
+  "pt": "Subscreva para receber alertas sobre novos artigos técnicos, guias e actualizações regulatórias sobre mineração e geociências em Angola.",
+  "en": "Subscribe to receive alerts about new technical articles, guides and regulatory updates on mining and geosciences in Angola."
+ },
+ "blog_detail.breadcrumb": {
+  "pt": "Blog",
+  "en": "Blog"
+ },
+ "blog_detail.author_label": {
+  "pt": "Sobre o autor",
+  "en": "About the author"
+ },
+ "blog_detail.author_role": {
+  "pt": "Equipa B-CHIWALE",
+  "en": "B-CHIWALE Team"
+ },
+ "blog_detail.author_bio": {
+  "pt": "Produzido pela equipa técnica da B-CHIWALE — especialistas em geociências e engenharia mineral em Angola.",
+  "en": "Produced by the B-CHIWALE technical team — specialists in geosciences and mining engineering in Angola."
+ },
+ "blog_detail.related": {
+  "pt": "LEITURA RECOMENDADA",
+  "en": "RECOMMENDED READING"
+ },
+ "blog_detail.read": {
+  "pt": "Ler:",
+  "en": "Read:"
+ },
+ "blog_detail.cta_eyebrow": {
+  "pt": "CONSULTORIA TÉCNICA",
+  "en": "TECHNICAL CONSULTING"
+ },
+ "blog_detail.cta_title": {
+  "pt": "Precisa de consultoria *técnica?*",
+  "en": "Need *technical* consulting?"
+ },
+ "blog_detail.cta_button": {
+  "pt": "FALE CONNOSCO →",
+  "en": "TALK TO US →"
+ },
+ "meta.galeria_title": {
+  "pt": "Galeria de Campo",
+  "en": "Field Gallery"
+ },
+ "meta.galeria_description": {
+  "pt": "Registos fotográficos de campanhas, equipamentos, trabalho laboratorial e operações da B-CHIWALE.",
+  "en": "Photographic records of B-CHIWALE campaigns, equipment, laboratory work and operations."
+ },
+ "galeria.view_detail": {
+  "pt": "Ver detalhe:",
+  "en": "View detail:"
+ },
+ "galeria.close_label": {
+  "pt": "Fechar lightbox",
+  "en": "Close lightbox"
+ },
+ "galeria.close": {
+  "pt": "Fechar ×",
+  "en": "Close ×"
+ },
+ "galeria.breadcrumb": {
+  "pt": "Galeria",
+  "en": "Gallery"
+ },
+ "galeria.hero_title": {
+  "pt": "Galeria de *Campo*",
+  "en": "Field *Gallery*"
+ },
+ "galeria.hero_subtitle": {
+  "pt": "Registos fotográficos de campanhas, equipamentos, trabalho laboratorial e operações em curso.",
+  "en": "Photographic records of campaigns, equipment, laboratory work and ongoing operations."
+ },
+ "galeria.filters_label": {
+  "pt": "Filtros de categoria",
+  "en": "Category filters"
+ },
+ "galeria.image": {
+  "pt": "imagem",
+  "en": "image"
+ },
+ "galeria.images": {
+  "pt": "imagens",
+  "en": "images"
+ },
+ "galeria.grid_label": {
+  "pt": "Galeria de imagens",
+  "en": "Image gallery"
+ },
+ "galeria.empty": {
+  "pt": "Nenhuma imagem nesta categoria.",
+  "en": "No images in this category."
+ },
+ "galeria.note": {
+  "pt": "As fotografias desta galeria serão actualizadas com material real das nossas campanhas e projectos. Para imagens específicas de um projecto, contacte-nos.",
+  "en": "The photos in this gallery will be updated with real material from our campaigns and projects. For project-specific images, contact us."
+ },
+ "galeria.contact": {
+  "pt": "Contactar",
+  "en": "Contact"
+ },
+ "meta.recursos_title": {
+  "pt": "Centro de Recursos",
+  "en": "Resource Centre"
+ },
+ "meta.recursos_description": {
+  "pt": "Ferramentas e downloads técnicos para projectos de geociências.",
+  "en": "Technical tools and downloads for geoscience projects."
+ },
+ "recursos.breadcrumb": {
+  "pt": "Recursos",
+  "en": "Resources"
+ },
+ "recursos.hero_title": {
+  "pt": "Centro de *Recursos*",
+  "en": "Resource *Centre*"
+ },
+ "recursos.hero_subtitle": {
+  "pt": "Ferramentas e downloads técnicos para projectos de geociências.",
+  "en": "Technical tools and downloads for geoscience projects."
+ },
+ "recursos.sections_label": {
+  "pt": "Secções desta página",
+  "en": "Sections of this page"
+ },
+ "recursos.downloads_eyebrow": {
+  "pt": "Centro de Downloads",
+  "en": "Download Centre"
+ },
+ "recursos.tools_eyebrow": {
+  "pt": "Ferramentas Técnicas",
+  "en": "Technical Tools"
+ },
+ "recursos.downloads_title": {
+  "pt": "Documentos *técnicos*",
+  "en": "*Technical* documents"
+ },
+ "recursos.downloads_subtitle": {
+  "pt": "Guias, templates e documentação regulatória de utilidade para projectos de geociências.",
+  "en": "Guides, templates and regulatory documentation useful for geoscience projects."
+ },
+ "recursos.request": {
+  "pt": "Solicitar",
+  "en": "Request"
+ },
+ "recursos.downloads_note": {
+  "pt": "Para aceder aos documentos, contacte a nossa equipa. Alguns ficheiros requerem autenticação.",
+  "en": "To access the documents, contact our team. Some files require authentication."
+ },
+ "recursos.tools_eyebrow_caps": {
+  "pt": "FERRAMENTAS TÉCNICAS",
+  "en": "TECHNICAL TOOLS"
+ },
+ "recursos.tools_title": {
+  "pt": "Referências de *campo*",
+  "en": "*Field* references"
+ },
+ "recursos.tools_subtitle": {
+  "pt": "Recursos de referência rápida para técnicos e geólogos no terreno.",
+  "en": "Quick-reference resources for technicians and geologists in the field."
+ },
+ "recursos.request_access": {
+  "pt": "Solicitar acesso",
+  "en": "Request access"
+ },
+ "recursos.tools_note": {
+  "pt": "As ferramentas interactivas estão em desenvolvimento. Para acesso antecipado, contacte-nos.",
+  "en": "The interactive tools are under development. For early access, contact us."
+ },
+ "recursos.cta_title": {
+  "pt": "Não encontrou o que *procurava?*",
+  "en": "Didn't find what you *were looking for?*"
+ },
+ "recursos.cta_contact": {
+  "pt": "Contactar a equipa",
+  "en": "Contact the team"
+ },
+ "recursos.cta_articles": {
+  "pt": "Ver artigos técnicos",
+  "en": "View technical articles"
+ },
+ "nav.mega_servicos_image_alt": {
+  "pt": "Geólogos B-CHIWALE em trabalho de campo",
+  "en": "B-CHIWALE geologists doing fieldwork"
+ },
+ "nav.search_group_pages": {
+  "pt": "Páginas",
+  "en": "Pages"
+ },
+ "nav.search_group_services": {
+  "pt": "Serviços",
+  "en": "Services"
+ },
+ "nav.search_group_projects": {
+  "pt": "Projectos",
+  "en": "Projects"
+ },
+ "nav.search_group_articles": {
+  "pt": "Artigos",
+  "en": "Articles"
+ },
+ "nav.search_group_team": {
+  "pt": "Equipa",
+  "en": "Team"
+ },
+ "nav.search_page_home": {
+  "pt": "Home",
+  "en": "Home"
+ },
+ "nav.search_page_home_desc": {
+  "pt": "Página inicial",
+  "en": "Home page"
+ },
+ "nav.search_page_sobre": {
+  "pt": "Sobre Nós",
+  "en": "About Us"
+ },
+ "nav.search_page_sobre_desc": {
+  "pt": "História, equipa e certificações",
+  "en": "History, team and certifications"
+ },
+ "nav.search_page_portfolio": {
+  "pt": "Portfolio",
+  "en": "Portfolio"
+ },
+ "nav.search_page_portfolio_desc": {
+  "pt": "Mais de 50 projectos concluídos",
+  "en": "Over 50 completed projects"
+ },
+ "nav.search_page_blog": {
+  "pt": "Blog & Conhecimento",
+  "en": "Blog & Knowledge"
+ },
+ "nav.search_page_blog_desc": {
+  "pt": "Artigos técnicos e guias",
+  "en": "Technical articles and guides"
+ },
+ "nav.search_page_galeria": {
+  "pt": "Galeria",
+  "en": "Gallery"
+ },
+ "nav.search_page_galeria_desc": {
+  "pt": "Imagens de campo",
+  "en": "Field images"
+ },
+ "nav.search_page_recursos": {
+  "pt": "Recursos",
+  "en": "Resources"
+ },
+ "nav.search_page_recursos_desc": {
+  "pt": "Downloads e documentos",
+  "en": "Downloads and documents"
+ },
+ "nav.search_page_contacto": {
+  "pt": "Contacto",
+  "en": "Contact"
+ },
+ "nav.search_page_contacto_desc": {
+  "pt": "Fale connosco",
+  "en": "Talk to us"
+ },
+ "nav.search_page_carreiras": {
+  "pt": "Carreiras",
+  "en": "Careers"
+ },
+ "nav.search_page_carreiras_desc": {
+  "pt": "Trabalhe connosco",
+  "en": "Work with us"
+ },
+ "services.learn_more": {
+  "pt": "saber mais",
+  "en": "learn more"
+ },
+ "team.view_all": {
+  "pt": "Ver equipa completa",
+  "en": "View full team"
+ }
+}

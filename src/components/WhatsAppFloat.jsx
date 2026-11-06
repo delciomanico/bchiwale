@@ -1,7 +1,9 @@
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
 
 export default function WhatsAppFloat() {
   const { CONTACT } = useSiteData();
+  const { t } = useLang();
   return (
     <a
       href={CONTACT.whatsapp}
@@ -11,7 +13,7 @@ export default function WhatsAppFloat() {
                  w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg
                  hover:bg-[#1DAD57] hover:-translate-y-1
                  transition-all duration-300 group"
-      aria-label="Contactar B-CHIWALE via WhatsApp (abre em nova aba)"
+      aria-label={t('common.whatsapp_label')}
     >
       {/* WhatsApp logo SVG */}
       <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

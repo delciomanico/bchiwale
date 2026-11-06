@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 function GalleryTile({ item, onClick }) {
+  const { t } = useLang();
   return (
     <button
       onClick={() => onClick(item)}
       className="group relative w-full aspect-square overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2"
-      aria-label={`Ver detalhe: ${item.title}`}
+      aria-label={`${t('galeria.view_detail')} ${item.title}`}
     >
       {item.image ? (
         <img
@@ -64,6 +68,7 @@ function GalleryTile({ item, onClick }) {
 
 // Lightbox
 function Lightbox({ item, onClose }) {
+  const { t } = useLang();
   if (!item) return null;
   return (
     <div
@@ -82,9 +87,9 @@ function Lightbox({ item, onClose }) {
         <button
           onClick={onClose}
           className="absolute -top-10 right-0 font-mono text-white/50 hover:text-white transition-colors text-[11px] tracking-[0.15em] uppercase"
-          aria-label="Fechar lightbox"
+          aria-label={t('galeria.close_label')}
         >
-          Fechar ×
+          {t('galeria.close')}
         </button>
         {/* Image */}
         <div
@@ -152,10 +157,13 @@ function FilterBtn({ label, active, onClick }) {
 
 export default function GaleriaPage() {
   const { GALLERY_ITEMS, GALLERY_CATEGORIES, SITE_IMAGES } = useSiteData();
-  const [activeCategory, setActiveCategory] = useState('Todos');
+  const { t } = useLang();
+  usePageMeta(t('meta.galeria_title'), t('meta.galeria_description'), '/galeria');
+  const ALL_CAT = GALLERY_CATEGORIES[0]; // primeiro valor da lista editável = "Todos"
+  const [activeCategory, setActiveCategory] = useState(ALL_CAT);
   const [lightboxItem, setLightboxItem] = useState(null);
 
-  const filtered = activeCategory === 'Todos'
+  const filtered = activeCategory === ALL_CAT
     ? GALLERY_ITEMS
     : GALLERY_ITEMS.filter((item) => item.cat === activeCategory);
 
@@ -176,24 +184,24 @@ export default function GaleriaPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Galeria</li>
+              <li className="text-white/60" aria-current="page">{t('galeria.breadcrumb')}</li>
             </ol>
           </nav>
           <h1 className="font-heading font-semibold text-white text-4xl md:text-5xl tracking-tight">
-            Galeria de <em className="italic" style={{ color: '#00AEEF' }}>Campo</em>
+            <Rich text={t('galeria.hero_title')} emClassName="italic" emStyle={{ color: '#00AEEF' }} />
           </h1>
           <p className="font-body text-white/55 text-lg mt-4 max-w-xl leading-relaxed">
-            Registos fotográficos de campanhas, equipamentos, trabalho laboratorial e operações em curso.
+            {t('galeria.hero_subtitle')}
           </p>
         </div>
       </section>
 
       {/* Category filters — white background, hairline border */}
-      <section className="py-6 bg-white border-b border-charcoal/8" aria-label="Filtros de categoria">
+      <section className="py-6 bg-white border-b border-charcoal/8" aria-label={t('galeria.filters_label')}>
         <div className="container">
           <div className="flex flex-wrap items-center gap-6">
             {GALLERY_CATEGORIES.map((cat) => (
@@ -205,14 +213,14 @@ export default function GaleriaPage() {
               />
             ))}
             <span className="ml-auto font-mono text-[10px] text-charcoal/35 tracking-[0.12em]">
-              {filtered.length} {filtered.length === 1 ? 'imagem' : 'imagens'}
+              {filtered.length} {filtered.length === 1 ? t('galeria.image') : t('galeria.images')}
             </span>
           </div>
         </div>
       </section>
 
       {/* Gallery grid */}
-      <section className="section-pad bg-white" aria-label="Galeria de imagens">
+      <section className="section-pad bg-white" aria-label={t('galeria.grid_label')}>
         <div className="container">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {filtered.map((item) => (
@@ -221,7 +229,7 @@ export default function GaleriaPage() {
           </div>
           {filtered.length === 0 && (
             <div className="text-center py-24">
-              <p className="font-body text-gray-text">Nenhuma imagem nesta categoria.</p>
+              <p className="font-body text-gray-text">{t('galeria.empty')}</p>
             </div>
           )}
         </div>
@@ -231,8 +239,7 @@ export default function GaleriaPage() {
       <div className="py-8 bg-white border-t border-charcoal/8">
         <div className="container text-center">
           <p className="font-body text-gray-text text-sm max-w-lg mx-auto leading-relaxed">
-            As fotografias desta galeria serão actualizadas com material real das nossas campanhas e projectos.
-            Para imagens específicas de um projecto, contacte-nos.
+            {t('galeria.note')}
           </p>
           <Link
             to="/contacto"
@@ -240,7 +247,7 @@ export default function GaleriaPage() {
                        hover:text-cyan hover:border-cyan transition-colors pb-0.5 text-[14px]
                        mt-5 inline-block"
           >
-            Contactar <span aria-hidden="true">→</span>
+            {t('galeria.contact')} <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>

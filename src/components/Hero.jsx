@@ -28,7 +28,7 @@ function Cursor() {
 }
 
 export default function Hero() {
-  const { loc } = useLang();
+  const { loc, t } = useLang();
   const { HERO_SLIDES, HERO_SLIDES_EN } = useSiteData();
   const slides = loc(HERO_SLIDES, HERO_SLIDES_EN);
   const [current,        setCurrent]        = useState(0);
@@ -94,7 +94,7 @@ export default function Hero() {
     <section
       className="relative h-screen min-h-[600px] overflow-hidden flex flex-col"
       style={{ backgroundColor: '#030d1c' }}
-      aria-label="Hero — B-CHIWALE Geociências"
+      aria-label={t('hero.label')}
     >
 
       {/* ── Photo slideshow ──────────────────────────────────────────── */}
@@ -212,13 +212,13 @@ export default function Hero() {
 
           {/* ── Slide dots ───────────────────────────────────────────── */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '16px' }}>
-            <div className="flex items-center gap-1.5" role="tablist" aria-label="Foto actual">
+            <div className="flex items-center gap-1.5" role="tablist" aria-label={t('hero.current_photo')}>
               {slides.map((_, i) => (
                 <button
                   key={i}
                   role="tab"
                   aria-selected={i === current}
-                  aria-label={`Foto ${i + 1}`}
+                  aria-label={`${t('hero.photo')} ${i + 1}`}
                   onClick={() => goTo(i)}
                   style={{
                     width:           i === current ? '22px' : '4px',

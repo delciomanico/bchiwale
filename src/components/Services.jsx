@@ -6,12 +6,13 @@ import { useSiteData } from '../contexts/ContentContext';
 // Each row is a full-width link. Hovering scales in a cyan left-bar
 // (handled via .service-row CSS class) and reveals a description.
 function ServiceRow({ service, index }) {
+  const { t } = useLang();
   return (
     <Link
       to={service.href}
       className="service-row group reveal"
       style={{ transitionDelay: `${index * 60}ms` }}
-      aria-label={`${service.title} — saber mais`}
+      aria-label={`${service.title} — ${t('services.learn_more')}`}
     >
       {/* Left: number (very faint) + title + description on hover */}
       <div className="flex items-baseline gap-5 md:gap-8 flex-1 min-w-0">

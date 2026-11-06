@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../contexts/ContentContext';
+import { useLang } from '../contexts/LangContext';
+import Rich from '../components/Rich';
+import { WEB3FORMS_KEY } from '../lib/dynamix';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 function PinIcon() {
@@ -37,11 +40,8 @@ function ClockIcon() {
 
 export default function ContactoPage() {
   const { CONTACT, SERVICES, SITE_IMAGES } = useSiteData();
-  usePageMeta(
-    'Contacto — Solicite uma Proposta',
-    'Contacte a B-CHIWALE para uma proposta de geologia, geofísica, geotecnia ou consultoria mineira. +244 924 073 147 · geral@bchiwale.ao · Luanda, Angola.',
-    'https://bchiwale.ao/contacto'
-  );
+  const { t } = useLang();
+  usePageMeta(t('meta.contacto_title'), t('meta.contacto_description'), '/contacto');
   const [form, setForm] = useState({
     nome: '', email: '', telefone: '', empresa: '', servico: '', mensagem: '',
   });
@@ -65,10 +65,10 @@ export default function ContactoPage() {
       }
 
       const fd = new FormData();
-      fd.append('access_key', import.meta.env.VITE_WEB3FORMS_KEY);
+      fd.append('access_key', WEB3FORMS_KEY);
       fd.append('subject', form.servico
-        ? `[B-CHIWALE] Nova mensagem de ${form.nome} — ${form.servico}`
-        : `[B-CHIWALE] Nova mensagem de ${form.nome}`);
+        ? `[B-CHIWALE] ${t('contacto.email_subject')} ${form.nome} — ${form.servico}`
+        : `[B-CHIWALE] ${t('contacto.email_subject')} ${form.nome}`);
       fd.append('from_name', form.nome);
       fd.append('replyto', form.email);
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
@@ -78,10 +78,10 @@ export default function ContactoPage() {
         body: fd,
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Erro ao enviar.');
+      if (!data.success) throw new Error(data.message || t('contacto.error_send'));
       setStatus('success');
     } catch (err) {
-      setErrorMsg(err.message || 'Erro ao enviar. Tente novamente.');
+      setErrorMsg(err.message || t('contacto.error_retry'));
       setStatus('error');
     }
   };
@@ -100,19 +100,19 @@ export default function ContactoPage() {
         />
         <div className="absolute inset-0" style={{ background: 'rgba(10,14,22,0.78)' }} aria-hidden="true" />
         <div className="relative z-10 container">
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label={t('common.breadcrumb')} className="mb-6">
             <ol className="flex items-center gap-2 font-mono text-xs text-white/40 tracking-widest3">
-              <li><Link to="/" className="hover:text-cyan transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-cyan transition-colors">{t('common.home')}</Link></li>
               <li aria-hidden="true" className="text-white/20">/</li>
-              <li className="text-white/60" aria-current="page">Contacto</li>
+              <li className="text-white/60" aria-current="page">{t('contacto.breadcrumb')}</li>
             </ol>
           </nav>
           <div className="section-rule" aria-hidden="true" />
           <h1 className="font-heading font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
-            Fale <em style={{ color: '#00AEEF', fontStyle: 'italic' }}>connosco.</em>
+            <Rich text={t('contacto.hero_title')} emStyle={{ color: '#00AEEF', fontStyle: 'italic' }} />
           </h1>
           <p className="font-body text-white/60 text-lg mt-3">
-            A nossa equipa responde em 24 horas úteis.
+            {t('contacto.hero_subtitle')}
           </p>
         </div>
       </section>
@@ -125,22 +125,22 @@ export default function ContactoPage() {
             {/* Left — form (3 cols) */}
             <div className="lg:col-span-3">
               <h2 className="font-heading font-bold text-charcoal text-2xl mb-8 tracking-tight">
-                Envie uma mensagem
+                {t('contacto.form_title')}
               </h2>
 
               {status === 'success' ? (
                 <div className="border-l-4 border-cyan bg-[#E8F7FD] p-8">
                   <div className="font-mono text-xs text-cyan tracking-widest2 uppercase mb-2">
-                    Mensagem enviada!
+                    {t('contacto.success_title')}
                   </div>
                   <p className="font-body text-charcoal text-sm leading-relaxed">
-                    Obrigado pelo contacto. A nossa equipa entrará em contacto consigo em breve.
+                    {t('contacto.success_body')}
                   </p>
                   <button
                     className="btn-link mt-6"
                     onClick={() => { setStatus('idle'); setForm({ nome: '', email: '', telefone: '', empresa: '', servico: '', mensagem: '' }); }}
                   >
-                    Enviar outra mensagem <span aria-hidden="true">→</span>
+                    {t('contacto.send_another')} <span aria-hidden="true">→</span>
                   </button>
                 </div>
               ) : (
@@ -148,32 +148,32 @@ export default function ContactoPage() {
                   className="flex flex-col gap-5"
                   noValidate
                   onSubmit={handleSubmit}
-                  aria-label="Formulário de contacto"
+                  aria-label={t('contacto.form_label')}
                 >
                   {/* Name + Email row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="nome" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                        Nome completo *
+                        {t('contacto.name')}
                       </label>
                       <input
                         type="text" id="nome" name="nome" required aria-required="true"
                         value={form.nome} onChange={handleChange}
                         className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                    placeholder:text-gray-text focus:outline-none focus:border-cyan transition-colors"
-                        placeholder="O seu nome"
+                        placeholder={t('contacto.name_ph')}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="email" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                        Email *
+                        {t('contacto.email')}
                       </label>
                       <input
                         type="email" id="email" name="email" required aria-required="true"
                         value={form.email} onChange={handleChange}
                         className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                    placeholder:text-gray-text focus:outline-none focus:border-cyan transition-colors"
-                        placeholder="email@empresa.com"
+                        placeholder={t('contacto.email_ph')}
                       />
                     </div>
                   </div>
@@ -182,26 +182,26 @@ export default function ContactoPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="telefone" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                        Telefone / WhatsApp
+                        {t('contacto.phone')}
                       </label>
                       <input
                         type="tel" id="telefone" name="telefone"
                         value={form.telefone} onChange={handleChange}
                         className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                    placeholder:text-gray-text focus:outline-none focus:border-cyan transition-colors"
-                        placeholder="+244 9XX XXX XXX"
+                        placeholder={t('contacto.phone_ph')}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="empresa" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                        Empresa
+                        {t('contacto.company')}
                       </label>
                       <input
                         type="text" id="empresa" name="empresa"
                         value={form.empresa} onChange={handleChange}
                         className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                    placeholder:text-gray-text focus:outline-none focus:border-cyan transition-colors"
-                        placeholder="Nome da empresa"
+                        placeholder={t('contacto.company_ph')}
                       />
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export default function ContactoPage() {
                   {/* Service dropdown */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="servico" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                      Serviço de interesse
+                      {t('contacto.service')}
                     </label>
                     <select
                       id="servico" name="servico"
@@ -217,7 +217,7 @@ export default function ContactoPage() {
                       className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                  bg-white focus:outline-none focus:border-cyan transition-colors appearance-none"
                     >
-                      <option value="">Seleccionar serviço...</option>
+                      <option value="">{t('contacto.service_ph')}</option>
                       {SERVICES.map((s) => (
                         <option key={s.number} value={s.title}>{s.title}</option>
                       ))}
@@ -227,14 +227,14 @@ export default function ContactoPage() {
                   {/* Message */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="mensagem" className="font-mono text-xs text-gray-text tracking-widest3 uppercase">
-                      Mensagem
+                      {t('contacto.message')}
                     </label>
                     <textarea
                       id="mensagem" name="mensagem" rows={5}
                       value={form.mensagem} onChange={handleChange}
                       className="border border-gray-mid px-4 py-3 font-body text-sm text-charcoal
                                  placeholder:text-gray-text focus:outline-none focus:border-cyan transition-colors resize-none"
-                      placeholder="Descreva brevemente o seu projecto..."
+                      placeholder={t('contacto.message_ph')}
                     />
                   </div>
 
@@ -249,7 +249,7 @@ export default function ContactoPage() {
                     className="btn-primary self-start mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={status === 'sending'}
                   >
-                    {status === 'sending' ? 'A ENVIAR...' : 'ENVIAR MENSAGEM'}{status !== 'sending' && <span aria-hidden="true"> →</span>}
+                    {status === 'sending' ? t('contacto.sending') : t('contacto.send')}{status !== 'sending' && <span aria-hidden="true"> →</span>}
                   </button>
                 </form>
               )}
@@ -258,14 +258,14 @@ export default function ContactoPage() {
             {/* Right — info (2 cols) */}
             <div className="lg:col-span-2 flex flex-col gap-6">
               <h2 className="font-heading font-bold text-charcoal text-2xl tracking-tight">
-                Informações de contacto
+                {t('contacto.info_title')}
               </h2>
 
               <div className="flex flex-col gap-5">
                 <div className="flex items-start gap-4">
                   <PinIcon />
                   <div>
-                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">Morada</div>
+                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">{t('contacto.address')}</div>
                     <p className="font-body text-charcoal text-sm leading-relaxed">{CONTACT.address}</p>
                   </div>
                 </div>
@@ -273,7 +273,7 @@ export default function ContactoPage() {
                 <div className="flex items-center gap-4">
                   <PhoneIcon />
                   <div>
-                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">Telefone</div>
+                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">{t('contacto.phone_label')}</div>
                     <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}
                        className="font-body text-charcoal text-sm hover:text-cyan transition-colors">
                       {CONTACT.phone}
@@ -284,7 +284,7 @@ export default function ContactoPage() {
                 <div className="flex items-center gap-4">
                   <MailIcon />
                   <div>
-                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">Email</div>
+                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">{t('contacto.email_label')}</div>
                     <a href={`mailto:${CONTACT.email}`}
                        className="font-body text-charcoal text-sm hover:text-cyan transition-colors">
                       {CONTACT.email}
@@ -295,7 +295,7 @@ export default function ContactoPage() {
                 <div className="flex items-center gap-4">
                   <ClockIcon />
                   <div>
-                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">Horário</div>
+                    <div className="font-mono text-xs text-gray-text tracking-widest3 uppercase mb-1">{t('contacto.hours')}</div>
                     <p className="font-body text-charcoal text-sm">{CONTACT.hours}</p>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ export default function ContactoPage() {
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                 </svg>
-                WhatsApp Directo
+                {t('contacto.whatsapp')}
               </a>
             </div>
           </div>
