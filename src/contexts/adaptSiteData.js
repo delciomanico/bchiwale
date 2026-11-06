@@ -4,17 +4,6 @@
 // only has to swap *where* it reads a constant from (useSiteData() instead of a
 // static import) — not how it uses the value.
 
-function settingValue(settings, key, fallback) {
-  const entry = settings[key];
-  return entry ? entry.value_pt : fallback;
-}
-
-function settingValueEn(settings, key, fallback) {
-  const entry = settings[key];
-  if (!entry) return fallback;
-  return entry.value_en ?? entry.value_pt ?? fallback;
-}
-
 function slugFromHref(href) {
   return href ? href.split('/').filter(Boolean).pop() : '';
 }
@@ -222,9 +211,67 @@ function mapUiTexts(rows) {
   return ui;
 }
 
-export function adaptSiteData(payload) {
-  const settings = payload.settings || {};
+const pick = (r, k, lang) => (lang === 'en' ? r[`${k}_en`] ?? r[`${k}_pt`] : r[`${k}_pt`]);
+const byGroup = (rows, g) => rows.filter((r) => r.group === g);
+const labelsOf = (rows, g) => byGroup(rows, g).map((r) => r.label_pt);
 
+// Cada secção do site é um componente do Dynamix; aqui voltam à forma "legada" que as páginas consomem.
+function mapSections(p) {
+  const L = (rows, fn) => ({ pt: (rows || []).map((r, i) => fn(r, i, 'pt')), en: (rows || []).map((r, i) => fn(r, i, 'en')) });
+
+  const hero = L(p['hero-slides'], (r, i, l) => ({
+    id: i + 1, src: r.image, alt: pick(r, 'alt', l), line1: pick(r, 'line1', l), line2: pick(r, 'line2', l),
+    primary: { label: pick(r, 'primary_label', l), href: r.primary_href },
+    secondary: { label: pick(r, 'secondary_label', l), href: r.secondary_href },
+  }));
+  const stats = L(p.stats, (r, _i, l) => ({ value: r.value, suffix: r.suffix ?? '', label: pick(r, 'label', l), detail: pick(r, 'detail', l) }));
+  const timeline = L(p.timeline, (r, _i, l) => ({ year: r.year, text: pick(r, 'text', l), badge: pick(r, 'badge', l) ?? null, type: r.type || 'normal' }));
+  const mvv = L(p.mvv, (r, _i, l) => ({ label: pick(r, 'label', l), title: pick(r, 'title', l), text: pick(r, 'text', l), accent: r.accent }));
+  const fl = (g) => L(byGroup(p['footer-links'] || [], g), (r, _i, l) => ({ label: pick(r, 'label', l), href: r.href }));
+  const fServ = fl('servicos');
+  const fComp = fl('empresa');
+  const downloads = L(p.downloads, (r, i, l) => ({ id: i + 1, type: r.type, cat: pick(r, 'cat', l), title: pick(r, 'title', l), desc: pick(r, 'desc', l), size: r.size, accentColor: r.accent }));
+  const tools = L(p.tools, (r, _i, l) => ({ title: pick(r, 'title', l), desc: pick(r, 'desc', l), icon: r.icon, href: r.href }));
+
+  // Organograma: lista plana (pré-ordem) com `parent` → árvore
+  const nodes = new Map((p['org-chart'] || []).map((r) => [r.slug, { cargo: r.cargo, nome: r.nome, iniciais: r.iniciais, photo: r.photo, subordinados: [] }]));
+  let root = {};
+  for (const r of p['org-chart'] || []) {
+    const n = nodes.get(r.slug);
+    if (r.parent && nodes.has(r.parent)) nodes.get(r.parent).subordinados.push(n);
+    else if (!r.parent && !Object.keys(root).length) root = n;
+  }
+
+  const c = (p['contact-info'] || [])[0] || {};
+  const filters = p.filters || [];
+  // slugs são kebab-case; as chaves usadas no site têm underscores (hero-sobre → hero_sobre)
+  const media = Object.fromEntries((p['site-media'] || []).map((r) => [r.slug.replace(/-/g, '_'), r.file || '']));
+
+  return {
+    HERO_SLIDES: hero.pt, HERO_SLIDES_EN: hero.en,
+    STATS: stats.pt, STATS_EN: stats.en,
+    TIMELINE: timeline.pt, TIMELINE_EN: timeline.en,
+    MVV_CARDS: mvv.pt, MVV_CARDS_EN: mvv.en,
+    FOOTER_SERVICES: fServ.pt, FOOTER_SERVICES_EN: fServ.en,
+    FOOTER_COMPANY: fComp.pt, FOOTER_COMPANY_EN: fComp.en,
+    DOWNLOADS: downloads.pt, DOWNLOADS_EN: downloads.en,
+    TOOLS: tools.pt, TOOLS_EN: tools.en,
+    ORG_CHART: root,
+    CERTIFICATIONS: (p.certifications || []).map((r) => ({ code: r.code, label: r.label_pt, year: r.year, logo: r.logo || null })),
+    CERT_BADGES: (p['cert-badges'] || []).map((r) => r.name),
+    CONTACT: { phone: c.phone || '', email: c.email || '', whatsapp: c.whatsapp || '', address: c.address || '', addressShort: c.address_short || '', website: c.website || '', hours: c.hours || '' },
+    GALLERY_CATEGORIES: labelsOf(filters, 'galeria'),
+    BLOG_CATEGORIES: labelsOf(filters, 'blog'),
+    PORTFOLIO_SERVICE_FILTERS: labelsOf(filters, 'portfolio-servico'),
+    PORTFOLIO_PROVINCE_FILTERS: labelsOf(filters, 'portfolio-provincia'),
+    PORTFOLIO_PERIOD_FILTERS: labelsOf(filters, 'portfolio-periodo'),
+    JOB_DEPARTMENTS: labelsOf(filters, 'vagas-departamento'),
+    ABOUT_VIDEO: media.about_video || '',
+    SITE_IMAGES: media,
+  };
+}
+
+export function adaptSiteData(payload) {
   return {
     UI_STRINGS: mapUiTexts(payload.ui_texts || []),
     ...mapServices(payload.services || []),
@@ -234,47 +281,7 @@ export function adaptSiteData(payload) {
     ...mapGallery(payload.gallery || []),
     ...mapTestimonials(payload.testimonials || []),
     ...mapJobs(payload.jobs || []),
-
-    NAV_ITEMS: settingValue(settings, 'nav_items', []),
-
-    STATS: settingValue(settings, 'stats', []),
-    STATS_EN: settingValueEn(settings, 'stats', []),
-
-    CONTACT: settingValue(settings, 'contact', {}),
-
-    HERO_SLIDES: settingValue(settings, 'hero_slides', []),
-    HERO_SLIDES_EN: settingValueEn(settings, 'hero_slides', []),
-
-    TIMELINE: settingValue(settings, 'timeline', []),
-    TIMELINE_EN: settingValueEn(settings, 'timeline', []),
-
-    FOOTER_SERVICES: settingValue(settings, 'footer_services', []),
-    FOOTER_SERVICES_EN: settingValueEn(settings, 'footer_services', []),
-
-    FOOTER_COMPANY: settingValue(settings, 'footer_company', []),
-    FOOTER_COMPANY_EN: settingValueEn(settings, 'footer_company', []),
-
-    ORG_CHART: settingValue(settings, 'org_chart', {}),
-
-    MVV_CARDS: settingValue(settings, 'mvv_cards', []),
-    MVV_CARDS_EN: settingValueEn(settings, 'mvv_cards', []),
-
-    CERTIFICATIONS: settingValue(settings, 'certifications', []),
-    CERT_BADGES: settingValue(settings, 'cert_badges', []),
-
-    GALLERY_CATEGORIES: settingValue(settings, 'gallery_categories', []),
-    BLOG_CATEGORIES: settingValue(settings, 'blog_categories', []),
-
-    PORTFOLIO_SERVICE_FILTERS: settingValue(settings, 'portfolio_service_filters', []),
-    PORTFOLIO_PROVINCE_FILTERS: settingValue(settings, 'portfolio_province_filters', []),
-    PORTFOLIO_PERIOD_FILTERS: settingValue(settings, 'portfolio_period_filters', []),
-
-    JOB_DEPARTMENTS: settingValue(settings, 'job_departments', []),
-    DOWNLOADS: settingValue(settings, 'downloads', []),
-    TOOLS: settingValue(settings, 'tools', []),
-
-    ABOUT_VIDEO: settingValue(settings, 'about_video', ''),
-    SITE_IMAGES: settingValue(settings, 'site_images', {}),
+    ...mapSections(payload),
   };
 }
 

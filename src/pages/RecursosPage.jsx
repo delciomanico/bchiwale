@@ -5,8 +5,10 @@ import Rich from '../components/Rich';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function RecursosPage() {
-  const { DOWNLOADS, TOOLS, SITE_IMAGES } = useSiteData();
-  const { t } = useLang();
+  const { DOWNLOADS: DL_PT, DOWNLOADS_EN, TOOLS: TL_PT, TOOLS_EN, SITE_IMAGES } = useSiteData();
+  const { t, loc } = useLang();
+  const DOWNLOADS = loc(DL_PT, DOWNLOADS_EN);
+  const TOOLS = loc(TL_PT, TOOLS_EN);
   usePageMeta(t('meta.recursos_title'), t('meta.recursos_description'), '/recursos');
   return (
     <>

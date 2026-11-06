@@ -12,7 +12,15 @@ export const WEB3FORMS_KEY = runtime.WEB3FORMS_KEY || import.meta.env.VITE_WEB3F
 export const DYNAMIX_PROJECT = runtime.DYNAMIX_PROJECT || import.meta.env.VITE_DYNAMIX_PROJECT || 'bchiwale';
 
 // Componentes do projeto Dynamix (ver Dynamix-CMS/apps/api/src/seeds/bchiwale).
-const COLLECTIONS = ['services', 'team', 'portfolio', 'blog', 'gallery', 'testimonials', 'jobs', 'ui-texts'];
+const COLLECTIONS = [
+  // conteúdo
+  'services', 'team', 'portfolio', 'blog', 'gallery', 'testimonials', 'jobs',
+  // secções do site
+  'hero-slides', 'stats', 'timeline', 'mvv', 'org-chart', 'certifications', 'cert-badges', 'footer-links',
+  'contact-info', 'filters', 'downloads', 'tools', 'site-media',
+  // textos da interface
+  'ui-texts',
+];
 const PAGE_SIZE = 100; // máximo permitido pela API
 
 async function getJson(url) {
@@ -36,12 +44,8 @@ async function fetchAll(component) {
 
 export async function loadSiteData() {
   if (!DYNAMIX_API) throw new Error('DYNAMIX_API_URL não está definido');
-  const [settingsRows, ...lists] = await Promise.all([fetchAll('settings'), ...COLLECTIONS.map(fetchAll)]);
+  const lists = await Promise.all(COLLECTIONS.map(fetchAll));
   const payload = Object.fromEntries(COLLECTIONS.map((name, i) => [name, lists[i]]));
-  // O slug no Dynamix é kebab-case; as chaves de definições do site usam underscores.
-  payload.settings = Object.fromEntries(
-    settingsRows.map((r) => [r.slug.replace(/-/g, '_'), { value_pt: r.value_pt, value_en: r.value_en ?? null }]),
-  );
   payload.ui_texts = payload['ui-texts'];
   return payload;
 }

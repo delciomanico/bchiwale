@@ -101,39 +101,76 @@ const jobs = PT.JOBS.map((j) => clean({
   posted_pt: j.posted, description_pt: j.description, requirements_pt: j.requirements || [],
 }));
 
-const settings = [
-  ['nav_items', 'Menu de Navegação', PT.NAV_ITEMS, null],
-  ['stats', 'Estatísticas (Faixa de Números)', PT.STATS, EN.STATS_EN],
-  ['contact', 'Contacto', PT.CONTACT, null],
-  ['hero_slides', 'Slides do Banner Principal', PT.HERO_SLIDES, EN.HERO_SLIDES_EN],
-  ['timeline', 'Linha do Tempo / História', PT.TIMELINE, EN.TIMELINE_EN],
-  ['footer_services', 'Rodapé — Serviços', PT.FOOTER_SERVICES, EN.FOOTER_SERVICES_EN],
-  ['footer_company', 'Rodapé — Empresa', PT.FOOTER_COMPANY, EN.FOOTER_COMPANY_EN],
-  ['org_chart', 'Organograma', PT.ORG_CHART, null],
-  ['mvv_cards', 'Missão, Visão e Valores', PT.MVV_CARDS, EN.MVV_CARDS_EN],
-  ['certifications', 'Certificações', PT.CERTIFICATIONS, null],
-  ['cert_badges', 'Selos de Certificação', PT.CERT_BADGES, null],
-  ['gallery_categories', 'Galeria — Categorias', PT.GALLERY_CATEGORIES, null],
-  ['blog_categories', 'Blog — Categorias', PT.BLOG_CATEGORIES, null],
-  ['portfolio_service_filters', 'Portfólio — Filtro de Serviço', PT.PORTFOLIO_SERVICE_FILTERS, null],
-  ['portfolio_province_filters', 'Portfólio — Filtro de Província', PT.PORTFOLIO_PROVINCE_FILTERS, null],
-  ['portfolio_period_filters', 'Portfólio — Filtro de Período', PT.PORTFOLIO_PERIOD_FILTERS, null],
-  ['job_departments', 'Vagas — Departamentos', PT.JOB_DEPARTMENTS, null],
-  ['downloads', 'Recursos — Downloads', PT.DOWNLOADS, null],
-  ['tools', 'Recursos — Ferramentas', PT.TOOLS, null],
-  ['about_video', 'Vídeo da Secção Sobre (Homepage)', '/about-video.mp4', null],
-  // Imagens que estavam fixas no código do site (logo, fundos dos cabeçalhos das páginas, retrato do DG, favicon)
-  ['site_images', 'Imagens do site (logo, banners das páginas…)', {
-    logo: '/logo.png', icon: '/icone-chiwale.png',
-    hero_sobre: '/images/project-main.jpg', hero_servicos: '/images/geofisico.jpg', hero_portfolio: '/images/caminion.jpg',
-    hero_galeria: '/images/chiwale-section.jpg', hero_blog: '/images/service1.jpg', hero_recursos: '/images/gallery4.jpg',
-    hero_carreiras: '/images/gallery7.jpg', hero_contacto: '/images/project2.jpg', hero_default: '/images/mission.jpg',
-    director_photo: '/images/team/severino-escritorio.jpg',
-    // imagens dos menus (mega-menu do Navbar)
-    mega_servicos: '/images/chiwale-section.jpg', mega_portfolio_1: '/images/project1.jpg', mega_portfolio_2: '/images/project2.jpg',
-    mega_blog_1: '/images/service1.jpg', mega_blog_2: '/images/service-baner.jpg',
-  }, null],
-].map(([key, label, value_pt, value_en]) => clean({ slug: key, label, value_pt, value_en }));
+const pad = (i) => String(i + 1).padStart(2, '0');
+const nz = (v) => (v === null || v === undefined || v === '' ? undefined : v);
+
+// ── Um componente por secção do site (antes: tudo em "settings" como JSON) ─────────────
+const heroSlides = PT.HERO_SLIDES.map((pt, i) => {
+  const en = EN.HERO_SLIDES_EN?.[i] ?? {};
+  return clean({
+    slug: `slide-${pad(i)}`, image: pt.src, line1_pt: pt.line1, line1_en: en.line1, line2_pt: pt.line2, line2_en: en.line2,
+    alt_pt: pt.alt, alt_en: en.alt,
+    primary_label_pt: pt.primary.label, primary_label_en: en.primary?.label, primary_href: pt.primary.href === '/sobre' ? '/sobre-nos' : pt.primary.href, // o PT original apontava para /sobre (rota inexistente)
+    secondary_label_pt: pt.secondary.label, secondary_label_en: en.secondary?.label, secondary_href: pt.secondary.href,
+  });
+});
+
+const stats = PT.STATS.map((pt, i) => {
+  const en = EN.STATS_EN?.[i] ?? {};
+  return clean({ slug: `numero-${pad(i)}`, value: pt.value, suffix: pt.suffix, label_pt: pt.label, label_en: en.label, detail_pt: pt.detail, detail_en: en.detail });
+});
+
+const timeline = PT.TIMELINE.map((pt, i) => {
+  const en = EN.TIMELINE_EN?.[i] ?? {};
+  return clean({ slug: `marco-${pad(i)}`, year: pt.year, text_pt: pt.text, text_en: en.text, badge_pt: nz(pt.badge), badge_en: nz(en.badge), type: pt.type });
+});
+
+const mvv = PT.MVV_CARDS.map((pt, i) => {
+  const en = EN.MVV_CARDS_EN?.[i] ?? {};
+  return clean({ slug: `mvv-${pad(i)}`, label_pt: pt.label, label_en: en.label, title_pt: pt.title, title_en: en.title, text_pt: pt.text, text_en: en.text, accent: pt.accent });
+});
+
+// Organograma: árvore → lista plana em pré-ordem (a ordem de publicação reconstrói a árvore); `parent` = slug do superior.
+const orgChart = [];
+(function walk(node, parent) {
+  const slug = `org-${pad(orgChart.length)}`;
+  orgChart.push(clean({ slug, cargo: node.cargo, nome: node.nome, iniciais: node.iniciais, photo: node.photo, parent }));
+  (node.subordinados || []).forEach((c) => walk(c, slug));
+})(PT.ORG_CHART, undefined);
+
+const certifications = PT.CERTIFICATIONS.map((c, i) => clean({ slug: `cert-${pad(i)}`, code: c.code, label_pt: c.label, year: c.year, logo: c.logo }));
+const certBadges = PT.CERT_BADGES.map((name, i) => ({ slug: `selo-${pad(i)}`, name }));
+
+const footerLinks = [
+  ...PT.FOOTER_SERVICES.map((pt, i) => clean({ slug: `servico-${pad(i)}`, group: 'servicos', label_pt: pt.label, label_en: EN.FOOTER_SERVICES_EN?.[i]?.label, href: pt.href })),
+  ...PT.FOOTER_COMPANY.map((pt, i) => clean({ slug: `empresa-${pad(i)}`, group: 'empresa', label_pt: pt.label, label_en: EN.FOOTER_COMPANY_EN?.[i]?.label, href: pt.href })),
+];
+
+const contactInfo = [clean({
+  slug: 'contacto', phone: PT.CONTACT.phone, email: PT.CONTACT.email, whatsapp: PT.CONTACT.whatsapp, address: PT.CONTACT.address,
+  address_short: PT.CONTACT.addressShort, website: PT.CONTACT.website, hours: PT.CONTACT.hours,
+})];
+
+const filters = [
+  ['galeria', PT.GALLERY_CATEGORIES], ['blog', PT.BLOG_CATEGORIES], ['portfolio-servico', PT.PORTFOLIO_SERVICE_FILTERS],
+  ['portfolio-provincia', PT.PORTFOLIO_PROVINCE_FILTERS], ['portfolio-periodo', PT.PORTFOLIO_PERIOD_FILTERS], ['vagas-departamento', PT.JOB_DEPARTMENTS],
+].flatMap(([group, list]) => list.map((label, i) => ({ slug: `${group}-${pad(i)}`, group, label_pt: label })));
+
+const downloads = PT.DOWNLOADS.map((d, i) => clean({ slug: `download-${pad(i)}`, type: d.type, cat_pt: d.cat, title_pt: d.title, desc_pt: d.desc, size: d.size, accent: d.accentColor }));
+const tools = PT.TOOLS.map((t, i) => clean({ slug: `ferramenta-${pad(i)}`, title_pt: t.title, desc_pt: t.desc, icon: t.icon, href: t.href }));
+
+// Imagens/vídeo fixos do site (logo, fundos dos cabeçalhos, retrato do DG, favicon, imagens dos menus, vídeo "Sobre")
+const siteMedia = [
+  ['logo', 'Logótipo', '/logo.png'], ['icon', 'Ícone / favicon', '/icone-chiwale.png'],
+  ['hero-sobre', 'Cabeçalho — Sobre Nós', '/images/project-main.jpg'], ['hero-servicos', 'Cabeçalho — Serviços', '/images/geofisico.jpg'],
+  ['hero-portfolio', 'Cabeçalho — Portfolio', '/images/caminion.jpg'], ['hero-galeria', 'Cabeçalho — Galeria', '/images/chiwale-section.jpg'],
+  ['hero-blog', 'Cabeçalho — Blog', '/images/service1.jpg'], ['hero-recursos', 'Cabeçalho — Recursos', '/images/gallery4.jpg'],
+  ['hero-carreiras', 'Cabeçalho — Carreiras', '/images/gallery7.jpg'], ['hero-contacto', 'Cabeçalho — Contacto', '/images/project2.jpg'],
+  ['hero-default', 'Cabeçalho — outras páginas', '/images/mission.jpg'], ['director-photo', 'Retrato do Director-Geral', '/images/team/severino-escritorio.jpg'],
+  ['mega-servicos', 'Menu — Serviços (imagem)', '/images/chiwale-section.jpg'], ['mega-portfolio-1', 'Menu — Portfolio (imagem 1)', '/images/project1.jpg'],
+  ['mega-portfolio-2', 'Menu — Portfolio (imagem 2)', '/images/project2.jpg'], ['mega-blog-1', 'Menu — Blog (imagem 1)', '/images/service1.jpg'],
+  ['mega-blog-2', 'Menu — Blog (imagem 2)', '/images/service-baner.jpg'], ['about-video', 'Vídeo da secção Sobre (Home)', PT.ABOUT_VIDEO ?? '/about-video.mp4'],
+].map(([slug, name, file]) => ({ slug, name, file }));
 
 // ── Textos da interface (botões, títulos, rótulos, SEO…) ─────────────────────────────
 // Base: src/i18n/strings.js (menu, rodapé, secções da home); extras: scripts/ui-extra.json (resto das páginas).
@@ -154,7 +191,11 @@ for (const [key, v] of Object.entries(extra)) uiMap.set(key, v);
 const slugify = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
 const uiTexts = [...uiMap.entries()].map(([key, v]) => clean({ slug: slugify(key), key, value_pt: v.pt, value_en: v.en }));
 
-const data = { services, team, portfolio, blog, gallery, testimonials, jobs, settings, 'ui-texts': uiTexts };
+const data = {
+  'hero-slides': heroSlides, stats, timeline, mvv, 'org-chart': orgChart, certifications, 'cert-badges': certBadges,
+  'footer-links': footerLinks, 'contact-info': contactInfo, filters, downloads, tools, 'site-media': siteMedia,
+  services, team, portfolio, blog, gallery, testimonials, jobs, 'ui-texts': uiTexts,
+};
 
 // slugs únicos por coleção — o Dynamix exige (componente, slug) único
 for (const [name, rows] of Object.entries(data)) {
